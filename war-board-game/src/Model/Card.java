@@ -1,9 +1,10 @@
 package Model;
 
 public class Card {
-	
-	private CardType type; // triangle, square, circle or joker
-	private String name; //territory name
+
+	// triangle, square, circle or joker
+	private CardType type;
+	private String name;
 	
 	Card(String name, CardType type) {
 		this.name = name;
