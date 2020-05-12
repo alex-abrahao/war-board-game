@@ -1,12 +1,14 @@
 package Model;
 
+import java.util.List;
 
 public class Player {
 	
 	private final String name;
 	private final PlayerColor color;
 	int orderToPlay;
-	private Card[] cards;
+	private List<Card> cards = new ArrayList<>();
+	//private Card[] cards;
 	private Territory[] territories;
 	private Objective objective;
 	
@@ -23,7 +25,10 @@ public class Player {
 		return objective;
 	}
 
-	public Card[] getCards(){
+	public void addCard(Card card){
+		cards.add(card);
+	}
+	public List<Card> getCards(){
 		return cards;
 	}
 
