@@ -1,10 +1,11 @@
 package Model;
 
-public class Carta {
+public class Card {
+	
 	private CardType type; // triangle, square, circle or joker
 	private String name; //territory name
 	
-	Carta(String name, CardType type) {
+	Card(String name, CardType type) {
 		this.name = name;
 		this.type = type;
 	}
