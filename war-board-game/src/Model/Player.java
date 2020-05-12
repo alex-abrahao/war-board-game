@@ -14,4 +14,20 @@ public class Player {
 		this.name = name;
 		this.color = color;
 	}
+
+	public void setObjective (Objective objective){
+		this.objective = objective;
+	}
+
+	public Objective getObjective(){
+		return objective;
+	}
+
+	public Card[] getCards(){
+		return cards;
+	}
+
+	public PlayerColor getColor(){
+		return color;
+	}
 }

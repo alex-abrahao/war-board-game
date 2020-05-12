@@ -1,4 +1,5 @@
 package Model;
+import java.util.Random;
 
 public class Card {
 
@@ -17,5 +18,11 @@ public class Card {
 	
 	public String getName() {
 		return name;
+	}
+
+	public Card getrandomCard(Card[] cards){
+		Random generator = new Random();
+		int randomIndex = generator.nextInt(cards.length);
+		return cards[randomIndex];
 	}
 }
