@@ -1,16 +1,15 @@
 package Model;
 
 public class Territory {
-	
+
 	private final String name;
-	private final Continent continent;
+	private Continent continent;
 	private Player owner;
 	private int armyCount;
 	private Territory[] neighbors;
 	
-	Territory(String name, Continent continent) {
+	Territory(String name) {
 		this.name = name;
-		this.continent = continent;
 	}
 
 	public void setOwner(Player player) {
@@ -19,6 +18,10 @@ public class Territory {
 
 	public Player getOwner() {
 		return owner;
+	}
+
+	void setContinent(Continent continent) {
+		this.continent = continent;
 	}
 	
 	public boolean isAttackValid(Territory territory) {
