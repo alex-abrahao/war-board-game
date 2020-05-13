@@ -39,9 +39,16 @@ class Territory {
 	void addArmy(int quantity){
 		this.armyCount += quantity;
 	}
+
+	void removeArmy(int quantity){
+		this.armyCount -= quantity;
+	}
+
+	boolean isNeighbor(Territory territory){
+		return neighbors.contains(territory);
+	}
 	
 	boolean isAttackValid(Territory territory) {
-
 		if (territory.getOwner() == this.owner) {
 			return false;
 		}
@@ -49,10 +56,10 @@ class Territory {
 		if (this.armyCount <= 1) {
 			return false;
 		}
-
-		// TODO: checar vizinhos
-		
-		return true;
+		if (isNeighbor(territory)){
+			return true;
+		}
+		return false;
 	}
 
 	static int getRandomTerritoryIndex(List<Territory> territory) {

@@ -41,6 +41,10 @@ public class Player {
 		return color;
 	}
 
+	boolean playerHasTerritory(Territory territory){
+		return (territories.contains(territory));
+	}
+
 	int amountOfNewArmy(){
 		int newArmyAmount = 0;
 		int totalArmy = 0;
