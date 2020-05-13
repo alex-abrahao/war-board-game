@@ -1,8 +1,8 @@
 package Model;
 import java.util.Random;
-import java.util.Arrays; 
 
-public class Objective {
+class Objective {
+    
     final String description;
     final ObjectiveType type;
 
@@ -11,22 +11,13 @@ public class Objective {
         this.type = type;
     }
 
-    public String getDescription(){
-        return description;
-    }
-
-    public ObjectiveType getObjectiveType(){
-        return type;
-    }
-
-    public int getRandomIndexObjective(Objective[] objectives){
+    static private int getRandomIndexObjective(Objective[] objectives){
         Random generator = new Random();
 		int randomIndex = generator.nextInt(objectives.length);
 		return randomIndex;
-
     }
 
-    public void setPlayerObjective(Player[] players, Objective[] objectives){
+    static void setPlayerObjective(Player[] players, Objective[] objectives){
         for(int i=0; i<players.length; i++){
             int index = getRandomIndexObjective(objectives);
             players[i].setObjective(objectives[index]);

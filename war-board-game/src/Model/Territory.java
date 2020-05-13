@@ -1,34 +1,38 @@
 package Model;
 
-public class Territory {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+class Territory {
 
 	private final String name;
 	private Continent continent;
 	private Player owner;
-	private int armyCount;
-	private Territory[] neighbors;
+	private int armyCount = 1;
+	private List<Territory> neighbors = new ArrayList<>();
 	
 	Territory(String name) {
 		this.name = name;
 	}
 
-	public void setOwner(Player player) {
+	void setOwner(Player player) {
 		this.owner = player;
 	}
 
-	public Player getOwner() {
+	Player getOwner() {
 		return owner;
 	}
 
 	void setContinent(Continent continent) {
 		this.continent = continent;
 	}
+
+	void addNeighbor(Territory territory) {
+		neighbors.add(territory);
+	}
 	
-	public boolean isAttackValid(Territory territory) {
-		
-		// if (territory.getOwner().equals(this.getOwnerName())) {
-		// 	return false;
-		// }
+	boolean isAttackValid(Territory territory) {
 
 		if (territory.getOwner() == this.owner) {
 			return false;
@@ -38,8 +42,25 @@ public class Territory {
 			return false;
 		}
 
-		//TO DO: checar vizinhos
+		// TODO: checar vizinhos
 		
 		return true;
 	}
+
+	static int getRandomTerritoryIndex(List<Territory> territory) {
+		Random generator = new Random();
+		return generator.nextInt(territory.size());
+	}
+
+	static void setPlayersTerritories(Player[] players, List<Territory> territories){
+
+		int totalCards = 42;
+		for (int distributedCards = 0; distributedCards < totalCards; distributedCards++) {
+			int playerIndex = (distributedCards/totalCards) % players.length;
+			int cardIndex = getRandomTerritoryIndex(territories);
+			players[playerIndex].addTerritory(territories.get(cardIndex));
+			// removes the selected card from the list so there's no duplicates.
+			territories.remove(cardIndex);
+		}
+    }
 }

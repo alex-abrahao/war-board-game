@@ -19,6 +19,25 @@ public class Match {
         for (int i = 0; i < numbers.length; i++) {
             players[i].orderToPlay = numbers[i];
         }
+
+        // TODO: Ordenar vetor de players seguindo a ordem
+    }
+
+    public void start() {
+
+        // randomizar ordem dos players
+        // distribuir territorios (ou cartas) aleatoriamente
+        // distribuir exercitos extras pra cada player
+
+    }
+
+    public void reset(boolean keepPlayers) {
+
+        // pra cada territorio
+            // reset army count pra 1
+            // player owner = null
+        // reset players dependendo do bool
+
     }
 
     private static Continent[] makeContinents() {
@@ -59,10 +78,10 @@ public class Match {
             new Territory("Dudinka"),
             new Territory("Sibéria"),
             new Territory("Mongólia"),
-            new Territory("Thcita"),
+            new Territory("Tchita"),
             new Territory("Vladivostok"),
             new Territory("China"),
-            new Territory("Índia'"),
+            new Territory("Índia"),
             new Territory("Japão"),
             new Territory("Vietnã")
         };

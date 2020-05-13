@@ -2,41 +2,38 @@ package Model;
 import java.util.Random;
 import java.util.List;
 
-public class Card {
+class Card {
 
 	// triangle, square, circle or joker
-	private CardType type;
-	private String name;
+	private final CardType type;
+	private final Territory territory;
 	
-	Card(String name, CardType type) {
-		this.name = name;
+	Card(Territory territory, CardType type) {
+		this.territory = territory;
 		this.type = type;
 	}
 
-	public CardType getType() {
+	CardType getType() {
 		return type;
 	}
 	
-	public String getName() {
-		return name;
+	Territory getTerritory() {
+		return territory;
 	}
 
-	public int getrandomCard(List<Card> cards){
+	int getRandomCardIndex(List<Card> cards) {
 		Random generator = new Random();
 		return generator.nextInt(cards.size());
 	}
 
-	public void setPlayersCards(Player[] players, List<Card> cards){
-		int numberOfCardsPerPlayer = players.length/cards.length;
-        for(int i=0; i<players.length; i++){
-			for(int numberOfCards = 0; numberOfCards<numberOfCardsPerPlayer; numberOfCards++) {
-				int index = getrandomCard(cards);
-				players[i].addCard(cards.get(index));
-				cards.remove(index);//removing the selected card from the list so anyone take the same one.
-            	
-            }
+	void setPlayersCards(Player[] players, List<Card> cards){
+
+		int totalCards = 42;
+		for (int distributedCards = 0; distributedCards < totalCards; distributedCards++) {
+			int playerIndex = (distributedCards/totalCards) % players.length;
+			int cardIndex = getRandomCardIndex(cards);
+			players[playerIndex].addCard(cards.get(cardIndex));
+			cards.remove(cardIndex);//removing the selected card from the list so anyone take the same one.
 		}
     }
- }
-
 }

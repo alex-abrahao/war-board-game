@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
@@ -8,31 +9,35 @@ public class Player {
 	private final PlayerColor color;
 	int orderToPlay;
 	private List<Card> cards = new ArrayList<>();
-	//private Card[] cards;
-	private Territory[] territories;
+	private List<Territory> territories = new ArrayList<>();
 	private Objective objective;
 	
-	Player(String name, PlayerColor color) {
+	public Player(String name, PlayerColor color) {
 		this.name = name;
 		this.color = color;
 	}
 
-	public void setObjective (Objective objective){
+	void setObjective (Objective objective) {
 		this.objective = objective;
 	}
 
-	public Objective getObjective(){
+	Objective getObjective() {
 		return objective;
 	}
 
-	public void addCard(Card card){
+	void addCard(Card card) {
 		cards.add(card);
 	}
-	public List<Card> getCards(){
+
+	void addTerritory(Territory territory) {
+		territories.add(territory);
+	}
+
+	List<Card> getCards() {
 		return cards;
 	}
 
-	public PlayerColor getColor(){
+	PlayerColor getColor() {
 		return color;
 	}
 }

@@ -1,7 +1,7 @@
 package Model;
 
-public class Continent {
-	
+class Continent {
+
 	final String name;
 	private final Territory[] territories;
 	private Player conqueror;
