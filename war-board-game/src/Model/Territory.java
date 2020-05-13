@@ -24,12 +24,20 @@ class Territory {
 		return owner;
 	}
 
+	int getArmyCount(){
+		return armyCount;
+	}
+
 	void setContinent(Continent continent) {
 		this.continent = continent;
 	}
 
 	void addNeighbor(Territory territory) {
 		neighbors.add(territory);
+	}
+
+	void addArmy(int quantity){
+		this.armyCount += quantity;
 	}
 	
 	boolean isAttackValid(Territory territory) {

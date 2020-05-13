@@ -40,4 +40,14 @@ public class Player {
 	PlayerColor getColor() {
 		return color;
 	}
+
+	int amountOfNewArmy(){
+		int newArmyAmount = 0;
+		int totalArmy = 0;
+		for (Territory territory : territories) {
+			totalArmy += territory.getArmyCount();
+		}
+		newArmyAmount = totalArmy/2;
+		return newArmyAmount;
+	}
 }
