@@ -103,12 +103,12 @@ public class Match {
         };
 
         Continent[] continents = {
-            new Continent("Europa", europeTerritories),
-            new Continent("América do Norte", northAmericaTerritories),
-            new Continent("América do Sul", southAmericaTerritories),
-            new Continent("Ásia", asiaTerritories),
-            new Continent("Oceania", oceaniaTerritories),
-            new Continent("África'", africaTerritories),
+            new Continent("Europa", europeTerritories, 5),
+            new Continent("América do Norte", northAmericaTerritories, 5),
+            new Continent("América do Sul", southAmericaTerritories, 2),
+            new Continent("Ásia", asiaTerritories, 7),
+            new Continent("Oceania", oceaniaTerritories, 2),
+            new Continent("África'", africaTerritories, 3),
         };
         return continents;
     }

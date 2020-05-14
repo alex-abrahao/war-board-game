@@ -1,14 +1,17 @@
 package Model;
 
+
 class Continent {
 
 	final String name;
 	private final Territory[] territories;
 	private Player conqueror;
-	
-	Continent(String name, Territory[] territories) {
+	private final int continentBonus;
+
+	Continent(String name, Territory[] territories, int continentBonus) {
 		this.name = name;
 		this.territories = territories;
+		this.continentBonus = continentBonus;
 
 		setupTerritories();
 	}
@@ -18,6 +21,10 @@ class Continent {
 		for (Territory territory : territories) {
 			territory.setContinent(this);
 		}
+	}
+
+	int getContinentBonus(){
+		return continentBonus;
 	}
 
 	Player getConqueror() {
