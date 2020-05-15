@@ -1,6 +1,5 @@
 package Model;
 
-
 class Continent {
 
 	final String name;

@@ -70,12 +70,14 @@ class Territory {
 	static void setPlayersTerritories(Player[] players, List<Territory> territories){
 
 		int totalCards = 42;
+		List<Territory> territoriesCopy = List.copyOf(territories);
+		// Circular distribution for the players
 		for (int distributedCards = 0; distributedCards < totalCards; distributedCards++) {
 			int playerIndex = (distributedCards/totalCards) % players.length;
-			int cardIndex = getRandomTerritoryIndex(territories);
-			players[playerIndex].addTerritory(territories.get(cardIndex));
+			int cardIndex = getRandomTerritoryIndex(territoriesCopy);
+			players[playerIndex].addTerritory(territoriesCopy.get(cardIndex));
 			// removes the selected card from the list so there's no duplicates.
-			territories.remove(cardIndex);
+			territoriesCopy.remove(cardIndex);
 		}
     }
 }

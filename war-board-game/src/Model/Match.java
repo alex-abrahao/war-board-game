@@ -2,25 +2,31 @@ package Model;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class Match {
 
     Player[] players;
     private static final Continent[] continents = makeContinents();
+    private int currentRound = 0;
     
-    Match(Player[] players) {
+    Match() {}
 
-        int[] numbers = new int[players.length];
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = i + 1;
+    public void setPlayers(PlayerInfo[] players) {
+
+        // Cria Players novos baseados nas infos
+        this.players = new Player[players.length];
+        for (int i = 0; i < players.length; i++) {
+            this.players[i] = new Player(players[i]);
         }
-        Collections.shuffle(Arrays.asList(numbers));
-
-        for (int i = 0; i < numbers.length; i++) {
-            players[i].orderToPlay = numbers[i];
+        // Embaralha o array de players
+        List<Player> playerList = Arrays.asList(this.players);
+        Collections.shuffle(playerList);
+        playerList.toArray(this.players);
+        // O array embaralhado agora representa a ordem dos jogadores
+        for (int i = 0; i < players.length; i++) {
+            this.players[i].orderToPlay = i + 1;
         }
-
-        // TODO: Ordenar vetor de players seguindo a ordem
     }
 
     public void start() {

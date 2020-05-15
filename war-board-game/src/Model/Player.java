@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+class Player {
 	
 	private final String name;
 	private final PlayerColor color;
@@ -12,9 +12,14 @@ public class Player {
 	private List<Territory> territories = new ArrayList<>();
 	private Objective objective;
 	
-	public Player(String name, PlayerColor color) {
+	Player(String name, PlayerColor color) {
 		this.name = name;
 		this.color = color;
+	}
+
+	Player(PlayerInfo info) {
+		this.name = info.name;
+		this.color = info.color;
 	}
 
 	void setObjective (Objective objective) {
