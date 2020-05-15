@@ -6,7 +6,7 @@ import java.util.Random;
 
 class Territory {
 
-	private final String name;
+	final String name;
 	private Continent continent;
 	private Player owner;
 	private int armyCount = 1;
@@ -32,8 +32,13 @@ class Territory {
 		this.continent = continent;
 	}
 
+	/**
+	 * Adds {@code territory} as a neighbor, and adds itself as a neighbor of {@code territory}
+	 * @param territory Territory to add as neighbor
+	 */
 	void addNeighbor(Territory territory) {
 		neighbors.add(territory);
+		territory.neighbors.add(this);
 	}
 
 	void addArmy(int quantity){
