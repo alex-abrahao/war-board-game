@@ -2,7 +2,6 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 class Territory {
 
@@ -66,23 +65,4 @@ class Territory {
 		}
 		return false;
 	}
-
-	static int getRandomTerritoryIndex(List<Territory> territory) {
-		Random generator = new Random();
-		return generator.nextInt(territory.size());
-	}
-
-	static void setPlayersTerritories(Player[] players, List<Territory> territories){
-
-		int totalCards = 42;
-		List<Territory> territoriesCopy = List.copyOf(territories);
-		// Circular distribution for the players
-		for (int distributedCards = 0; distributedCards < totalCards; distributedCards++) {
-			int playerIndex = (distributedCards/totalCards) % players.length;
-			int cardIndex = getRandomTerritoryIndex(territoriesCopy);
-			players[playerIndex].addTerritory(territoriesCopy.get(cardIndex));
-			// removes the selected card from the list so there's no duplicates.
-			territoriesCopy.remove(cardIndex);
-		}
-    }
 }

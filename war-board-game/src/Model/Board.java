@@ -1,11 +1,21 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class Board {
 
     private final Map<String, Continent> continents = makeContinents();
+    final List<Objective> objectives;
+    final List<Card> cards;
+
+    Board() {
+        makeTerritoryConnections();
+        objectives = makeObjectivesList();
+        cards = makeCardsList();
+    }
 
     Continent getContinent(String name) {
         return continents.get(name);
@@ -102,5 +112,27 @@ class Board {
         };
 
         return makeContinentsMap(continentsArray);
+    }
+
+    private void makeTerritoryConnections() {
+        // TODO: Fazer as ligações entre territórios
+    }
+
+    private List<Objective> makeObjectivesList() {
+        List<Objective> objectivesList = new ArrayList<>();
+        // TODO: Criar a lista de objetivos
+        objectivesList.add(new Objective("Descrição de conquista de continente", ObjectiveType.conquerContinents));
+        objectivesList.add(new Objective("Descrição de eliminação de jogador", ObjectiveType.defeatPlayer));
+        objectivesList.add(new Objective("Descrição de conquista de territórios", ObjectiveType.numberOfTerritories));
+        return objectivesList;
+    }
+
+    private List<Card> makeCardsList() {
+        List<Card> cardsList = new ArrayList<>();
+        // TODO: Criar a lista de objetivos
+        cardsList.add(new Card(getContinent("Europa").getTerritory("Alemanha"), CardType.circle));
+        cardsList.add(new Card(getContinent("Europa").getTerritory("Alemanha"), CardType.circle));
+        cardsList.add(new Card(null, CardType.joker));
+        return cardsList;
     }
 }
