@@ -23,7 +23,7 @@ class Territory {
 		return owner;
 	}
 
-	int getArmyCount(){
+	int getArmyCount() {
 		return armyCount;
 	}
 
@@ -40,15 +40,15 @@ class Territory {
 		territory.neighbors.add(this);
 	}
 
-	void addArmy(int quantity){
+	void addArmy(int quantity) {
 		this.armyCount += quantity;
 	}
 
-	void removeArmy(int quantity){
+	void removeArmy(int quantity) {
 		this.armyCount -= quantity;
 	}
 
-	boolean isNeighbor(Territory territory){
+	boolean isNeighbor(Territory territory) {
 		return neighbors.contains(territory);
 	}
 	
@@ -60,7 +60,7 @@ class Territory {
 		if (this.armyCount <= 1) {
 			return false;
 		}
-		if (isNeighbor(territory)){
+		if (isNeighbor(territory)) {
 			return true;
 		}
 		return false;

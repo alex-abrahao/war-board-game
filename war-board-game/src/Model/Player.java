@@ -37,6 +37,14 @@ class Player {
 		cards.add(card);
 	}
 
+	void resetPlayer() {
+		cards.clear();
+		objective = null;
+		territories.clear();
+		availableUnits = 0;
+		numberOfCardExchanges = 0;
+	}
+
 	void addTerritory(Territory territory) {
 		territory.setOwner(this);
 		territories.add(territory);

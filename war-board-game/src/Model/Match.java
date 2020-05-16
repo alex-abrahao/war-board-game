@@ -5,13 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.plaf.synth.ColorType;
+
 public class Match {
 
     private Player[] players;
     private int currentRound = 0;
     private Board board = new Board();
-    
-    Match() {}
+    private int currentPlayerIndex = 0;
 
     public void setPlayers(PlayerInfo[] players) {
 
@@ -35,17 +36,28 @@ public class Match {
         // distribuir territorios (ou cartas) aleatoriamente
         distributePlayerTerritories();
         // distribuir exercitos extras pra cada player
-        distributeUnits();
+        distributeFirstRoundUnits();
     }
 
-    public void reset(boolean keepPlayers) {
+    public void clear(boolean keepPlayers) {
 
         board = new Board();
-        // reset players dependendo do bool
-            // se mantiver os players
-                // reseta objetivo, cartas e territórios
-            // senão
-                // seta players como null
+        currentPlayerIndex = 0;
+        // reset players accordingly
+        if (keepPlayers) {
+            // resets objective, cards, territories etc
+            for (Player player : players) {
+                player.resetPlayer();
+            }
+        } else {
+            players = null;
+        }
+    }
+
+    public void advanceToNextPlayer() {
+        if (++currentPlayerIndex >= players.length) {
+            currentPlayerIndex = 0;
+        }
     }
 
     private int getRandomListIndex(List<?> list) {
@@ -53,7 +65,7 @@ public class Match {
 		return generator.nextInt(list.size());
 	}
 
-	private void distributePlayerTerritories(){
+	private void distributePlayerTerritories() {
 
 		int totalCards = 42;
 		List<Card> cardsCopy = List.copyOf(board.cards);
@@ -67,7 +79,7 @@ public class Match {
 		}
     }
 
-    private void distributeUnits() {
+    private void distributeFirstRoundUnits() {
         for (Player player : players) {
             player.addRoundStartUnits();
         }
@@ -75,5 +87,39 @@ public class Match {
 
     public int getCurrentRound() {
         return currentRound;
+    }
+
+    /**
+     * Number of available dice to attack.
+     * @param attackerColor
+     * @param originTerritoryName
+     * @param destinationTerritoryName
+     * @return Number of dice available to attack. Returns zero if the attack is invalid. Maximum of 3.
+     */
+    public int getNumberOfAttackDice(ColorType attackerColor, String originTerritoryName, String destinationTerritoryName) {
+
+        Territory originTerritory = board.getTerritory(originTerritoryName),
+                  destinationTerritory = board.getTerritory(destinationTerritoryName);
+
+        if (!originTerritory.isAttackValid(destinationTerritory)) {
+            return 0;
+        }
+        
+        int availableUnits = originTerritory.getArmyCount() - 1;
+
+        return availableUnits > 3 ? 3 : availableUnits;
+    }
+
+    /**
+     * Number of available dice to defend.
+     * @param defenderTerritoryName
+     * @return Number of dice available to defend. Maximum of 3.
+     */
+    public int getNumberOfDefendDice(String defenderTerritoryName) {
+
+        Territory defenderTerritory = board.getTerritory(defenderTerritoryName);
+        int availableUnits = defenderTerritory.getArmyCount();
+
+        return availableUnits > 3 ? 3 : availableUnits;
     }
 }

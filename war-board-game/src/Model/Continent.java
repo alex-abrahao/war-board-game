@@ -7,7 +7,6 @@ class Continent {
 
 	final String name;
 	private final Map<String, Territory> territories;
-	private Player conqueror;
 	private final int continentBonus;
 
 	Continent(String name, Territory[] territories, int continentBonus) {
@@ -26,11 +25,25 @@ class Continent {
 		return territoriesMap;
 	}
 
-	int getContinentBonus(){
+	int getContinentBonus() {
 		return continentBonus;
 	}
 
+	/**
+	 * To be called at the end of a round.
+	 * @return Continent conquereor player, or {@code null} if no player has conquered.
+	 */
 	Player getConqueror() {
+		Player conqueror = null;
+		for (Territory territory : territories.values()) {
+			if (conqueror == null) {
+				// First passing
+				conqueror = territory.getOwner();
+			} else if (conqueror != territory.getOwner()) {
+				return null;
+			}
+		}
+		// This player has all the territories in the continent
 		return conqueror;
 	}
 
