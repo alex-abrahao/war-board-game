@@ -15,6 +15,10 @@ class Territory {
 		this.name = name;
 	}
 
+	Territory(Territories t) {
+		this.name = t.getName();
+	}
+
 	void setOwner(Player player) {
 		this.owner = player;
 	}
@@ -38,6 +42,12 @@ class Territory {
 	void addNeighbor(Territory territory) {
 		neighbors.add(territory);
 		territory.neighbors.add(this);
+	}
+
+	void addContinentNeighbors(Territories[] territories) {
+		for (Territories territory : territories) {
+			this.addNeighbor(continent.getTerritory(territory.getName()));
+		}
 	}
 
 	void addArmy(int quantity) {

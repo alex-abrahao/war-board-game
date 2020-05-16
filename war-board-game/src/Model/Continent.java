@@ -15,6 +15,10 @@ class Continent {
 		this.continentBonus = continentBonus;
 	}
 
+	Continent(Continents c, Territory[] territories, int continentBonus) {
+		this(c.getName(), territories, continentBonus);
+	}
+
 	private Map<String, Territory> makeTerritoriesMap(Territory[] territoriesArray) {
 
 		Map<String, Territory> territoriesMap = new HashMap<String, Territory>();
@@ -49,5 +53,9 @@ class Continent {
 
 	Territory getTerritory(String name) {
 		return territories.get(name);
+	}
+
+	Territory getTerritory(Territories t) {
+		return getTerritory(t.getName());
 	}
 }
