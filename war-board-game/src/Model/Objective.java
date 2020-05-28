@@ -28,4 +28,14 @@ class Objective {
             objectivesCopy.remove(objectiveIndex);
         }
     }
+
+    static void changeObjective(Player[] players, int playerIndex, List<Objective> objectives){
+        List<Objective> objectivesCopy = List.copyOf(objectives);
+        for (int i = 0; i < players.length; i++) {
+            int objectiveIndex = getRandomIndexObjective(objectivesCopy);
+            objectivesCopy.remove(objectiveIndex);
+        }
+        int newObjectiveindex = getRandomIndexObjective(objectivesCopy);
+        players[playerIndex].setObjective(objectivesCopy.get(newObjectiveindex));
+    }
 }
