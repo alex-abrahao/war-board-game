@@ -57,6 +57,7 @@ public class Match {
     public void advanceToNextPlayer() {
         if (++currentPlayerIndex >= players.length) {
             currentPlayerIndex = 0;
+            currentRound++;
         }
     }
 
@@ -123,13 +124,26 @@ public class Match {
         return availableUnits > 3 ? 3 : availableUnits;
     }
 
-    public int compareDices(ColorType attackerColor, String originTerritoryName, String destinationTerritoryName, String defenderTerritoryName){
-        int attack = getNumberOfAttackDice(attackerColor, originTerritoryName, destinationTerritoryName);
-        int defend = getNumberOfDefendDice(defenderTerritoryName);
+    public int rollDices(){
+        int number =  (int) (Math.random() * ((6 - 1) + 1)) + 1;
+        return number;
+    }
+
+    public boolean compareDices(int attack, int defend){
         if (attack > defend){
-            return 1;
+            return true;
         }
-        return 0;
+        return false;
+    }
+
+    public void conqueredTerritory(Territory newTerritory, int armiesToNewTerritory){
+        players[currentPlayerIndex].addTerritory(newTerritory);
+        newTerritory.removeAllArmies();
+        newTerritory.addArmy(armiesToNewTerritory);
+    }
+
+    public void newCardForConqueredTerritory(){
+        players[currentPlayerIndex].addCard(board.getRandomCard(cards));
     }
 
 }
