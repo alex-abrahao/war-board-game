@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 class Board {
 
@@ -39,6 +40,11 @@ class Board {
         return getTerritory(t.getName());
     }
 
+    public Card getRandomCard(List<Card> cards) 
+    { 
+        Random rand = new Random(); 
+        return cards.get(rand.nextInt(cards.size())); 
+    } 
     private Map<String, Continent> makeContinentsMap(final Continent[] continentsArray) {
 
         final Map<String, Continent> continentsMap = new HashMap<String, Continent>();
