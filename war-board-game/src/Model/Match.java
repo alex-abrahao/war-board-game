@@ -122,4 +122,14 @@ public class Match {
 
         return availableUnits > 3 ? 3 : availableUnits;
     }
+
+    public int compareDices(ColorType attackerColor, String originTerritoryName, String destinationTerritoryName, String defenderTerritoryName){
+        int attack = getNumberOfAttackDice(attackerColor, originTerritoryName, destinationTerritoryName);
+        int defend = getNumberOfDefendDice(defenderTerritoryName);
+        if (attack > defend){
+            return 1;
+        }
+        return 0;
+    }
+
 }
