@@ -58,6 +58,10 @@ class Territory {
 		this.armyCount -= quantity;
 	}
 
+	void removeAllArmies(){
+		this.armyCount = 0;
+	}
+
 	boolean isNeighbor(Territory territory) {
 		return neighbors.contains(territory);
 	}
@@ -74,5 +78,23 @@ class Territory {
 			return true;
 		}
 		return false;
+	}
+
+	boolean isTransferArmyValid(Territory destinationTerritory, int armyCount){
+		if(destinationTerritory.getOwner() == this.owner){
+			return false;
+		}
+		if(this.armyCount - armyCount <= 0){
+			return false;
+		}
+		if(this.isNeighbor(destinationTerritory)){
+			return false;
+		}
+		return true;
+	}
+
+	void transferArmy(Territory destinationTerritory, int armyCount){
+		this.removeArmy(armyCount);
+		destinationTerritory.addArmy(armyCount);
 	}
 }
