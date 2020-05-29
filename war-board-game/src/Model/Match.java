@@ -13,6 +13,7 @@ public class Match {
     private int currentRound = 0;
     private Board board = new Board();
     private int currentPlayerIndex = 0;
+    private boolean objectiveComplete = false;
 
     public void setPlayers(PlayerInfo[] players) {
 
@@ -21,6 +22,10 @@ public class Match {
         for (int i = 0; i < players.length; i++) {
             this.players[i] = new Player(players[i]);
         }
+    }
+
+    public boolean getObjectiveComplete(){
+        return objectiveComplete;
     }
 
     public void start() {
