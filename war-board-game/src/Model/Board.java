@@ -43,6 +43,7 @@ class Board {
     public Card getRandomCard(List<Card> cards) 
     { 
         Random rand = new Random(); 
+        cards.remove(cards.get(rand.nextInt(cards.size())));
         return cards.get(rand.nextInt(cards.size())); 
     } 
     private Map<String, Continent> makeContinentsMap(final Continent[] continentsArray) {
