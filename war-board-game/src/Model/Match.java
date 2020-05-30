@@ -148,7 +148,7 @@ public class Match {
     }
 
     public void newCardForConqueredTerritory(){
-        players[currentPlayerIndex].addCard(board.getRandomCard(cards));
+        players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
     }
 
 }
