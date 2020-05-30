@@ -87,7 +87,7 @@ class Territory {
 		if(this.armyCount - armyCount <= 0){
 			return false;
 		}
-		if(this.isNeighbor(destinationTerritory)){
+		if(!this.isNeighbor(destinationTerritory)){
 			return false;
 		}
 		return true;
