@@ -1,16 +1,18 @@
 package View;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import java.awt.Graphics;
-import javax.swing.JFrame;
 
 public class MapView extends JPanel {
 
     private static final long serialVersionUID = -8933186418761493148L;
+    private static final int DEFAULT_WIDTH = 1024;
+	private static final int DEFAULT_HEIGHT = 785;
     private BufferedImage mapImage;
     private BufferedImage backgroundImage;
 
@@ -37,10 +39,15 @@ public class MapView extends JPanel {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-        frame.getContentPane().add(new MapView());
-
+        Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension screenSize = tk.getScreenSize();
+		int x = screenSize.width/2 - DEFAULT_WIDTH/2;
+        int y = screenSize.height/2 - DEFAULT_HEIGHT/2;
+        
+        frame.setBounds(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1024, 785);
+        frame.getContentPane().add(new MapView());
         frame.setVisible(true);
+        frame.setTitle("WAR");
      }
 }
