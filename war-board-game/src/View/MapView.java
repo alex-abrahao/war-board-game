@@ -7,33 +7,38 @@ import java.io.IOException;
 
 import java.awt.Graphics;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-public class mapView extends JPanel{
+public class MapView extends JPanel {
 
+    private static final long serialVersionUID = -8933186418761493148L;
     private BufferedImage mapImage;
+    private BufferedImage backgroundImage;
 
-    public mapView(){
+    public MapView() {
         try {
             mapImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_mapa copy.png"));
+            backgroundImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_fundo.png"));
         }
-        catch(IOException e){
+        catch(IOException e) {
             System.out.print("Erro ao carregar imagem" + e.getMessage());
         }
     }
-    public BufferedImage getMapImage(){
+
+    public BufferedImage getMapImage() {
         return mapImage;
     }
+
     @Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, null);
 		g.drawImage(mapImage, 0, 0, null);
 	}
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
-        frame.getContentPane().add(new mapView());
-  
+        frame.getContentPane().add(new MapView());
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 785);
         frame.setVisible(true);
