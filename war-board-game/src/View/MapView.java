@@ -12,10 +12,12 @@ public class MapView extends JPanel {
 
     private static final long serialVersionUID = -8933186418761493148L;
     private BufferedImage mapImage;
+    private BufferedImage backgroundImage;
 
     public MapView() {
         try {
             mapImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_mapa copy.png"));
+            backgroundImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_fundo.png"));
         }
         catch(IOException e) {
             System.out.print("Erro ao carregar imagem" + e.getMessage());
@@ -28,14 +30,15 @@ public class MapView extends JPanel {
 
     @Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, null);
 		g.drawImage(mapImage, 0, 0, null);
 	}
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.getContentPane().add(new MapView());
-        
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 785);
         frame.setVisible(true);
