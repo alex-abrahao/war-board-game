@@ -4,15 +4,11 @@ import javax.swing.*;
 
 public class SetUpPlayersView extends JFrame {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     JRadioButton threePlayers, fourPlayers, fivePlayers, sixPlayers;
     JButton button;
     //JRadioButton color1, color2;
-
 
     public SetUpPlayersView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,8 +107,6 @@ public class SetUpPlayersView extends JFrame {
         colorGroup.add(color5);
         colorGroup.add(color6);
     }
-
-   
 
     // public void actionPerformed(Action e) {
     //     if (e.getSource() == button){
