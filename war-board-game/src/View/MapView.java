@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import java.awt.Graphics;
-
 public class MapView extends JPanel {
 
     private static final long serialVersionUID = -8933186418761493148L;
@@ -46,8 +44,9 @@ public class MapView extends JPanel {
         
         frame.setBounds(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.getContentPane().add(new MapView());
         frame.setVisible(true);
         frame.setTitle("WAR");
-     }
+    }
 }

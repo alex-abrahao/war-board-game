@@ -1,14 +1,6 @@
 package View;
 
-import javax.swing.Action;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class SetUpPlayersView extends JFrame {
 
@@ -25,6 +17,7 @@ public class SetUpPlayersView extends JFrame {
     public SetUpPlayersView() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(385, 300);
+        setResizable(false);
         getContentPane().setLayout(null);
 
         //createCheckBox();
@@ -63,7 +56,6 @@ public class SetUpPlayersView extends JFrame {
         group.add(sixPlayers);
 
         add(button);
-
     }
 
     private void createTextField(){
@@ -80,7 +72,6 @@ public class SetUpPlayersView extends JFrame {
         add(nameTextField);
         add(button);
         colorOptions();
-        
     }
 
     private void colorOptions(){
@@ -119,7 +110,6 @@ public class SetUpPlayersView extends JFrame {
         colorGroup.add(color4);
         colorGroup.add(color5);
         colorGroup.add(color6);
-
     }
 
    
@@ -151,5 +141,5 @@ public class SetUpPlayersView extends JFrame {
     public static void main(String[] args) {
         SetUpPlayersView box = new SetUpPlayersView();
         box.setVisible(true);
-     }
+    }
 }
