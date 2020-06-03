@@ -58,62 +58,70 @@ class Board {
     private Map<String, Continent> makeContinents() {
 
         final Territory[] europeTerritories = {
-            new Territory(Territories.Germany),
-            new Territory(Territories.SpainPortugalFranceItaly),
-            new Territory(Territories.Moscow),
-            new Territory(Territories.PolandYugoslavia),
-            new Territory(Territories.Iceland),
-            new Territory(Territories.England),
-            new Territory(Territories.Sweden)
+            new Territory(Territories.France),
+            new Territory(Territories.Spain),
+            new Territory(Territories.Italy),
+            new Territory(Territories.Poland),
+            new Territory(Territories.Romenia),
+            new Territory(Territories.UnitedKingdom),
+            new Territory(Territories.Sweden),
+            new Territory(Territories.Ukraine)
         };
 
         final Territory[] northAmericaTerritories = {
             new Territory(Territories.Mexico),
             new Territory(Territories.California),
-            new Territory(Territories.Labrador),
+            new Territory(Territories.Calgary),
             new Territory(Territories.NewYork),
-            new Territory(Territories.Ottawa),
+            new Territory(Territories.Quebec),
             new Territory(Territories.Vancouver),
             new Territory(Territories.Alaska),
             new Territory(Territories.Greenland),
-            new Territory(Territories.Mackenzie)
+            new Territory(Territories.Texas)
         };
 
         final Territory[] southAmericaTerritories = {
             new Territory(Territories.Brazil),
-            new Territory(Territories.ArgentinaUruguay),
-            new Territory(Territories.ColombiaVenezuela),
-            new Territory(Territories.PeruBoliviaChile)
+            new Territory(Territories.Argentina),
+            new Territory(Territories.Venezuela),
+            new Territory(Territories.Peru)
         };
 
         final Territory[] asiaTerritories = {
-            new Territory(Territories.MiddleEast),
-            new Territory(Territories.Aral),
-            new Territory(Territories.Omsk),
-            new Territory(Territories.Dudinka),
+            new Territory(Territories.SaudiArabia),
+            new Territory(Territories.Bangladesh),
+            new Territory(Territories.Kazakhstan),
+            new Territory(Territories.NorthCorea),
+            new Territory(Territories.SouthCorea),
             new Territory(Territories.Siberia),
             new Territory(Territories.Mongolia),
-            new Territory(Territories.Tchita),
-            new Territory(Territories.Vladivostok),
+            new Territory(Territories.Iran),
+            new Territory(Territories.Iraq),
             new Territory(Territories.China),
             new Territory(Territories.India),
             new Territory(Territories.Japan),
-            new Territory(Territories.Vietnam)
+            new Territory(Territories.Jordan),
+            new Territory(Territories.Letonia),
+            new Territory(Territories.Pakistan),
+            new Territory(Territories.Russia),
+            new Territory(Territories.Siria),
+            new Territory(Territories.Thailand),
+            new Territory(Territories.Turkey)
         };
 
         final Territory[] oceaniaTerritories = {
             new Territory(Territories.Australia),
-            new Territory(Territories.Borneo),
-            new Territory(Territories.Sumatra),
-            new Territory(Territories.NewGuinea)
+            new Territory(Territories.Indonesia),
+            new Territory(Territories.Perth),
+            new Territory(Territories.NewZealand)
         };
 
         final Territory[] africaTerritories = {
-            new Territory(Territories.AlgeriaNigeria),
-            new Territory(Territories.Madagascar),
+            new Territory(Territories.Algeria),
+            new Territory(Territories.Angola),
             new Territory(Territories.SouthAfrica),
-            new Territory(Territories.Congo),
-            new Territory(Territories.Sudan),
+            new Territory(Territories.Nigeria),
+            new Territory(Territories.Somalia),
             new Territory(Territories.Egypt)
         };
 
@@ -140,137 +148,167 @@ class Board {
         // South America
         final Territory brazil = southAmerica.getTerritory(Territories.Brazil);
         brazil.addContinentNeighbors(new Territories[] {
-            Territories.ArgentinaUruguay,
-            Territories.ColombiaVenezuela,
-            Territories.PeruBoliviaChile
+            Territories.Argentina,
+            Territories.Venezuela,
+            Territories.Peru
         });
-        brazil.addNeighbor(africa.getTerritory(Territories.AlgeriaNigeria));
-        southAmerica.getTerritory(Territories.PeruBoliviaChile).addContinentNeighbors(new Territories[] {
-            Territories.ArgentinaUruguay,
-            Territories.ColombiaVenezuela
+        brazil.addNeighbor(africa.getTerritory(Territories.Nigeria));
+        southAmerica.getTerritory(Territories.Peru).addContinentNeighbors(new Territories[] {
+            Territories.Argentina,
+            Territories.Venezuela
         });
-        southAmerica.getTerritory(Territories.ColombiaVenezuela).addNeighbor(northAmerica.getTerritory(Territories.Mexico));
+        southAmerica.getTerritory(Territories.Venezuela).addNeighbor(northAmerica.getTerritory(Territories.Mexico));
 
         // North America
-        northAmerica.getTerritory(Territories.Ottawa).addContinentNeighbors(new Territories[] {
-            Territories.Mackenzie,
+        northAmerica.getTerritory(Territories.Texas).addContinentNeighbors(new Territories[] {
+            Territories.Mexico,
             Territories.Vancouver,
             Territories.California,
             Territories.NewYork,
-            Territories.Labrador
+            Territories.Quebec
         });
-        northAmerica.getTerritory(Territories.NewYork).addContinentNeighbors(new Territories[] {
-            Territories.Labrador,
-            Territories.Mexico,
-            Territories.California
+        northAmerica.getTerritory(Territories.Quebec).addContinentNeighbors(new Territories[] {
+            Territories.Vancouver,
+            Territories.Greenland,
+            Territories.NewYork
         });
         northAmerica.getTerritory(Territories.California).addContinentNeighbors(new Territories[] {
             Territories.Vancouver,
             Territories.Mexico
         });
-        northAmerica.getTerritory(Territories.Mackenzie).addContinentNeighbors(new Territories[] {
+        northAmerica.getTerritory(Territories.Calgary).addContinentNeighbors(new Territories[] {
             Territories.Vancouver,
             Territories.Alaska,
             Territories.Greenland
         });
         final Territory greenland = northAmerica.getTerritory(Territories.Greenland);
-        greenland.addContinentNeighbors(new Territories[] {Territories.Labrador});
-        greenland.addNeighbor(europe.getTerritory(Territories.Iceland));
+        greenland.addNeighbor(europe.getTerritory(Territories.UnitedKingdom));
         final Territory alaska = northAmerica.getTerritory(Territories.Alaska);
         alaska.addContinentNeighbors(new Territories[] {Territories.Vancouver});
-        alaska.addNeighbor(asia.getTerritory(Territories.Vladivostok));
+        alaska.addNeighbor(asia.getTerritory(Territories.Siberia));
 
         // Europe
-        europe.getTerritory(Territories.England).addContinentNeighbors(new Territories[] {
-            Territories.Iceland,
+        europe.getTerritory(Territories.France).addContinentNeighbors(new Territories[] {
+            Territories.UnitedKingdom,
             Territories.Sweden,
-            Territories.Germany,
-            Territories.SpainPortugalFranceItaly
+            Territories.Spain,
+            Territories.Italy
         });
-        final Territory france = europe.getTerritory(Territories.SpainPortugalFranceItaly);
-        france.addContinentNeighbors(new Territories[] {
-            Territories.PolandYugoslavia,
-            Territories.Germany
+        final Territory italy = europe.getTerritory(Territories.Italy);
+        italy.addContinentNeighbors(new Territories[] {
+            Territories.Sweden,
+            Territories.Poland,
+            Territories.Romenia
         });
-        france.addNeighbor(africa.getTerritory(Territories.AlgeriaNigeria));
-        france.addNeighbor(africa.getTerritory(Territories.Egypt));
-        final Territory poland = europe.getTerritory(Territories.PolandYugoslavia);
+        italy.addNeighbor(africa.getTerritory(Territories.Algeria));
+        final Territory poland = europe.getTerritory(Territories.Poland);
         poland.addContinentNeighbors(new Territories[] {
-            Territories.Moscow,
-            Territories.Germany
+            Territories.Romenia,
+            Territories.Ukraine
         });
-        poland.addNeighbor(africa.getTerritory(Territories.Egypt));
-        poland.addNeighbor(asia.getTerritory(Territories.MiddleEast));
-        final Territory moscow = europe.getTerritory(Territories.PolandYugoslavia);
-        moscow.addContinentNeighbors(new Territories[] { Territories.Sweden });
-        moscow.addNeighbor(asia.getTerritory(Territories.MiddleEast));
-        moscow.addNeighbor(asia.getTerritory(Territories.Omsk));
-        moscow.addNeighbor(asia.getTerritory(Territories.Aral));
+        poland.addNeighbor(asia.getTerritory(Territories.Letonia));
+        final Territory ukraine = europe.getTerritory(Territories.Ukraine);
+        ukraine.addContinentNeighbors(new Territories[] {Territories.Romenia });
+        ukraine.addNeighbor(asia.getTerritory(Territories.Letonia));
+        ukraine.addNeighbor(asia.getTerritory(Territories.Turkey));
+        final Territory sweden = europe.getTerritory(Territories.Sweden);
+        sweden.addNeighbor(asia.getTerritory(Territories.Letonia));
+        sweden.addNeighbor(asia.getTerritory(Territories.Estonia));
+        final Territory romenia = europe.getTerritory(Territories.Romenia);
+        romenia.addNeighbor(africa.getTerritory(Territories.Egypt));
+        final Territory spain = europe.getTerritory(Territories.Spain);
+        spain.addNeighbor(asia.getTerritory(Territories.Algeria));
 
         // Africa
-        africa.getTerritory(Territories.Sudan).addContinentNeighbors(new Territories[] {
-            Territories.Congo,
-            Territories.Madagascar,
+        africa.getTerritory(Territories.Nigeria).addContinentNeighbors(new Territories[] {
+            Territories.Algeria,
+            Territories.Angola,
             Territories.Egypt,
-            Territories.AlgeriaNigeria,
-            Territories.SouthAfrica
+            Territories.Somalia
         });
-        africa.getTerritory(Territories.AlgeriaNigeria).addContinentNeighbors(new Territories[] {
-            Territories.Congo,
-            Territories.Egypt
+        final Territory egypt = africa.getTerritory(Territories.Egypt);
+        egypt.addContinentNeighbors(new Territories[] {
+            Territories.Algeria,
+            Territories.Somalia
         });
-        africa.getTerritory(Territories.SouthAfrica).addContinentNeighbors(new Territories[] {
-            Territories.Madagascar,
-            Territories.Congo
+        egypt.addNeighbor(asia.getTerritory(Territories.Jordan));
+        final Territory somalia = africa.getTerritory(Territories.Somalia);
+        somalia.addContinentNeighbors(new Territories[] {
+            Territories.SouthAfrica,
+            Territories.Angola
         });
-        africa.getTerritory(Territories.Egypt).addNeighbor(asia.getTerritory(Territories.MiddleEast));
+        somalia.addNeighbor(asia.getTerritory(Territories.SaudiArabia));
+        africa.getTerritory(Territories.Angola).addContinentNeighbors(new Territories[] { Territories.SouthAfrica });
 
         // Oceania
         oceania.getTerritory(Territories.Australia).addContinentNeighbors(new Territories[] {
-            Territories.Borneo,
-            Territories.NewGuinea,
-            Territories.Sumatra
+            Territories.Indonesia,
+            Territories.NewZealand,
+            Territories.Perth
         });
-        oceania.getTerritory(Territories.NewGuinea).addNeighbor(oceania.getTerritory(Territories.Borneo));
-        oceania.getTerritory(Territories.Borneo).addNeighbor(asia.getTerritory(Territories.Vietnam));
-        oceania.getTerritory(Territories.Sumatra).addNeighbor(asia.getTerritory(Territories.India));
+        final Territory indonesia = oceania.getTerritory(Territories.Indonesia);
+        indonesia.addContinentNeighbors(new Territories[] {Territories.NewZealand});
+        indonesia.addNeighbor(asia.getTerritory(Territories.India));
+        indonesia.addNeighbor(asia.getTerritory(Territories.Bangladesh));
 
         // Asia
-        asia.getTerritory(Territories.Mongolia).addContinentNeighbors(new Territories[] {
-            Territories.China,
-            Territories.Omsk,
-            Territories.Dudinka,
-            Territories.Tchita
-        });
         asia.getTerritory(Territories.China).addContinentNeighbors(new Territories[] {
-            Territories.Omsk,
-            Territories.Aral,
-            Territories.Tchita,
-            Territories.Vladivostok,
-            Territories.Vietnam,
+            Territories.Kazakhstan,
+            Territories.NorthCorea,
+            Territories.SouthCorea,
+            Territories.Mongolia,
+            Territories.Pakistan,
             Territories.India,
-            Territories.Japan
+            Territories.Turkey
         });
-        asia.getTerritory(Territories.Vladivostok).addContinentNeighbors(new Territories[] {
-            Territories.Japan,
+        asia.getTerritory(Territories.Japan).addContinentNeighbors(new Territories[] {
+            Territories.NorthCorea,
+            Territories.Mongolia,
+            Territories.Kazakhstan
+        });
+        asia.getTerritory(Territories.Kazakhstan).addContinentNeighbors(new Territories[] {
+            Territories.Mongolia,
             Territories.Siberia,
-            Territories.Tchita
+            Territories.Russia,
+            Territories.Letonia
         });
-        asia.getTerritory(Territories.India).addContinentNeighbors(new Territories[] {
-            Territories.Vietnam,
-            Territories.MiddleEast,
-            Territories.Aral
+        asia.getTerritory(Territories.SouthCorea).addContinentNeighbors(new Territories[] {
+            Territories.NorthCorea,
+            Territories.India,
+            Territories.Bangladesh,
+            Territories.Thailand
         });
-        asia.getTerritory(Territories.Aral).addContinentNeighbors(new Territories[] {
-            Territories.Omsk,
-            Territories.MiddleEast
+        asia.getTerritory(Territories.Bangladesh).addContinentNeighbors(new Territories[] {
+            Territories.Thailand,
+            Territories.India
         });
-        asia.getTerritory(Territories.Dudinka).addContinentNeighbors(new Territories[] {
-            Territories.Omsk,
+        asia.getTerritory(Territories.Pakistan).addContinentNeighbors(new Territories[] {
+            Territories.Iran,
+            Territories.India,
+            Territories.Siria,
+            Territories.Turkey
+        });
+        asia.getTerritory(Territories.Russia).addContinentNeighbors(new Territories[] {
             Territories.Siberia,
-            Territories.Tchita
+            Territories.Letonia,
+            Territories.Estonia
         });
-        asia.getTerritory(Territories.Siberia).addNeighbor(asia.getTerritory(Territories.Tchita));
+        asia.getTerritory(Territories.Letonia).addContinentNeighbors(new Territories[] {
+            Territories.Turkey,
+            Territories.Estonia
+        });
+        asia.getTerritory(Territories.Siria).addContinentNeighbors(new Territories[] {
+            Territories.Turkey,
+            Territories.Iran,
+            Territories.Iraq,
+            Territories.Jordan
+        });
+        asia.getTerritory(Territories.Iraq).addContinentNeighbors(new Territories[] {
+            Territories.Iran,
+            Territories.SaudiArabia,
+            Territories.Jordan
+        });
+        asia.getTerritory(Territories.SaudiArabia).addContinentNeighbors(new Territories[] { Territories.Jordan });
     }
 
     private List<Objective> makeObjectivesList() {
@@ -285,8 +323,8 @@ class Board {
     private List<Card> makeCardsList() {
         List<Card> cardsList = new ArrayList<>();
         // TODO: Criar a lista de objetivos
-        cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.England), CardType.square));
-        cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.Germany), CardType.circle));
+        cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.Poland), CardType.square));
+        cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.UnitedKingdom), CardType.circle));
         cardsList.add(new Card(null, CardType.joker));
         return cardsList;
     }
