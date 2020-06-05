@@ -322,7 +322,7 @@ class Board {
 
     private List<Card> makeCardsList() {
         List<Card> cardsList = new ArrayList<>();
-        // TODO: Criar a lista de objetivos
+        // TODO: Criar a lista de cartas de território
         cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.Poland), CardType.square));
         cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.UnitedKingdom), CardType.circle));
         cardsList.add(new Card(null, CardType.joker));
