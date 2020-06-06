@@ -322,10 +322,70 @@ class Board {
 
     private List<Card> makeCardsList() {
         List<Card> cardsList = new ArrayList<>();
-        // TODO: Criar a lista de cartas de território
-        cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.Poland), CardType.square));
-        cardsList.add(new Card(getContinent(Continents.Europe).getTerritory(Territories.UnitedKingdom), CardType.circle));
+        cardsList.add(newCard(Continents.Africa, Territories.SouthAfrica, CardType.triangle));
+        cardsList.add(newCard(Continents.Africa, Territories.Angola, CardType.square));
+        cardsList.add(newCard(Continents.Africa, Territories.Algeria, CardType.circle));
+        cardsList.add(newCard(Continents.Africa, Territories.Egypt, CardType.triangle));
+        cardsList.add(newCard(Continents.Africa, Territories.Nigeria, CardType.circle));
+        cardsList.add(newCard(Continents.Africa, Territories.Somalia, CardType.square));
+        
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.Alaska, CardType.triangle));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.Calgary, CardType.circle));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.California, CardType.square));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.Greenland, CardType.circle));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.Mexico, CardType.square));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.NewYork, CardType.square));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.Quebec, CardType.circle));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.Texas, CardType.triangle));
+        cardsList.add(newCard(Continents.NorthAmerica, Territories.Vancouver, CardType.triangle));
+
+        cardsList.add(newCard(Continents.Asia, Territories.SaudiArabia, CardType.circle));
+        cardsList.add(newCard(Continents.Asia, Territories.Bangladesh, CardType.circle));
+        cardsList.add(newCard(Continents.Asia, Territories.Kazakhstan, CardType.circle));
+        cardsList.add(newCard(Continents.Asia, Territories.China, CardType.square));
+        cardsList.add(newCard(Continents.Asia, Territories.NorthCorea, CardType.square));
+        cardsList.add(newCard(Continents.Asia, Territories.SouthCorea, CardType.triangle));
+        cardsList.add(newCard(Continents.Asia, Territories.Estonia, CardType.circle));
+        cardsList.add(newCard(Continents.Asia, Territories.India, CardType.triangle));
+        cardsList.add(newCard(Continents.Asia, Territories.Iran, CardType.square));
+        cardsList.add(newCard(Continents.Asia, Territories.Iraq, CardType.triangle));
+        cardsList.add(newCard(Continents.Asia, Territories.Japan, CardType.circle));
+        cardsList.add(newCard(Continents.Asia, Territories.Jordan, CardType.square));
+        cardsList.add(newCard(Continents.Asia, Territories.Letonia, CardType.square));
+        cardsList.add(newCard(Continents.Asia, Territories.Mongolia, CardType.triangle));
+        cardsList.add(newCard(Continents.Asia, Territories.Pakistan, CardType.circle));
+        cardsList.add(newCard(Continents.Asia, Territories.Russia, CardType.triangle));
+        cardsList.add(newCard(Continents.Asia, Territories.Siberia, CardType.square));
+        cardsList.add(newCard(Continents.Asia, Territories.Siria, CardType.square));
+        cardsList.add(newCard(Continents.Asia, Territories.Thailand, CardType.triangle));
+        cardsList.add(newCard(Continents.Asia, Territories.Turkey, CardType.triangle));
+
+        cardsList.add(newCard(Continents.SouthAmerica, Territories.Argentina, CardType.square));
+        cardsList.add(newCard(Continents.SouthAmerica, Territories.Brazil, CardType.circle));
+        cardsList.add(newCard(Continents.SouthAmerica, Territories.Peru, CardType.triangle));
+        cardsList.add(newCard(Continents.SouthAmerica, Territories.Venezuela, CardType.triangle));
+
+        cardsList.add(newCard(Continents.Europe, Territories.Spain, CardType.circle));
+        cardsList.add(newCard(Continents.Europe, Territories.France, CardType.triangle));
+        cardsList.add(newCard(Continents.Europe, Territories.Italy, CardType.square));
+        cardsList.add(newCard(Continents.Europe, Territories.Poland, CardType.triangle));
+        cardsList.add(newCard(Continents.Europe, Territories.UnitedKingdom, CardType.circle));
+        cardsList.add(newCard(Continents.Europe, Territories.Romenia, CardType.triangle));
+        cardsList.add(newCard(Continents.Europe, Territories.Sweden, CardType.square));
+        cardsList.add(newCard(Continents.Europe, Territories.Ukraine, CardType.circle));
+
+        cardsList.add(newCard(Continents.Oceania, Territories.Australia, CardType.triangle));
+        cardsList.add(newCard(Continents.Oceania, Territories.Indonesia, CardType.triangle));
+        cardsList.add(newCard(Continents.Oceania, Territories.NewZealand, CardType.square));
+        cardsList.add(newCard(Continents.Oceania, Territories.Perth, CardType.circle));
+        
         cardsList.add(new Card(null, CardType.joker));
+        cardsList.add(new Card(null, CardType.joker));
+
         return cardsList;
+    }
+
+    private Card newCard(Continents continent, Territories territory, CardType type) {
+        return new Card(getContinent(continent).getTerritory(territory), type);
     }
 }
