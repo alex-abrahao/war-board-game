@@ -3,6 +3,7 @@ package View;
 import java.awt.Color;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class UnitsLabel extends JPanel {
 
@@ -12,15 +13,35 @@ public class UnitsLabel extends JPanel {
     public UnitsLabel() {
         this.setBackground(Color.white);
         numberLabel.setForeground(Color.black);
+        numberLabel.setFont(numberLabel.getFont().deriveFont(Font.BOLD));
         this.add(numberLabel);
+        this.setSize(30, 30);
     }
 
-    public void setColors(Color labelColor, Color backgroundColor) {
-        this.setBackground(backgroundColor);
+    public void setColors(Color labelColor) {
+        if (labelColor == Color.white || labelColor == Color.yellow) {
+            this.setBackground(Color.black);
+        } else {
+            this.setBackground(Color.white);
+        }
         numberLabel.setForeground(labelColor);
     }
 
     public void setNumberOfUnits(int number) {
         numberLabel.setText(String.valueOf(number));
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+        frame.getContentPane().setLayout(null);
+        UnitsLabel label = new UnitsLabel();
+        label.setColors(Color.yellow);
+        label.setNumberOfUnits(30);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(label);
+
+        frame.setSize(100, 100);
+        frame.setVisible(true);
     }
 }
