@@ -14,7 +14,6 @@ class ObjectiveCardView extends JPanel {
     private JTextArea descriptionLabel = new JTextArea("Objetivo");
     private BufferedImage cardImage;
 
-    
     ObjectiveCardView() {
         try {
             cardImage = ImageIO.read(getClass().getResource("/images/war_carta_objetivo_grande.png"));

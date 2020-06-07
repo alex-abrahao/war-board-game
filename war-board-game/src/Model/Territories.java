@@ -61,7 +61,7 @@ public enum Territories {
     
     private final String name;
 
-    Territories(String name) {
+    private Territories(String name) {
         this.name = name;
     }
 
