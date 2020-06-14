@@ -95,6 +95,39 @@ public class Match {
         return currentRound;
     }
 
+    public void attack(ColorType attackerColor, String originTerritoryName, String destinationTerritoryName){
+        Territory originTerritory = board.getTerritory(originTerritoryName),
+                  destinationTerritory = board.getTerritory(destinationTerritoryName);
+        int numberOfAttackDice = getNumberOfAttackDice(attackerColor, originTerritoryName, destinationTerritoryName);
+        int numberOfAttackWin = 0;
+        if(originTerritory.getOwner() == players[currentPlayerIndex]){
+            if(numberOfAttackDice > 0){
+                int numberOfDefendDice = getNumberOfDefendDice(destinationTerritoryName);
+                int []attackDices = new int[numberOfAttackDice];
+                int []defendDices = new int[numberOfDefendDice];
+                attackDices = rollDices(numberOfAttackDice);
+                defendDices = rollDices(numberOfDefendDice);
+                Arrays.sort(attackDices);
+                Arrays.sort(defendDices);
+                for(int i = 0; i<numberOfDefendDice; i++){
+                    if(compareDices(attackDices[i],defendDices[i]) == true){
+                        numberOfAttackWin++;
+                    }
+                }
+
+                /*Move armies*/
+                if(numberOfDefendDice - numberOfAttackWin <= 0){ /*if player conquered territory*/
+                    conqueredTerritory(destinationTerritory, originTerritory.getArmyCount()-1);
+                    newCardForConqueredTerritory();
+                }
+                else {
+                    destinationTerritory.removeArmy(numberOfAttackWin);
+                    originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
+                }
+            }
+        }
+    }
+
     /**
      * Number of available dice to attack.
      * @param attackerColor
@@ -129,9 +162,12 @@ public class Match {
         return availableUnits > 3 ? 3 : availableUnits;
     }
 
-    public int rollDices() {
-        int number =  (int) (Math.random() * ((6 - 1) + 1)) + 1;
-        return number;
+    public int[] rollDices(int quantity) {
+        int[] dices = new int[quantity];
+        for (int i = 0; i<quantity; i++){
+            dices[i] =  (int) (Math.random() * ((6 - 1) + 1)) + 1;
+        }
+        return dices;
     }
 
     public boolean compareDices(int attack, int defend) {
