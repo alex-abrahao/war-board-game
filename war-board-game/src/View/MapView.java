@@ -10,8 +10,8 @@ import java.io.IOException;
 public class MapView extends JPanel {
 
     private static final long serialVersionUID = -8933186418761493148L;
-    private static final int DEFAULT_WIDTH = 1024;
-	private static final int DEFAULT_HEIGHT = 785;
+    public static final int DEFAULT_WIDTH = 1024;
+	public static final int DEFAULT_HEIGHT = 785;
     private BufferedImage mapImage;
     private BufferedImage backgroundImage;
     private JButton throwDiceButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnJogarDados.png")));
