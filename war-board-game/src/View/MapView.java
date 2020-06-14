@@ -2,29 +2,36 @@ package View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import Controller.MapController;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class MapView extends JPanel {
+public class MapView extends JFrame {
 
     private static final long serialVersionUID = -8933186418761493148L;
     public static final int DEFAULT_WIDTH = 1024;
-	public static final int DEFAULT_HEIGHT = 785;
-    private BufferedImage mapImage;
-    private BufferedImage backgroundImage;
+    public static final int DEFAULT_HEIGHT = 785;
+    private final MapController controller;
+    private MapPanel panel = new MapPanel();
     private JButton throwDiceButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnJogarDados.png")));
     private JButton nextRoundButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnProxJogada.png")));
 
-    public MapView() {
-        try {
-            mapImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_mapa copy.png"));
-            backgroundImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_fundo.png"));
-        } catch(IOException e) {
-            System.out.print("Erro ao carregar imagem" + e.getMessage());
-        }
-        setLayout(null);
+    public MapView(MapController controller) {
+        this.controller = controller;
+        this.controller.setView(this);
+        Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension screenSize = tk.getScreenSize();
+		int x = screenSize.width/2 - DEFAULT_WIDTH/2;
+        int y = screenSize.height/2 - DEFAULT_HEIGHT/2;
+        setBounds(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        setTitle("WAR");
+        getContentPane().add(panel);
         setupButtons();
     }
 
@@ -48,8 +55,8 @@ public class MapView extends JPanel {
             }
         });
 
-        add(throwDiceButton);
-        add(nextRoundButton);
+        panel.add(throwDiceButton);
+        panel.add(nextRoundButton);
     }
 
     private void didPressNextRound() {
@@ -60,24 +67,32 @@ public class MapView extends JPanel {
         System.out.println("Jogar dados");
     }
 
+    public static void main(String[] args) {
+        JFrame frame = new MapView(new MapController());
+        frame.setVisible(true);
+    }
+}
+
+class MapPanel extends JPanel {
+
+    private static final long serialVersionUID = 1L;
+    private BufferedImage mapImage;
+    private BufferedImage backgroundImage;
+
+    MapPanel() {
+        try {
+            mapImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_mapa copy.png"));
+            backgroundImage = ImageIO.read(getClass().getResource("/images/war_tabuleiro_fundo.png"));
+        } catch(IOException e) {
+            System.out.print("Erro ao carregar imagem" + e.getMessage());
+        }
+        setLayout(null);
+    }
+
     @Override
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, null);
 		g.drawImage(mapImage, 0, 0, null);
 	}
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        Toolkit tk = Toolkit.getDefaultToolkit();
-		Dimension screenSize = tk.getScreenSize();
-		int x = screenSize.width/2 - DEFAULT_WIDTH/2;
-        int y = screenSize.height/2 - DEFAULT_HEIGHT/2;
-        frame.setBounds(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.getContentPane().add(new MapView());
-        frame.setVisible(true);
-        frame.setTitle("WAR");
-    }
 }

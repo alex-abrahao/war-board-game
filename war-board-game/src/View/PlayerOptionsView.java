@@ -2,7 +2,7 @@ package View;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+import java.awt.*;
 import javax.swing.*;
 
 public class PlayerOptionsView extends JFrame {
@@ -11,12 +11,20 @@ public class PlayerOptionsView extends JFrame {
     private static final int DEFAULT_WIDTH = 385;
     private static final int DEFAULT_HEIGHT = 300;
 
+    private PlayerOptionsDelegate delegate;
     private JButton doneButton;
     JTextField[] nameTextField = new JTextField[6];
 
-    public PlayerOptionsView() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    public PlayerOptionsView(PlayerOptionsDelegate delegate) {
+        this.delegate = delegate;
+
+        Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension screenSize = tk.getScreenSize();
+		int x = screenSize.width/2 - DEFAULT_WIDTH/2;
+        int y = screenSize.height/2 - DEFAULT_HEIGHT/2;
+        
+        setBounds(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT + 20);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -86,7 +94,7 @@ public class PlayerOptionsView extends JFrame {
     }
 
     public static void main(String[] args) {
-        PlayerOptionsView box = new PlayerOptionsView();
+        PlayerOptionsView box = new PlayerOptionsView(null);
         box.setVisible(true);
     }
 }

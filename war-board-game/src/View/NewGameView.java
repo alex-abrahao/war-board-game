@@ -52,7 +52,6 @@ public class NewGameView extends JFrame implements ActionListener {
     public static void main(String[] args) {
         NewGameController controller = new NewGameController();
         JFrame frame = new NewGameView(controller);
-        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WAR");
         frame.setVisible(true);
     }
 
