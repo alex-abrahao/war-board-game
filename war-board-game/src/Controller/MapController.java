@@ -2,9 +2,12 @@ package Controller;
 
 import Model.Match;
 import Model.PlayerInfo;
+import Model.Territories;
+import Model.observer.UnitNumberObserver;
 import View.MapView;
+import View.UnitsLabelDelegate;
 
-public class MapController implements Controller<MapView> {
+public class MapController implements Controller<MapView>, UnitsLabelDelegate {
 
     private MapView view;
     private Match match = Match.getInstance();
@@ -28,5 +31,14 @@ public class MapController implements Controller<MapView> {
             }
         }
         view.showPlayerOrder(message);
+    }
+
+    public void addTerritoryObserver(Territories territory, UnitNumberObserver observer) {
+        match.addTerritoryObserver(territory, observer);
+    }
+
+    @Override
+    public void didSelectLabel(Territories territory) {
+        // TODO: Implement
     }
 }

@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Controller.MapController;
+import Model.Territories;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -33,6 +34,7 @@ public class MapView extends JFrame {
         setTitle("WAR");
         getContentPane().add(panel);
         setupButtons();
+        addUnitLabels();
         this.controller.fetchPlayersOrder();
     }
 
@@ -58,6 +60,17 @@ public class MapView extends JFrame {
 
         panel.add(throwDiceButton);
         panel.add(nextRoundButton);
+    }
+
+    private void addUnitLabels() {
+        addUnitLabel(Territories.Alaska, 90, 110);
+    }
+
+    private void addUnitLabel(Territories territory, int x, int y) {
+        UnitsLabel label = new UnitsLabel(territory, controller);
+        controller.addTerritoryObserver(territory, label);
+        label.setLocation(x, y);
+        panel.add(label);
     }
 
     private void didPressNextRound() {

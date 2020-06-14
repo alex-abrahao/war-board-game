@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import Model.observer.UnitNumberObserver;
+
 public class Match {
 
     private Player[] players;
@@ -210,5 +212,9 @@ public class Match {
 
     public void newCardForConqueredTerritory(){
         players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
+    }
+
+    public void addTerritoryObserver(Territories territory, UnitNumberObserver observer) {
+        board.getTerritory(territory).addObserver(observer);
     }
 }
