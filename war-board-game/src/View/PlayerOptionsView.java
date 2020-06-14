@@ -87,16 +87,19 @@ public class PlayerOptionsView extends JFrame {
             System.out.println("Tudo certo, pode começar");
         }
     }
+
     private void startGame(int numberOfPlayers){
         players = new PlayerInfo[numberOfPlayers];
         int number = 0;
         for(int i=0; i<6; i++){
             if(!nameTextField[i].getText().equals("")){
                 players[number] = new PlayerInfo(nameTextField[i].getText(), playerColors[i]);
-                System.out.println(players[number]);
+                System.out.println(String.format("Nome: %s, cor: %s", players[number].name, players[number].color.getName()));
                 number++;
             }
         }
+        delegate.didSetPlayers(players);
+        dispose();
     }
 
     private int checkNumbersOfPlayers(int index){

@@ -28,6 +28,7 @@ public class Match {
         for (int i = 0; i < players.length; i++) {
             this.players[i] = new Player(players[i]);
         }
+        shufflePlayers();
     }
 
     public PlayerInfo[] getOrderedPlayers() {
@@ -42,8 +43,7 @@ public class Match {
         return objectiveComplete;
     }
 
-    public void start() {
-
+    private void shufflePlayers() {
         // Embaralha o array de players
         List<Player> playerList = Arrays.asList(this.players);
         Collections.shuffle(playerList);
@@ -52,6 +52,10 @@ public class Match {
         for (int i = 0; i < players.length; i++) {
             this.players[i].orderToPlay = i + 1;
         }
+    }
+
+    public void start() {
+
         // distribuir territorios (ou cartas) aleatoriamente
         distributePlayerTerritories();
         // distribuir exercitos extras pra cada player

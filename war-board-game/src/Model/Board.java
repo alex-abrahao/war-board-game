@@ -103,6 +103,7 @@ class Board {
             new Territory(Territories.Jordan),
             new Territory(Territories.Letonia),
             new Territory(Territories.Pakistan),
+            new Territory(Territories.Estonia),
             new Territory(Territories.Russia),
             new Territory(Territories.Siria),
             new Territory(Territories.Thailand),
@@ -217,7 +218,7 @@ class Board {
         final Territory romenia = europe.getTerritory(Territories.Romenia);
         romenia.addNeighbor(africa.getTerritory(Territories.Egypt));
         final Territory spain = europe.getTerritory(Territories.Spain);
-        spain.addNeighbor(asia.getTerritory(Territories.Algeria));
+        spain.addNeighbor(africa.getTerritory(Territories.Algeria));
 
         // Africa
         africa.getTerritory(Territories.Nigeria).addContinentNeighbors(new Territories[] {
