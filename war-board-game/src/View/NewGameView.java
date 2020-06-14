@@ -2,6 +2,9 @@ package View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import Controller.NewGameController;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -14,15 +17,18 @@ public class NewGameView extends JFrame implements ActionListener {
 	private static final int DEFAULT_HEIGHT = 650;
     private final JPanel panel = new NewGamePanel();
     private final JButton newGameButton = new JButton();
+    private final NewGameController controller;
     
-    NewGameView() {
+    public NewGameView(NewGameController controller) {
+        this.controller = controller;
+        this.controller.setView(this);
         Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();
 		int x = screenSize.width/2 - DEFAULT_WIDTH/2;
         int y = screenSize.height/2 - DEFAULT_HEIGHT/2;
         
         setBounds(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT + 20);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         setVisible(true);
         setTitle("WAR - Novo Jogo");
@@ -44,13 +50,16 @@ public class NewGameView extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new NewGameView();
+        NewGameController controller = new NewGameController();
+        JFrame frame = new NewGameView(controller);
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WAR");
         frame.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("Botao pressionado novo jogo");
+        controller.didSelectNewGame();
     }
 }
 
