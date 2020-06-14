@@ -3,9 +3,13 @@ package View;
 import java.awt.Color;
 
 import javax.swing.*;
+
+import Model.PlayerColor;
+import Model.observer.UnitNumberObserver;
+
 import java.awt.*;
 
-public class UnitsLabel extends JPanel {
+public class UnitsLabel extends JPanel implements UnitNumberObserver {
 
     private static final long serialVersionUID = 4587872428157231272L;
     private JLabel numberLabel = new JLabel("0", JLabel.CENTER);
@@ -43,5 +47,11 @@ public class UnitsLabel extends JPanel {
 
         frame.setSize(100, 100);
         frame.setVisible(true);
+    }
+
+    @Override
+    public void notify(int units, PlayerColor color) {
+        setNumberOfUnits(units);
+        setColors(color.getColor());
     }
 }

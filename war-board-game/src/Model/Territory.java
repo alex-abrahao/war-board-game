@@ -3,13 +3,17 @@ package Model;
 import java.util.ArrayList;
 import java.util.List;
 
-class Territory {
+import Common.Observable;
+import Model.observer.UnitNumberObserver;
+
+class Territory implements Observable<UnitNumberObserver> {
 
 	final String name;
 	private Continent continent;
 	private Player owner;
 	private int armyCount = 1;
 	private List<Territory> neighbors = new ArrayList<>();
+	private List<UnitNumberObserver> observers = new ArrayList<>();
 	
 	Territory(String name) {
 		this.name = name;
@@ -21,6 +25,7 @@ class Territory {
 
 	void setOwner(Player player) {
 		this.owner = player;
+		notifyObservers();
 	}
 
 	Player getOwner() {
@@ -52,14 +57,17 @@ class Territory {
 
 	void addArmy(int quantity) {
 		this.armyCount += quantity;
+		notifyObservers();
 	}
 
 	void removeArmy(int quantity) {
 		this.armyCount -= quantity;
+		notifyObservers();
 	}
 
-	void removeAllArmies(){
+	void removeAllArmies() {
 		this.armyCount = 0;
+		notifyObservers();
 	}
 
 	boolean isNeighbor(Territory territory) {
@@ -80,21 +88,37 @@ class Territory {
 		return false;
 	}
 
-	boolean isTransferArmyValid(Territory destinationTerritory, int armyCount){
-		if(destinationTerritory.getOwner() == this.owner){
+	boolean isTransferArmyValid(Territory destinationTerritory, int armyCount) {
+		if(destinationTerritory.getOwner() == this.owner) {
 			return false;
 		}
-		if(this.armyCount - armyCount <= 0){
+		if(this.armyCount - armyCount <= 0) {
 			return false;
 		}
-		if(!this.isNeighbor(destinationTerritory)){
+		if(!this.isNeighbor(destinationTerritory)) {
 			return false;
 		}
 		return true;
 	}
 
-	void transferArmy(Territory destinationTerritory, int armyCount){
+	void transferArmy(Territory destinationTerritory, int armyCount) {
 		this.removeArmy(armyCount);
 		destinationTerritory.addArmy(armyCount);
+	}
+
+	private void notifyObservers() {
+		for (UnitNumberObserver observer : observers) {
+			observer.notify(armyCount, owner.getColor());
+		}
+	}
+
+	@Override
+	public void addObserver(UnitNumberObserver observer) {
+		observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(UnitNumberObserver observer) {
+		observers.remove(observer);
 	}
 }

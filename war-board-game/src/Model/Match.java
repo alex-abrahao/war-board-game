@@ -24,7 +24,7 @@ public class Match {
         }
     }
 
-    public boolean getObjectiveComplete(){
+    public boolean getObjectiveComplete() {
         return objectiveComplete;
     }
 
@@ -150,5 +150,4 @@ public class Match {
     public void newCardForConqueredTerritory(){
         players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
     }
-
 }
