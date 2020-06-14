@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.plaf.synth.ColorType;
-
 public class Match {
 
     private Player[] players;
@@ -95,50 +93,57 @@ public class Match {
         return currentRound;
     }
 
-    public void attack(ColorType attackerColor, String originTerritoryName, String destinationTerritoryName){
+    /**
+     * Attack territories.
+     * @param originTerritoryName
+     * @param destinationTerritoryName
+     * @return true if the attack was successfull, false if it is not valid.
+     */
+    public boolean attack(String originTerritoryName, String destinationTerritoryName) {
         Territory originTerritory = board.getTerritory(originTerritoryName),
                   destinationTerritory = board.getTerritory(destinationTerritoryName);
-        int numberOfAttackDice = getNumberOfAttackDice(attackerColor, originTerritoryName, destinationTerritoryName);
-        int numberOfAttackWin = 0;
-        if(originTerritory.getOwner() == players[currentPlayerIndex]){
-            if(numberOfAttackDice > 0){
-                int numberOfDefendDice = getNumberOfDefendDice(destinationTerritoryName);
-                int []attackDices = new int[numberOfAttackDice];
-                int []defendDices = new int[numberOfDefendDice];
-                attackDices = rollDices(numberOfAttackDice);
-                defendDices = rollDices(numberOfDefendDice);
-                Arrays.sort(attackDices);
-                Arrays.sort(defendDices);
-                for(int i = 0; i<numberOfDefendDice; i++){
-                    if(compareDices(attackDices[i],defendDices[i]) == true){
-                        numberOfAttackWin++;
-                    }
-                }
+        int numberOfAttackDice = getNumberOfAttackDice(originTerritoryName, destinationTerritoryName);
 
-                /*Move armies*/
-                if(numberOfDefendDice - numberOfAttackWin <= 0){ /*if player conquered territory*/
-                    conqueredTerritory(destinationTerritory, originTerritory.getArmyCount()-1);
-                    newCardForConqueredTerritory();
-                }
-                else {
-                    destinationTerritory.removeArmy(numberOfAttackWin);
-                    originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
-                }
+        if(originTerritory.getOwner() != players[currentPlayerIndex] || numberOfAttackDice == 0) {
+            return false;
+        }
+        
+        int numberOfAttackWin = 0;
+        int numberOfDefendDice = getNumberOfDefendDice(destinationTerritoryName);
+        int []attackDices = new int[numberOfAttackDice];
+        int []defendDices = new int[numberOfDefendDice];
+        attackDices = rollDices(numberOfAttackDice);
+        defendDices = rollDices(numberOfDefendDice);
+        Arrays.sort(attackDices);
+        Arrays.sort(defendDices);
+        for(int i = 0; i < numberOfDefendDice; i++){
+            if(compareDices(attackDices[i],defendDices[i]) == true){
+                numberOfAttackWin++;
             }
         }
+
+        /* Move armies */
+        // TODO: Checar consistencia, acho q ta criando novos exercitos
+        if(numberOfDefendDice - numberOfAttackWin <= 0){ /*if player conquered territory*/
+            conqueredTerritory(destinationTerritory, originTerritory.getArmyCount() - 1);
+            newCardForConqueredTerritory();
+        } else {
+            destinationTerritory.removeArmy(numberOfAttackWin);
+            originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
+        }
+        return true;
     }
 
     /**
      * Number of available dice to attack.
-     * @param attackerColor
      * @param originTerritoryName
      * @param destinationTerritoryName
      * @return Number of dice available to attack. Returns zero if the attack is invalid. Maximum of 3.
      */
-    public int getNumberOfAttackDice(ColorType attackerColor, String originTerritoryName, String destinationTerritoryName) {
+    public int getNumberOfAttackDice(String originTerritoryName, String destinationTerritoryName) {
 
         Territory originTerritory = board.getTerritory(originTerritoryName),
-                  destinationTerritory = board.getTerritory(destinationTerritoryName);
+        destinationTerritory = board.getTerritory(destinationTerritoryName);
 
         if (!originTerritory.isAttackValid(destinationTerritory)) {
             return 0;

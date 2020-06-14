@@ -25,8 +25,15 @@ class Player {
 		this.color = info.color;
 	}
 
-	void setObjective (Objective objective) {
-		this.objective = objective;
+	void setObjective(Objective objective) {
+		if (objective instanceof DefeatPlayerObjective) {
+			DefeatPlayerObjective playerObjective = (DefeatPlayerObjective) objective;
+			if (playerObjective.colorToEliminate == this.color) {
+				this.objective = new TerritoriesObjective(30);
+			}
+		} else {
+			this.objective = objective;
+		}
 	}
 
 	Objective getObjective() {
@@ -53,6 +60,10 @@ class Player {
 	void removeTerritory(Territory territory) {
 		territory.setOwner(null);
 		territories.remove(territory);
+	}
+
+	int getConqueredTerritoriesNumber() {
+		return territories.size();
 	}
 
 	List<Card> getCards() {

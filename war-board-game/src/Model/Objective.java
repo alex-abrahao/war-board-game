@@ -2,15 +2,16 @@ package Model;
 import java.util.List;
 import java.util.Random;
 
-class Objective {
+abstract class Objective {
     
-    final String description;
     final ObjectiveType type;
 
-    Objective(String description, ObjectiveType type) {
-        this.description = description;
+    Objective(ObjectiveType type) {
         this.type = type;
     }
+
+    abstract String getDescription();
+    abstract boolean isCompleted(Player player, List<Player> allPlayers);
 
     static private int getRandomIndexObjective(List<Objective> objectives) {
         Random generator = new Random();

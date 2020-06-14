@@ -16,4 +16,17 @@ public enum PlayerColor {
         // Should be unreacheable
         return null;
     }
+
+    public String getName() {
+        switch (this) {
+            case red: return "Vermelha";
+            case green: return "Verde";
+            case blue: return "Azul";
+            case yellow: return "Amarela";
+            case black: return "Preta";
+            case white: return "Branca";
+        }
+        // Should be unreacheable
+        return null;
+    }
 }

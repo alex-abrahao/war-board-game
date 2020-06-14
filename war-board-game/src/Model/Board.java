@@ -40,12 +40,12 @@ class Board {
         return getTerritory(t.getName());
     }
 
-    public Card getRandomCard(List<Card> cards) 
-    { 
+    Card getRandomCard(List<Card> cards) { 
         Random rand = new Random(); 
         cards.remove(cards.get(rand.nextInt(cards.size())));
         return cards.get(rand.nextInt(cards.size())); 
-    } 
+    }
+
     private Map<String, Continent> makeContinentsMap(final Continent[] continentsArray) {
 
         final Map<String, Continent> continentsMap = new HashMap<String, Continent>();
@@ -314,9 +314,12 @@ class Board {
     private List<Objective> makeObjectivesList() {
         List<Objective> objectivesList = new ArrayList<>();
         // TODO: Criar a lista de objetivos
-        objectivesList.add(new Objective("Descrição de conquista de continente", ObjectiveType.conquerContinents));
-        objectivesList.add(new Objective("Descrição de eliminação de jogador", ObjectiveType.defeatPlayer));
-        objectivesList.add(new Objective("Descrição de conquista de territórios", ObjectiveType.numberOfTerritories));
+        objectivesList.add(new ContinentObjective(new Continent[] {
+            getContinent(Continents.Europe),
+            getContinent(Continents.Africa)
+        }));
+        objectivesList.add(new DefeatPlayerObjective(PlayerColor.blue));
+        objectivesList.add(new TerritoriesObjective(24));
         return objectivesList;
     }
 
