@@ -19,21 +19,12 @@ public class NewGameController implements Controller<NewGameView>, PlayerOptions
     public void didSelectNewGame() {
         PlayerOptionsView optionsView = new PlayerOptionsView(this);
         optionsView.setVisible(true);
-        // JFrame frame = new JFrame();
-        // Toolkit tk = Toolkit.getDefaultToolkit();
-        // Dimension screenSize = tk.getScreenSize();
-        // int x = screenSize.width / 2 - MapView.DEFAULT_WIDTH / 2;
-        // int y = screenSize.height / 2 - MapView.DEFAULT_HEIGHT / 2;
-        // frame.setBounds(x, y, MapView.DEFAULT_WIDTH, MapView.DEFAULT_HEIGHT);
-        // frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // frame.setResizable(false);
-        // frame.getContentPane().add(new MapView());
-        // frame.setVisible(true);
-        // frame.setTitle("WAR");
     }
 
     private void startNewGame(PlayerInfo[] players) {
-        // TODO: Criar novo controller do MapView
+        MapController mapController = new MapController(players);
+        MapView mapView = new MapView(mapController);
+        mapView.setVisible(true);
         view.dispose();
     }
 

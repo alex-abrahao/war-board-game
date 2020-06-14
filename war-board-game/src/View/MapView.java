@@ -33,6 +33,7 @@ public class MapView extends JFrame {
         setTitle("WAR");
         getContentPane().add(panel);
         setupButtons();
+        this.controller.fetchPlayersOrder();
     }
 
     private void setupButtons() {
@@ -67,9 +68,8 @@ public class MapView extends JFrame {
         System.out.println("Jogar dados");
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new MapView(new MapController());
-        frame.setVisible(true);
+    public void showPlayerOrder(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 }
 

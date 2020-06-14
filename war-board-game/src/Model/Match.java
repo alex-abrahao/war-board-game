@@ -13,6 +13,14 @@ public class Match {
     private int currentPlayerIndex = 0;
     private boolean objectiveComplete = false;
 
+    private final static Match instance = new Match();
+
+    private Match() {}
+
+    public static Match getInstance() {
+        return instance;
+    }
+
     public void setPlayers(PlayerInfo[] players) {
 
         // Cria Players novos baseados nas infos
@@ -20,6 +28,14 @@ public class Match {
         for (int i = 0; i < players.length; i++) {
             this.players[i] = new Player(players[i]);
         }
+    }
+
+    public PlayerInfo[] getOrderedPlayers() {
+        PlayerInfo[] players = new PlayerInfo[this.players.length];
+        for (int i = 0; i < players.length; i++) {
+            players[i] = new PlayerInfo(this.players[i]);
+        }
+        return players;
     }
 
     public boolean getObjectiveComplete() {
