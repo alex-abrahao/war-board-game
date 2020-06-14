@@ -20,9 +20,9 @@ public class UnitsLabel extends JPanel {
 
     public void setColors(Color labelColor) {
         if (labelColor == Color.white || labelColor == Color.yellow) {
-            this.setBackground(Color.black);
+            this.setBackground(new Color(0, 0, 0, 0.5f));
         } else {
-            this.setBackground(Color.white);
+            this.setBackground(new Color(255, 255, 255, 0.5f));
         }
         numberLabel.setForeground(labelColor);
     }

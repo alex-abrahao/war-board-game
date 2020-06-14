@@ -129,12 +129,12 @@ public class Match {
         return availableUnits > 3 ? 3 : availableUnits;
     }
 
-    public int rollDices(){
+    public int rollDices() {
         int number =  (int) (Math.random() * ((6 - 1) + 1)) + 1;
         return number;
     }
 
-    public boolean compareDices(int attack, int defend){
+    public boolean compareDices(int attack, int defend) {
         if (attack > defend){
             return true;
         }
