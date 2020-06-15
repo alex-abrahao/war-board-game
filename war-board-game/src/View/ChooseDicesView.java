@@ -5,9 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.*;
 import javax.swing.*;
 
-import java.util.Arrays;
-import java.util.Collections; 
-
 public class ChooseDicesView extends JFrame{
 
     private static final long serialVersionUID = 1L;
@@ -67,8 +64,9 @@ public class ChooseDicesView extends JFrame{
                         numberOfAttackWin++;
                     }
                 }
+                if (delegate != null)
+                    delegate.didSetAttackWinner(numberOfAttackWin, numberOfDefendDice);
                 System.out.println(numberOfAttackWin);
-                //delegate.didSetAttackWinner(numberOfAttackWin, numberOfDefendDice);
                 dispose();
             } 
         });
@@ -101,5 +99,4 @@ public class ChooseDicesView extends JFrame{
         ChooseDicesView box = new ChooseDicesView(null);
         box.setVisible(true);
     }
-
 }
