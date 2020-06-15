@@ -67,8 +67,9 @@ public class ChooseDicesView extends JFrame{
                         numberOfAttackWin++;
                     }
                 }
-                delegate.didSetAttackWinner(numberOfAttackWin, numberOfDefendDice);
                 System.out.println(numberOfAttackWin);
+                //delegate.didSetAttackWinner(numberOfAttackWin, numberOfDefendDice);
+                dispose();
             } 
         });
     }
@@ -94,8 +95,6 @@ public class ChooseDicesView extends JFrame{
                 numberOfDefendDice++;
             }
         }
-        Arrays.sort(attackDices, Collections.reverseOrder());
-        Arrays.sort(defenceDices, Collections.reverseOrder());
     }
 
     public static void main(String[] args) {
