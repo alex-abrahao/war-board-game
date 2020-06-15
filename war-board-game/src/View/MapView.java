@@ -2,6 +2,7 @@ package View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 
 import Controller.MapController;
 import Model.Territories;
@@ -63,7 +64,62 @@ public class MapView extends JFrame {
     }
 
     private void addUnitLabels() {
-        addUnitLabel(Territories.Alaska, 90, 110);
+        addUnitLabel(Territories.Alaska, 84, 129);
+        addUnitLabel(Territories.Calgary, 165, 137);
+        addUnitLabel(Territories.Vancouver, 151, 180);
+        addUnitLabel(Territories.Greenland, 310, 100);
+        addUnitLabel(Territories.Quebec, 273, 173);
+        addUnitLabel(Territories.California, 106, 247);
+        addUnitLabel(Territories.Texas, 167, 231);
+        addUnitLabel(Territories.NewYork, 197, 257);
+        addUnitLabel(Territories.Mexico, 130, 350);
+
+        addUnitLabel(Territories.Venezuela, 188, 416);
+        addUnitLabel(Territories.Brazil, 274, 442);
+        addUnitLabel(Territories.Peru, 224, 482);
+        addUnitLabel(Territories.Argentina, 258, 553);
+
+        addUnitLabel(Territories.UnitedKingdom, 452, 174);
+        addUnitLabel(Territories.France, 473, 238);
+        addUnitLabel(Territories.Spain, 430, 274);
+        addUnitLabel(Territories.Sweden, 517, 133);
+        addUnitLabel(Territories.Italy, 526, 240);
+        addUnitLabel(Territories.Romenia, 565, 259);
+        addUnitLabel(Territories.Poland, 562, 190);
+        addUnitLabel(Territories.Ukraine, 592, 221);
+
+        addUnitLabel(Territories.Algeria, 454, 366);
+        addUnitLabel(Territories.Nigeria, 524, 437);
+        addUnitLabel(Territories.Egypt, 553, 375);
+        addUnitLabel(Territories.Angola, 543, 497);
+        addUnitLabel(Territories.SouthAfrica, 562, 558);
+        addUnitLabel(Territories.Somalia, 603, 471);
+
+        addUnitLabel(Territories.Perth, 794, 586);
+        addUnitLabel(Territories.Australia, 861, 602);
+        addUnitLabel(Territories.NewZealand, 920, 642);
+        addUnitLabel(Territories.Indonesia, 885, 493);
+
+        addUnitLabel(Territories.Letonia, 648, 181);
+        addUnitLabel(Territories.Estonia, 665, 132);
+        addUnitLabel(Territories.Russia, 768, 149);
+        addUnitLabel(Territories.Siberia, 882, 136);
+        addUnitLabel(Territories.Mongolia, 849, 249);
+        addUnitLabel(Territories.Kazakhstan, 819, 212);
+        addUnitLabel(Territories.Japan, 940, 261);
+        addUnitLabel(Territories.China, 783, 285);
+        addUnitLabel(Territories.NorthCorea, 853, 294);
+        addUnitLabel(Territories.SouthCorea, 886, 318);
+        addUnitLabel(Territories.Thailand, 889, 363);
+        addUnitLabel(Territories.Bangladesh, 841, 361);
+        addUnitLabel(Territories.India, 786, 370);
+        addUnitLabel(Territories.Pakistan, 732, 313);
+        addUnitLabel(Territories.Iran, 703, 332);
+        addUnitLabel(Territories.Iraq, 663, 331);
+        addUnitLabel(Territories.Turkey, 708, 241);
+        addUnitLabel(Territories.Siria, 659, 279);
+        addUnitLabel(Territories.SaudiArabia, 664, 401);
+        addUnitLabel(Territories.Jordan, 612, 338);
     }
 
     private void addUnitLabel(Territories territory, int x, int y) {
@@ -100,6 +156,12 @@ class MapPanel extends JPanel {
             System.out.print("Erro ao carregar imagem" + e.getMessage());
         }
         setLayout(null);
+        addMouseListener(new MouseInputAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(String.format("x: %d, y: %d", e.getX(), e.getY()));
+            }
+        });
     }
 
     @Override
