@@ -21,7 +21,7 @@ public class UnitsLabel extends JPanel implements UnitNumberObserver {
     public UnitsLabel(Territories associatedTerritory, UnitsLabelDelegate delegate) {
         this.delegate = delegate;
         this.associatedTerritory = associatedTerritory;
-        this.setBackground(Color.white);
+        this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
         numberLabel.setForeground(Color.black);
         numberLabel.setFont(numberLabel.getFont().deriveFont(Font.BOLD));
         this.add(numberLabel);
