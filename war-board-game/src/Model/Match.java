@@ -132,14 +132,14 @@ public class Match {
         
         int numberOfAttackWin = 0;
         int numberOfDefendDice = getNumberOfDefendDice(destinationTerritoryName);
-        int []attackDices = new int[numberOfAttackDice];
-        int []defendDices = new int[numberOfDefendDice];
+        Integer []attackDices = new Integer[numberOfAttackDice];
+        Integer []defendDices = new Integer[numberOfDefendDice];
         attackDices = rollDices(numberOfAttackDice);
         defendDices = rollDices(numberOfDefendDice);
-        Arrays.sort(attackDices);
-        Arrays.sort(defendDices);
+        Arrays.sort(attackDices, Collections.reverseOrder());
+        Arrays.sort(defendDices, Collections.reverseOrder());
         for(int i = 0; i < numberOfDefendDice; i++){
-            if(compareDices(attackDices[i],defendDices[i]) == true){
+            if(attackDices[i] > defendDices[i]){
                 numberOfAttackWin++;
             }
         }
@@ -189,19 +189,12 @@ public class Match {
         return availableUnits > 3 ? 3 : availableUnits;
     }
 
-    public int[] rollDices(int quantity) {
-        int[] dices = new int[quantity];
+    public Integer[] rollDices(int quantity) {
+        Integer[] dices = new Integer[quantity];
         for (int i = 0; i<quantity; i++){
-            dices[i] =  (int) (Math.random() * ((6 - 1) + 1)) + 1;
+            dices[i] = (int) (Math.random() * ((6 - 1) + 1)) + 1;
         }
         return dices;
-    }
-
-    public boolean compareDices(int attack, int defend) {
-        if (attack > defend){
-            return true;
-        }
-        return false;
     }
 
     public void conqueredTerritory(Territory newTerritory, int armiesToNewTerritory){
