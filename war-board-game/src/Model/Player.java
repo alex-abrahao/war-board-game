@@ -58,7 +58,6 @@ class Player {
 	}
 
 	void removeTerritory(Territory territory) {
-		territory.setOwner(null);
 		territories.remove(territory);
 	}
 

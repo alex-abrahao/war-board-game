@@ -37,6 +37,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         match.addTerritoryObserver(territory, observer);
     }
 
+    public void start() {
+        match.start();
+    }
+
     @Override
     public void didSelectLabel(Territories territory) {
         // TODO: Implement

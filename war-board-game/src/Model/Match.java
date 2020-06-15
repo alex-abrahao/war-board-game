@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -93,11 +94,14 @@ public class Match {
 
 	private void distributePlayerTerritories() {
 
-		int totalCards = 42;
-		List<Card> cardsCopy = List.copyOf(board.cards);
+        List<Card> cardsCopy = new ArrayList<>(board.cards);
+        // There are 2 jokers at end which should not be distributed
+        cardsCopy.remove(cardsCopy.size() - 1);
+        cardsCopy.remove(cardsCopy.size() - 1);
+        int totalCards = cardsCopy.size();
 		// Circular distribution for the players
 		for (int distributedCards = 0; distributedCards < totalCards; distributedCards++) {
-			int playerIndex = (distributedCards/totalCards) % players.length;
+			int playerIndex = distributedCards % players.length;
 			int cardIndex = getRandomListIndex(cardsCopy);
 			players[playerIndex].addTerritory(cardsCopy.get(cardIndex).getTerritory());
 			// removes the selected card from the list so there's no duplicates.

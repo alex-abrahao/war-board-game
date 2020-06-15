@@ -37,6 +37,7 @@ public class MapView extends JFrame {
         setupButtons();
         addUnitLabels();
         this.controller.fetchPlayersOrder();
+        this.controller.start();
     }
 
     private void setupButtons() {
