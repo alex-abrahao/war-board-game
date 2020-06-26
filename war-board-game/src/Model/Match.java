@@ -61,11 +61,13 @@ public class Match {
     }
 
     public void start() {
-
+        //distribuir objetivo de cada jogador 
+        distributeObjectives();
         // distribuir territorios (ou cartas) aleatoriamente
         distributePlayerTerritories();
         // distribuir exercitos extras pra cada player
         distributeFirstRoundUnits();
+        
     }
 
     public void clear(boolean keepPlayers) {
@@ -92,6 +94,7 @@ public class Match {
             playerObserver.notify(players[currentPlayerIndex].getName());
         }
     }
+    
 
     private int getRandomListIndex(List<?> list) {
 		Random generator = new Random();
@@ -114,6 +117,42 @@ public class Match {
 			cardsCopy.remove(cardIndex);
 		}
     }
+
+    private void distributeObjectives(){
+        List<Objective> objectivesCopy = new ArrayList<>(board.objectives);
+
+        for (int distributerdObjectives = 0; distributerdObjectives < players.length; distributerdObjectives++) {
+            int objectiveIndex = getRandomListIndex(objectivesCopy);
+            while(objectivesCopy.get(objectiveIndex).type == ObjectiveType.defeatPlayer && !isObjectiveValid(players[distributerdObjectives], 
+                    (DefeatPlayerObjective) objectivesCopy.get(objectiveIndex))) {
+                        objectivesCopy.remove(objectivesCopy.get(objectiveIndex));
+                        objectiveIndex = getRandomListIndex(objectivesCopy);
+            }
+            players[distributerdObjectives].setObjective(objectivesCopy.get(objectiveIndex));
+            // removes the selected card from the list so there's no duplicates.
+            objectivesCopy.remove(objectiveIndex);
+            
+        }
+    }
+
+    private boolean isObjectiveValid(Player player, DefeatPlayerObjective objective){
+        if (player.getColor() == objective.colorToEliminate){
+            return false;
+        }
+        for(int i=0; i<players.length; i++){
+            if(players[i].getColor() == objective.colorToEliminate){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void makeDefeatPlayersObjectives(){
+        for(int i=0; i<players.length; i++){
+            board.objectives.add(new DefeatPlayerObjective(players[i].getColor()));
+        }
+    }
+    
 
     private void distributeFirstRoundUnits() {
         for (Player player : players) {
