@@ -17,6 +17,7 @@ public class Match {
     private int currentPlayerIndex = 0;
     private boolean objectiveComplete = false;
     private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
+    private List<StringObserver> currentStateObservers = new ArrayList<StringObserver>();
 
     private final static Match instance = new Match();
 
@@ -199,7 +200,8 @@ public class Match {
 
     public Integer[] rollDices(int quantity) {
         Integer[] dices = new Integer[quantity];
-        for (int i = 0; i<quantity; i++){
+        for (int i = 0; i < quantity; i++) {
+            // TODO: Verificar essa conta
             dices[i] = (int) (Math.random() * ((6 - 1) + 1)) + 1;
         }
         return dices;
@@ -222,5 +224,12 @@ public class Match {
     public void addCurrentPlayerObserver(StringObserver observer) {
         currentPlayerObservers.add(observer);
         observer.notify(players[currentPlayerIndex].getName());
+    }
+
+    public void addCurrentStateObserver(StringObserver observer) {
+        currentStateObservers.add(observer);
+        // TODO: Notify state
+        // observer.notify(value);
+        observer.notify("Estado");
     }
 }

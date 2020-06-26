@@ -42,6 +42,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         match.addCurrentPlayerObserver(observer);
     }
 
+    public void addCurrentStateObserver(StringObserver observer) {
+        match.addCurrentStateObserver(observer);
+    }
+
     public void start() {
         match.start();
     }
