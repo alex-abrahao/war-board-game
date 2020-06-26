@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import Model.observer.StringObserver;
 import Model.observer.UnitNumberObserver;
 
 public class Match {
@@ -15,6 +16,7 @@ public class Match {
     private Board board = new Board();
     private int currentPlayerIndex = 0;
     private boolean objectiveComplete = false;
+    private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
 
     private final static Match instance = new Match();
 
@@ -85,6 +87,9 @@ public class Match {
             currentPlayerIndex = 0;
             currentRound++;
         }
+        for (StringObserver playerObserver : currentPlayerObservers) {
+            playerObserver.notify(players[currentPlayerIndex].getName());
+        }
     }
 
     private int getRandomListIndex(List<?> list) {
@@ -152,7 +157,6 @@ public class Match {
         // TODO: Checar consistencia, acho q ta criando novos exercitos
         if(numberOfDefendDice - numberOfAttackWin <= 0){ /*if player conquered territory*/
             conqueredTerritory(destinationTerritory, originTerritory.getArmyCount() - 1);
-            newCardForConqueredTerritory();
         } else {
             destinationTerritory.removeArmy(numberOfAttackWin);
             originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
@@ -207,11 +211,16 @@ public class Match {
         newTerritory.addArmy(armiesToNewTerritory);
     }
 
-    public void newCardForConqueredTerritory(){
-        players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
-    }
+    // private void newCardForConqueredTerritory(){
+    //     players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
+    // }
 
     public void addTerritoryObserver(Territories territory, UnitNumberObserver observer) {
         board.getTerritory(territory).addObserver(observer);
+    }
+
+    public void addCurrentPlayerObserver(StringObserver observer) {
+        currentPlayerObservers.add(observer);
+        observer.notify(players[currentPlayerIndex].getName());
     }
 }

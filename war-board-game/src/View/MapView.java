@@ -18,7 +18,7 @@ public class MapView extends JFrame {
     public static final int DEFAULT_WIDTH = 1024;
     public static final int DEFAULT_HEIGHT = 785;
     private final MapController controller;
-    private MapPanel panel = new MapPanel();
+    private final MapPanel panel = new MapPanel();
     private JButton throwDiceButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnJogarDados.png")));
     private JButton nextRoundButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnProxJogada.png")));
 
@@ -36,6 +36,7 @@ public class MapView extends JFrame {
         getContentPane().add(panel);
         setupButtons();
         addUnitLabels();
+        addInformationLabels();
         this.controller.fetchPlayersOrder();
         this.controller.start();
     }
@@ -62,6 +63,17 @@ public class MapView extends JFrame {
 
         panel.add(throwDiceButton);
         panel.add(nextRoundButton);
+    }
+
+    private void addInformationLabels() {
+        controller.addCurrentPlayerObserver(makeInformationLabel(31, 18, 200, 44));
+    }
+
+    private InformationLabel makeInformationLabel(int x, int y, int width, int height) {
+        InformationLabel label = new InformationLabel();
+        label.setBounds(x, y, width, height);
+        panel.add(label);
+        return label;
     }
 
     private void addUnitLabels() {

@@ -3,6 +3,7 @@ package Controller;
 import Model.Match;
 import Model.PlayerInfo;
 import Model.Territories;
+import Model.observer.StringObserver;
 import Model.observer.UnitNumberObserver;
 import View.MapView;
 import View.UnitsLabelDelegate;
@@ -35,6 +36,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
 
     public void addTerritoryObserver(Territories territory, UnitNumberObserver observer) {
         match.addTerritoryObserver(territory, observer);
+    }
+
+    public void addCurrentPlayerObserver(StringObserver observer) {
+        match.addCurrentPlayerObserver(observer);
     }
 
     public void start() {

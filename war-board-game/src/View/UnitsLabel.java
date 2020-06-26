@@ -44,7 +44,7 @@ public class UnitsLabel extends JPanel implements UnitNumberObserver {
     }
 
     public void setColors(Color labelColor) {
-        if (labelColor == Color.white || labelColor == Color.yellow) {
+        if (labelColor == Color.white || labelColor == Color.yellow || labelColor == Color.green) {
             this.setBackground(new Color(0.0f, 0.0f, 0.0f, 0.5f));
         } else {
             this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
