@@ -41,8 +41,8 @@ public class ChooseDicesView extends JFrame{
 
     private void createTextField() {
         for (int i = 0; i < 3; i++) {
-            attackDicesTextField[i] = new JTextField();
-            defenceDicesTextField[i] = new JTextField();
+            attackDicesTextField[i] = new JTextField("0");
+            defenceDicesTextField[i] = new JTextField("0");
             final int yPosition = 40 + 30 * i;
             attackDicesTextField[i].setBounds(20, yPosition, 50, 30);
             defenceDicesTextField[i].setBounds(110, yPosition,50,30);

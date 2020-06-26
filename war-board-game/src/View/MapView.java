@@ -21,6 +21,8 @@ public class MapView extends JFrame {
     private final MapPanel panel = new MapPanel();
     private JButton throwDiceButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnJogarDados.png")));
     private JButton nextRoundButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnProxJogada.png")));
+    private JButton seeObjectiveButton = new JButton("Ver Objetivo");
+    private JButton chooseDicesValue = new JButton("Escolher valor dos dados");
 
     public MapView(MapController controller) {
         this.controller = controller;
@@ -46,6 +48,9 @@ public class MapView extends JFrame {
         throwDiceButton.setBorder(BorderFactory.createEmptyBorder());
         nextRoundButton.setBounds(90, DEFAULT_HEIGHT - 115, 65, 65);
         nextRoundButton.setBorder(BorderFactory.createEmptyBorder());
+
+        seeObjectiveButton.setBounds(DEFAULT_WIDTH - 120, 15, 100, 40);
+        chooseDicesValue.setBounds(DEFAULT_WIDTH - 220, DEFAULT_HEIGHT - 90, 200, 40);
         
         throwDiceButton.addActionListener(new ActionListener() {
             @Override
@@ -61,8 +66,24 @@ public class MapView extends JFrame {
             }
         });
 
+        seeObjectiveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                didPressSeeObjective();
+            }
+        });
+
+        chooseDicesValue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                didPressChooseDicesValue();
+            }
+        });
+
         panel.add(throwDiceButton);
         panel.add(nextRoundButton);
+        panel.add(seeObjectiveButton);
+        panel.add(chooseDicesValue);
     }
 
     private void addInformationLabels() {
@@ -151,6 +172,13 @@ public class MapView extends JFrame {
         System.out.println("Jogar dados");
     }
 
+    private void didPressSeeObjective(){
+        System.out.println("Ver Objetivo");
+    }
+
+    private void didPressChooseDicesValue(){
+        System.out.println("Escoler valor dos dados");
+    }
     public void showPlayerOrder(String message) {
         JOptionPane.showMessageDialog(null, message);
     }
