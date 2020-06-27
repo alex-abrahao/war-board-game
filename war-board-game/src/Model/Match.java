@@ -210,14 +210,11 @@ public class Match {
      * @param destinationTerritoryName
      * @return true if the attack was successfull, false if it is not valid.
      */
-    public boolean attack(String originTerritoryName, String destinationTerritoryName) {
+    public void attack(String originTerritoryName, String destinationTerritoryName) {
         Territory originTerritory = board.getTerritory(originTerritoryName),
                   destinationTerritory = board.getTerritory(destinationTerritoryName);
-        int numberOfAttackDice = getNumberOfAttackDice(originTerritoryName, destinationTerritoryName);
+        int numberOfAttackDice = getNumberOfAttackDice(originTerritoryName);
 
-        if (originTerritory.getOwner() != players[currentPlayerIndex] || numberOfAttackDice == 0) {
-            return false;
-        }
         
         int numberOfAttackWin = 0;
         int numberOfDefendDice = getNumberOfDefendDice(destinationTerritoryName);
@@ -240,7 +237,6 @@ public class Match {
             destinationTerritory.removeArmy(numberOfAttackWin);
             originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
         }
-        return true;
     }
 
     /**
@@ -249,10 +245,9 @@ public class Match {
      * @param destinationTerritoryName
      * @return Number of dice available to attack. Returns zero if the attack is invalid. Maximum of 3.
      */
-    public int getNumberOfAttackDice(String originTerritoryName, String destinationTerritoryName) {
+    public int getNumberOfAttackDice(String originTerritoryName) {
 
-        Territory originTerritory = board.getTerritory(originTerritoryName),
-        destinationTerritory = board.getTerritory(destinationTerritoryName);
+        Territory originTerritory = board.getTerritory(originTerritoryName);
 
         
         int availableUnits = originTerritory.getArmyCount() - 1;
@@ -276,8 +271,8 @@ public class Match {
     public Integer[] rollDices(int quantity) {
         Integer[] dices = new Integer[quantity];
         for (int i = 0; i < quantity; i++) {
-            // TODO: Verificar essa conta
             dices[i] = (int) (Math.random() * ((6 - 1) + 1)) + 1;
+            System.out.format("dado %d: %d\n", i, dices[i]);
         }
         return dices;
     }
@@ -382,6 +377,7 @@ public class Match {
             }   
             selectedDestinationTerritory = territory;
             notifyMessageObservers("Ataque válido, jogue os dados");
+            attack(selectedOriginTerritory.name, selectedDestinationTerritory.name);
         }
         // TODO: Implementar
     }
