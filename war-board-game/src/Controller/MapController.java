@@ -66,8 +66,8 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         view.showChooseDicesView();
     }
 
-    public void didSelectNewRound() {
-        match.goToNextRound();
+    public void didSelectNextPlay() {
+        match.goToNextPlay();
     }
 
     public void didSelectPlayDice() {

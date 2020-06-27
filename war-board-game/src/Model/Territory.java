@@ -60,11 +60,14 @@ class Territory implements Observable<UnitNumberObserver> {
 		notifyObservers();
 	}
 
+	// To be used if there's not a change of owner situation
 	void removeArmy(int quantity) {
-		this.armyCount -= quantity;
+		// Verify if quantity is more than 
+		armyCount -= quantity >= armyCount ? armyCount - 1: quantity;
 		notifyObservers();
 	}
 
+	// To be used when there's a change of ownership
 	void removeAllArmies() {
 		this.armyCount = 0;
 		notifyObservers();

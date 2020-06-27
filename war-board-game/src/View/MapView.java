@@ -22,7 +22,7 @@ public class MapView extends JFrame {
     private final MapController controller;
     private final MapPanel panel = new MapPanel();
     private JButton throwDiceButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnJogarDados.png")));
-    private JButton nextRoundButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnProxJogada.png")));
+    private JButton nextPlayButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnProxJogada.png")));
     private JButton seeObjectiveButton = new JButton("Ver Objetivo");
     private JButton chooseDicesValue = new JButton("Escolher valor dos dados");
 
@@ -48,8 +48,8 @@ public class MapView extends JFrame {
     private void setupButtons() {
         throwDiceButton.setBounds(15, DEFAULT_HEIGHT - 115, 65, 65);
         throwDiceButton.setBorder(BorderFactory.createEmptyBorder());
-        nextRoundButton.setBounds(90, DEFAULT_HEIGHT - 115, 65, 65);
-        nextRoundButton.setBorder(BorderFactory.createEmptyBorder());
+        nextPlayButton.setBounds(90, DEFAULT_HEIGHT - 115, 65, 65);
+        nextPlayButton.setBorder(BorderFactory.createEmptyBorder());
 
         seeObjectiveButton.setBounds(DEFAULT_WIDTH - 120, 15, 100, 40);
         chooseDicesValue.setBounds(DEFAULT_WIDTH - 220, DEFAULT_HEIGHT - 90, 200, 40);
@@ -61,10 +61,10 @@ public class MapView extends JFrame {
             }
         });
 
-        nextRoundButton.addActionListener(new ActionListener() {
+        nextPlayButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                didPressNextRound();
+                didPressNextPlay();
             }
         });
 
@@ -83,7 +83,7 @@ public class MapView extends JFrame {
         });
 
         panel.add(throwDiceButton);
-        panel.add(nextRoundButton);
+        panel.add(nextPlayButton);
         panel.add(seeObjectiveButton);
         panel.add(chooseDicesValue);
     }
@@ -168,9 +168,9 @@ public class MapView extends JFrame {
         panel.add(label);
     }
 
-    private void didPressNextRound() {
+    private void didPressNextPlay() {
         System.out.println("Nova rodada");
-        controller.didSelectNewRound();
+        controller.didSelectNextPlay();
     }
 
     private void didPressThrowDice() {

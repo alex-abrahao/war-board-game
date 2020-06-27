@@ -107,7 +107,6 @@ public class Match {
     // Returns error message or null
     private String advanceToNextState() {
         Player currentPlayer = players[currentPlayerIndex];
-        notifyResultObservers("");
         switch (currentState) {
             case firstRoundDistribute:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
@@ -122,7 +121,6 @@ public class Match {
                 notifyMessageObservers("Selecione o território de origem");
                 return null;
             case attacking:
-                // TODO: Implement
                 selectedOriginTerritory = null;
                 selectedDestinationTerritory = null;
                 setState(GameState.movingUnits);
@@ -403,7 +401,7 @@ public class Match {
             if (selectedOriginTerritory.isNeighbor(territory) == false) {
                 notifyResultObservers("Ataque não é valido, território não é vizinho, selecione um vizinho");
                 return;
-            }   
+            }
             selectedDestinationTerritory = territory;
             notifyMessageObservers("Ataque válido, jogue os dados");
             notifyResultObservers("");
@@ -411,19 +409,25 @@ public class Match {
     }
 
     private void handleSelectMovingUnits(Territory territory) {
-        // TODO: Implementar
+
     }
 
-    public void goToNextRound() {
+    public void goToNextPlay() {
         String errorMessage = advanceToNextState();
         if (errorMessage != null) {
-            notifyMessageObservers(errorMessage);
+            notifyResultObservers(errorMessage);
+            return;
         }
+        notifyResultObservers("");
     }
 
     public void playDice() {
         if (currentState != GameState.attacking) {
             notifyResultObservers("Não está atacando");
+            return;
+        }
+        if (selectedOriginTerritory == null || selectedDestinationTerritory == null) {
+            notifyResultObservers("Selecione territórios de origem e destino");
             return;
         }
         attack(selectedOriginTerritory, selectedDestinationTerritory);
