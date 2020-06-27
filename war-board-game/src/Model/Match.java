@@ -118,6 +118,7 @@ public class Match {
             case unitDistributing:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
                 setState(GameState.attacking);
+                notifyMessageObservers("Selecione o terrotório de origem");
                 return null;
             case attacking:
                 // TODO: Implement
@@ -206,25 +207,21 @@ public class Match {
 
     /**
      * Attack territories.
-     * @param originTerritoryName
-     * @param destinationTerritoryName
-     * @return true if the attack was successfull, false if it is not valid.
+     * @param originTerritory
+     * @param destinationTerritory
      */
-    public void attack(String originTerritoryName, String destinationTerritoryName) {
-        Territory originTerritory = board.getTerritory(originTerritoryName),
-                  destinationTerritory = board.getTerritory(destinationTerritoryName);
-        int numberOfAttackDice = getNumberOfAttackDice(originTerritoryName);
+    private void attack(Territory originTerritory, Territory destinationTerritory) {
+        int numberOfAttackDice = getNumberOfAttackDice(originTerritory);
 
-        
         int numberOfAttackWin = 0;
-        int numberOfDefendDice = getNumberOfDefendDice(destinationTerritoryName);
+        int numberOfDefendDice = getNumberOfDefendDice(destinationTerritory);
         Integer []attackDices = new Integer[numberOfAttackDice];
         Integer []defendDices = new Integer[numberOfDefendDice];
         attackDices = rollDices(numberOfAttackDice);
         defendDices = rollDices(numberOfDefendDice);
         Arrays.sort(attackDices, Collections.reverseOrder());
         Arrays.sort(defendDices, Collections.reverseOrder());
-        for(int i = 0; i < numberOfDefendDice; i++){
+        for(int i = 0; i < numberOfDefendDice && i < numberOfAttackDice; i++){
             if(attackDices[i] > defendDices[i]){
                 numberOfAttackWin++;
             }
@@ -237,6 +234,8 @@ public class Match {
             destinationTerritory.removeArmy(numberOfAttackWin);
             originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
         }
+        selectedDestinationTerritory = null;
+        selectedOriginTerritory = null;
     }
 
     /**
@@ -245,10 +244,7 @@ public class Match {
      * @param destinationTerritoryName
      * @return Number of dice available to attack. Returns zero if the attack is invalid. Maximum of 3.
      */
-    public int getNumberOfAttackDice(String originTerritoryName) {
-
-        Territory originTerritory = board.getTerritory(originTerritoryName);
-
+    private int getNumberOfAttackDice(Territory originTerritory) {
         
         int availableUnits = originTerritory.getArmyCount() - 1;
 
@@ -257,12 +253,11 @@ public class Match {
 
     /**
      * Number of available dice to defend.
-     * @param defenderTerritoryName
+     * @param defenderTerritory
      * @return Number of dice available to defend. Maximum of 3.
      */
-    public int getNumberOfDefendDice(String defenderTerritoryName) {
+    private int getNumberOfDefendDice(Territory defenderTerritory) {
 
-        Territory defenderTerritory = board.getTerritory(defenderTerritoryName);
         int availableUnits = defenderTerritory.getArmyCount();
 
         return availableUnits > 3 ? 3 : availableUnits;
@@ -271,7 +266,7 @@ public class Match {
     public Integer[] rollDices(int quantity) {
         Integer[] dices = new Integer[quantity];
         for (int i = 0; i < quantity; i++) {
-            dices[i] = (int) (Math.random() * ((6 - 1) + 1)) + 1;
+            dices[i] = (int) (Math.random() * 6) + 1;
             System.out.format("dado %d: %d\n", i, dices[i]);
         }
         return dices;
@@ -282,6 +277,7 @@ public class Match {
         players[currentPlayerIndex].addTerritory(newTerritory);
         newTerritory.removeAllArmies();
         newTerritory.addArmy(unitsToMove);
+        originTerritory.removeArmy(unitsToMove);
         roundConqueredTerritoriesCount++;
     }
 
@@ -377,7 +373,7 @@ public class Match {
             }   
             selectedDestinationTerritory = territory;
             notifyMessageObservers("Ataque válido, jogue os dados");
-            attack(selectedOriginTerritory.name, selectedDestinationTerritory.name);
+            attack(selectedOriginTerritory, selectedDestinationTerritory);
         }
         // TODO: Implementar
     }
