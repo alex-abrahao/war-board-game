@@ -50,6 +50,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         match.start();
     }
 
+    public void didSelectShowObjective() {
+        view.showPlayerObjective(match.getCurrentPlayerObjective());
+    }
+
     @Override
     public void didSelectLabel(Territories territory) {
         // TODO: Implement

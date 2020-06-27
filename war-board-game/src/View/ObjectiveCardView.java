@@ -44,14 +44,23 @@ class ObjectiveCardView extends JPanel {
         descriptionLabel.setText(description);
     }
 
-    public static void main(String[] args) {
+    public static void showObjectiveFrame(String objective) {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+		Dimension screenSize = tk.getScreenSize();
+		int x = screenSize.width/2 - DEFAULT_WIDTH/2;
+        int y = screenSize.height/2 - DEFAULT_HEIGHT/2;
+        
         JFrame frame = new JFrame("Objetivo");
         ObjectiveCardView view = new ObjectiveCardView();
-        view.setDescription("Objetivo grande bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla");
+        view.setDescription(objective);
         frame.getContentPane().add(view);
-        frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        frame.setBounds(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        ObjectiveCardView.showObjectiveFrame("Objetivo grande bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla");
     }
 }

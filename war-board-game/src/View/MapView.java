@@ -51,7 +51,7 @@ public class MapView extends JFrame {
 
         seeObjectiveButton.setBounds(DEFAULT_WIDTH - 120, 15, 100, 40);
         chooseDicesValue.setBounds(DEFAULT_WIDTH - 220, DEFAULT_HEIGHT - 90, 200, 40);
-        
+
         throwDiceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -172,15 +172,21 @@ public class MapView extends JFrame {
         System.out.println("Jogar dados");
     }
 
-    private void didPressSeeObjective(){
+    private void didPressSeeObjective() {
         System.out.println("Ver Objetivo");
+        controller.didSelectShowObjective();
     }
 
-    private void didPressChooseDicesValue(){
-        System.out.println("Escoler valor dos dados");
+    private void didPressChooseDicesValue() {
+        System.out.println("Escolher valor dos dados");
     }
+
     public void showPlayerOrder(String message) {
         JOptionPane.showMessageDialog(null, message);
+    }
+
+    public void showPlayerObjective(String objective) {
+        ObjectiveCardView.showObjectiveFrame(objective);
     }
 }
 

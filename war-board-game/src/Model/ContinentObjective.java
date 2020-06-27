@@ -17,7 +17,7 @@ public class ContinentObjective extends Objective {
     String getDescription() {
         String continentNames = "";
         for (int i = 0; i < continentList.size(); i++) {
-            continentNames += continentList.get(i);
+            continentNames += continentList.get(i).name;
             if (i != continentList.size() - 1) {
                 continentNames += ", ";
             }

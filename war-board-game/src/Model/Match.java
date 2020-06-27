@@ -271,4 +271,8 @@ public class Match {
         // observer.notify(value);
         observer.notify("Estado");
     }
+
+    public String getCurrentPlayerObjective() {
+        return players[currentPlayerIndex].getObjective().getDescription();
+    }
 }

@@ -349,6 +349,7 @@ class Board {
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.black));
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.yellow));
         objectivesList.add(new TerritoriesObjective(24));
+        objectivesList.add(new TerritoriesObjective(24));
         return objectivesList;
     }
 
