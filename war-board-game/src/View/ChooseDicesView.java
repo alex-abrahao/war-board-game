@@ -95,6 +95,11 @@ public class ChooseDicesView extends JFrame{
         }
     }
 
+    public static void showFrame(){
+        ChooseDicesView box = new ChooseDicesView(null);
+        box.setVisible(true);
+    }
+
     public static void main(String[] args) {
         ChooseDicesView box = new ChooseDicesView(null);
         box.setVisible(true);

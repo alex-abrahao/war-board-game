@@ -179,6 +179,7 @@ public class MapView extends JFrame {
 
     private void didPressChooseDicesValue() {
         System.out.println("Escolher valor dos dados");
+        controller.didSelectChooseDicesValue();
     }
 
     public void showPlayerOrder(String message) {
@@ -187,6 +188,10 @@ public class MapView extends JFrame {
 
     public void showPlayerObjective(String objective) {
         ObjectiveCardView.showObjectiveFrame(objective);
+    }
+
+    public void showChooseDicesView() {
+        ChooseDicesView.showFrame();
     }
 }
 
