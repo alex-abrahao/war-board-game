@@ -90,13 +90,17 @@ public class Match {
     private void advanceToNextPlayer() {
         if (++currentPlayerIndex >= players.length) {
             currentPlayerIndex = 0;
-            if (currentState != GameState.firstRoundDistribute) {
-                currentRound++;
-            }   
         }
+        if (currentState != GameState.firstRoundDistribute) {
+            currentRound++;
+            System.out.printf("Round %d\n", currentRound);
+            players[currentPlayerIndex].addRoundStartUnits();
+            // TODO: handle next player bonuses
+        } 
         for (StringObserver playerObserver : currentPlayerObservers) {
             playerObserver.notify(players[currentPlayerIndex].getName());
         }
+        setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
     }
 
     // Returns error message or null
@@ -124,6 +128,7 @@ public class Match {
                     newCardForConqueredTerritory();
                 }
                 roundConqueredTerritoriesCount = 0;
+                advanceToNextPlayer();
                 setState(GameState.unitDistributing);
                 return null;
             default:
@@ -377,5 +382,12 @@ public class Match {
 
     private void handleSelectMovingUnits(Territory territory) {
         // TODO: Implementar
+    }
+
+    public void goToNextRound() {
+        String errorMessage = advanceToNextState();
+        if (errorMessage != null) {
+            notifyMessageObservers(errorMessage);
+        }
     }
 }

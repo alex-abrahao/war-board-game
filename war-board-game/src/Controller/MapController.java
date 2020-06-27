@@ -62,6 +62,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         view.showChooseDicesView();
     }
 
+    public void didSelectNewRound() {
+        match.goToNextRound();
+    }
+
     @Override
     public void didSelectLabel(Territories territory) {
         match.selectTerritory(territory);

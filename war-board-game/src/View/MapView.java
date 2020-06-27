@@ -169,6 +169,7 @@ public class MapView extends JFrame {
 
     private void didPressNextRound() {
         System.out.println("Nova rodada");
+        controller.didSelectNewRound();
     }
 
     private void didPressThrowDice() {
