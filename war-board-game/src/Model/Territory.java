@@ -74,18 +74,11 @@ class Territory implements Observable<UnitNumberObserver> {
 		return neighbors.contains(territory);
 	}
 	
-	boolean isAttackValid(Territory territory) {
-		if (territory.getOwner() == this.owner) {
-			return false;
-		}
-		
+	boolean isAttackValid() {
 		if (this.armyCount <= 1) {
 			return false;
 		}
-		if (isNeighbor(territory)) {
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	boolean isTransferArmyValid(Territory destinationTerritory, int armyCount) {

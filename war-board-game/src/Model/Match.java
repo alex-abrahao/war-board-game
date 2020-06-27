@@ -254,9 +254,6 @@ public class Match {
         Territory originTerritory = board.getTerritory(originTerritoryName),
         destinationTerritory = board.getTerritory(destinationTerritoryName);
 
-        if (!originTerritory.isAttackValid(destinationTerritory)) {
-            return 0;
-        }
         
         int availableUnits = originTerritory.getArmyCount() - 1;
 
@@ -368,6 +365,10 @@ public class Match {
                 notifyMessageObservers("Selecione um território de origem conquistado");
                 return;
             }
+            if (!territory.isAttackValid()){
+                notifyMessageObservers("Selecione um território de origem conquistado com mais de um exército");
+                return;
+            }
             selectedOriginTerritory = territory;
             notifyMessageObservers("Selecione um território de destino");
         } else {
@@ -375,7 +376,12 @@ public class Match {
                 notifyMessageObservers("Selecione um território de destino de um oponente");
                 return;
             }
+            if(selectedOriginTerritory.isNeighbor(territory) == false){
+                notifyMessageObservers("Ataque não é valido, território não é vizinho, selecione um vizinho");
+                return;
+            }   
             selectedDestinationTerritory = territory;
+            notifyMessageObservers("Ataque válido, jogue os dados");
         }
         // TODO: Implementar
     }
