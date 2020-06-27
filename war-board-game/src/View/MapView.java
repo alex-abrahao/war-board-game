@@ -48,11 +48,11 @@ public class MapView extends JFrame {
     private void setupButtons() {
         throwDiceButton.setBounds(15, DEFAULT_HEIGHT - 115, 65, 65);
         throwDiceButton.setBorder(BorderFactory.createEmptyBorder());
-        nextPlayButton.setBounds(90, DEFAULT_HEIGHT - 115, 65, 65);
+        nextPlayButton.setBounds(DEFAULT_WIDTH - 80, DEFAULT_HEIGHT - 115, 65, 65);
         nextPlayButton.setBorder(BorderFactory.createEmptyBorder());
 
         seeObjectiveButton.setBounds(DEFAULT_WIDTH - 120, 15, 100, 40);
-        chooseDicesValue.setBounds(DEFAULT_WIDTH - 220, DEFAULT_HEIGHT - 90, 200, 40);
+        chooseDicesValue.setBounds(85, DEFAULT_HEIGHT - 100, 200, 40);
 
         throwDiceButton.addActionListener(new ActionListener() {
             @Override
@@ -110,7 +110,7 @@ public class MapView extends JFrame {
         addUnitLabel(Territories.Quebec, 273, 173);
         addUnitLabel(Territories.California, 106, 247);
         addUnitLabel(Territories.Texas, 167, 231);
-        addUnitLabel(Territories.NewYork, 197, 257);
+        addUnitLabel(Territories.NewYork, 201, 257);
         addUnitLabel(Territories.Mexico, 130, 350);
 
         addUnitLabel(Territories.Venezuela, 188, 416);
@@ -136,7 +136,7 @@ public class MapView extends JFrame {
 
         addUnitLabel(Territories.Perth, 794, 586);
         addUnitLabel(Territories.Australia, 861, 602);
-        addUnitLabel(Territories.NewZealand, 920, 642);
+        addUnitLabel(Territories.NewZealand, 920, 634);
         addUnitLabel(Territories.Indonesia, 885, 493);
 
         addUnitLabel(Territories.Letonia, 648, 181);
@@ -152,10 +152,10 @@ public class MapView extends JFrame {
         addUnitLabel(Territories.Thailand, 889, 363);
         addUnitLabel(Territories.Bangladesh, 841, 361);
         addUnitLabel(Territories.India, 786, 370);
-        addUnitLabel(Territories.Pakistan, 732, 313);
+        addUnitLabel(Territories.Pakistan, 736, 313);
         addUnitLabel(Territories.Iran, 703, 332);
         addUnitLabel(Territories.Iraq, 663, 331);
-        addUnitLabel(Territories.Turkey, 708, 241);
+        addUnitLabel(Territories.Turkey, 708, 236);
         addUnitLabel(Territories.Siria, 659, 279);
         addUnitLabel(Territories.SaudiArabia, 664, 401);
         addUnitLabel(Territories.Jordan, 612, 338);
