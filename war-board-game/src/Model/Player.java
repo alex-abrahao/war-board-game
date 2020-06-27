@@ -9,7 +9,6 @@ class Player {
 	private final PlayerColor color;
 	int orderToPlay;
 	private List<Card> cards = new ArrayList<>();
-	// TODO: Change to Map maybe?
 	private List<Territory> territories = new ArrayList<>();
 	private Objective objective;
 	private int availableUnits = 0;
@@ -30,10 +29,10 @@ class Player {
 			DefeatPlayerObjective playerObjective = (DefeatPlayerObjective) objective;
 			if (playerObjective.colorToEliminate == this.color) {
 				this.objective = new TerritoriesObjective(30);
+				return;
 			}
-		} else {
-			this.objective = objective;
 		}
+		this.objective = objective;
 	}
 
 	Objective getObjective() {
@@ -78,13 +77,8 @@ class Player {
 	}
 
 	void addRoundStartUnits(){
-		int newArmyAmount = 0;
-		int totalArmy = 0;
-		for (Territory territory : territories) {
-			totalArmy += territory.getArmyCount();
-		}
-		newArmyAmount = totalArmy/2;
-		availableUnits += newArmyAmount;
+		int newArmyAmount = territories.size() /2;
+		availableUnits += newArmyAmount > 3 ? newArmyAmount : 3;
 	}
 
 	void addContinentBonusUnits(Continent continent) {

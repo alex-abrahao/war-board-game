@@ -314,42 +314,42 @@ class Board {
 
     private List<Objective> makeObjectivesList() {
         List<Objective> objectivesList = new ArrayList<>();
-        objectivesList.add(new ContinentObjective(new Continent[] {
-            getContinent(Continents.Europe),
-            getContinent(Continents.Africa)
-        }));
-        objectivesList.add(new ContinentObjective(new Continent[] {
-            getContinent(Continents.Asia),
-            getContinent(Continents.SouthAmerica)
-        }));
-        objectivesList.add(new ContinentObjective(new Continent[] {
-            getContinent(Continents.Europe),
-            getContinent(Continents.SouthAmerica)
-        }));
-        objectivesList.add(new ContinentObjective(new Continent[] {
-            getContinent(Continents.Asia),
-            getContinent(Continents.Africa)
-        }));
-        objectivesList.add(new ContinentObjective(new Continent[] {
-            getContinent(Continents.NorthAmerica),
-            getContinent(Continents.Africa)
-        }));
-        objectivesList.add(new ContinentObjective(new Continent[] {
-            getContinent(Continents.NorthAmerica),
-            getContinent(Continents.Oceania)
-        }));
-        objectivesList.add(new ContinentObjective(new Continent[] {
-            getContinent(Continents.Europe),
-            getContinent(Continents.Oceania)
-        }));
+        // objectivesList.add(new ContinentObjective(new Continent[] {
+        //     getContinent(Continents.Europe),
+        //     getContinent(Continents.Africa)
+        // }));
+        // objectivesList.add(new ContinentObjective(new Continent[] {
+        //     getContinent(Continents.Asia),
+        //     getContinent(Continents.SouthAmerica)
+        // }));
+        // objectivesList.add(new ContinentObjective(new Continent[] {
+        //     getContinent(Continents.Europe),
+        //     getContinent(Continents.SouthAmerica)
+        // }));
+        // objectivesList.add(new ContinentObjective(new Continent[] {
+        //     getContinent(Continents.Asia),
+        //     getContinent(Continents.Africa)
+        // }));
+        // objectivesList.add(new ContinentObjective(new Continent[] {
+        //     getContinent(Continents.NorthAmerica),
+        //     getContinent(Continents.Africa)
+        // }));
+        // objectivesList.add(new ContinentObjective(new Continent[] {
+        //     getContinent(Continents.NorthAmerica),
+        //     getContinent(Continents.Oceania)
+        // }));
+        // objectivesList.add(new ContinentObjective(new Continent[] {
+        //     getContinent(Continents.Europe),
+        //     getContinent(Continents.Oceania)
+        // }));
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.blue));
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.red));
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.green));
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.white));
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.black));
         objectivesList.add(new DefeatPlayerObjective(PlayerColor.yellow));
-        objectivesList.add(new TerritoriesObjective(24));
-        objectivesList.add(new TerritoriesObjective(24));
+        // objectivesList.add(new TerritoriesObjective(24));
+        // objectivesList.add(new TerritoriesObjective(24));
         return objectivesList;
     }
 

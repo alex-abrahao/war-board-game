@@ -64,7 +64,6 @@ public class Match {
         distributePlayerTerritories();
         // distribuir exercitos extras pra cada player
         distributeFirstRoundUnits();
-        
     }
 
     public void clear(boolean keepPlayers) {
@@ -152,25 +151,25 @@ public class Match {
     }
 
     private void distributeObjectives(){
-        List<Objective> objectivesCopy = new ArrayList<>(board.objectives);
+        List<Objective> objectives = board.objectives;
 
         for (int distributedObjectives = 0; distributedObjectives < players.length; distributedObjectives++) {
-            int objectiveIndex = getRandomListIndex(objectivesCopy);
-            while(objectivesCopy.get(objectiveIndex).type == ObjectiveType.defeatPlayer && !isObjectiveValid(players[distributedObjectives], 
-                    (DefeatPlayerObjective) objectivesCopy.get(objectiveIndex))) {
-                        objectivesCopy.remove(objectivesCopy.get(objectiveIndex));
-                        objectiveIndex = getRandomListIndex(objectivesCopy);
+            int objectiveIndex = getRandomListIndex(objectives);
+            Objective objective = objectives.get(objectiveIndex);
+            while(objective.type == ObjectiveType.defeatPlayer &&
+                  !isObjectiveValid(players[distributedObjectives], (DefeatPlayerObjective) objective)) {
+                        objectives.remove(objective);
+                        objectiveIndex = getRandomListIndex(objectives);
+                        objective = objectives.get(objectiveIndex);
             }
-            players[distributedObjectives].setObjective(objectivesCopy.get(objectiveIndex));
+            players[distributedObjectives].setObjective(objective);
+            System.out.println(String.format("Player: %s %s, Objetivo %s", players[distributedObjectives].getName(), players[distributedObjectives].getColor().getName(), objective.getDescription()));
             // removes the selected card from the list so there's no duplicates.
-            objectivesCopy.remove(objectiveIndex);
+            objectives.remove(objectiveIndex);
         }
     }
 
     private boolean isObjectiveValid(Player player, DefeatPlayerObjective objective){
-        if (player.getColor() == objective.colorToEliminate){
-            return false;
-        }
         for(int i = 0; i < players.length; i++){
             if(players[i].getColor() == objective.colorToEliminate){
                 return true;
@@ -178,12 +177,6 @@ public class Match {
         }
         return false;
     }
-
-    // private void makeDefeatPlayersObjectives() {
-    //     for(int i = 0; i < players.length; i++){
-    //         board.objectives.add(new DefeatPlayerObjective(players[i].getColor()));
-    //     }
-    // }
     
     private void distributeFirstRoundUnits() {
         for (Player player : players) {
@@ -206,7 +199,7 @@ public class Match {
                   destinationTerritory = board.getTerritory(destinationTerritoryName);
         int numberOfAttackDice = getNumberOfAttackDice(originTerritoryName, destinationTerritoryName);
 
-        if(originTerritory.getOwner() != players[currentPlayerIndex] || numberOfAttackDice == 0) {
+        if (originTerritory.getOwner() != players[currentPlayerIndex] || numberOfAttackDice == 0) {
             return false;
         }
         

@@ -1,7 +1,7 @@
 package Model;
 
 enum GameState {
-    firstRoundDistribute("Distribuição Primeira rodada"),
+    firstRoundDistribute("Distribuição Primeira Rodada"),
     unitDistributing("Distribuindo Exércitos"),
     attacking("Atacando"),
     movingUnits("Movendo Exércitos");
