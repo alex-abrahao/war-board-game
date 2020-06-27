@@ -8,7 +8,7 @@ import java.util.Random;
 
 class Board {
 
-    private final Map<String, Continent> continents = makeContinents();
+    final Map<String, Continent> continents = makeContinents();
     final List<Objective> objectives;
     final List<Card> cards;
 
@@ -271,7 +271,8 @@ class Board {
             Territories.Mongolia,
             Territories.Siberia,
             Territories.Russia,
-            Territories.Letonia
+            Territories.Letonia,
+            Territories.Turkey
         });
         asia.getTerritory(Territories.SouthCorea).addContinentNeighbors(new Territories[] {
             Territories.NorthCorea,
