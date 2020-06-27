@@ -5,6 +5,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import Controller.MapController;
+import Model.PlayerColor;
+import Model.PlayerInfo;
 import Model.Territories;
 
 import java.awt.*;
@@ -193,6 +195,16 @@ public class MapView extends JFrame {
 
     public void showChooseDicesView() {
         ChooseDicesView.showFrame();
+    }
+
+    public static void main(String[] args) {
+        MapController mapController = new MapController(new PlayerInfo[] {
+            new PlayerInfo("Alexandre", PlayerColor.blue),
+            new PlayerInfo("Fernanda", PlayerColor.red),
+            new PlayerInfo("Marcia", PlayerColor.white)
+        });
+        MapView mapView = new MapView(mapController);
+        mapView.setVisible(true);
     }
 }
 

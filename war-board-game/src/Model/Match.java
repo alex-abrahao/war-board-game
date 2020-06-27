@@ -193,7 +193,6 @@ public class Match {
         for (Player player : players) {
             player.addRoundStartUnits();
         }
-        
     }
 
     public int getCurrentRound() {
@@ -326,6 +325,57 @@ public class Match {
     }
 
     public void selectTerritory(Territories territory) {
-        
+        Territory selectedTerritory = board.getTerritory(territory);
+        switch (currentState) {
+            case firstRoundDistribute:
+            case unitDistributing:
+                handleSelectDistribute(selectedTerritory);
+                break;
+            case attacking:
+                handleSelectAttack(selectedTerritory);
+                break;
+            case movingUnits:
+                handleSelectMovingUnits(selectedTerritory);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void handleSelectDistribute(Territory territory) {
+        Player currentPlayer = players[currentPlayerIndex];
+        if (currentPlayer != territory.getOwner()) {
+            notifyMessageObservers("Selecione um território conquistado");
+            return;
+        }
+        if (currentPlayer.getAvailableUnits() == 0) {
+            notifyMessageObservers("Sem unidades disponíveis");
+            return;
+        }
+        currentPlayer.putAvailableUnits(1, territory);
+        setRemainingUnitsMessage(currentPlayer.getAvailableUnits());
+    }
+
+    private void handleSelectAttack(Territory territory) {
+        Player currentPlayer = players[currentPlayerIndex];
+        if (selectedOriginTerritory == null) {
+            if (territory.getOwner() != currentPlayer) {
+                notifyMessageObservers("Selecione um território de origem conquistado");
+                return;
+            }
+            selectedOriginTerritory = territory;
+            notifyMessageObservers("Selecione um território de destino");
+        } else {
+            if (territory.getOwner() == currentPlayer) {
+                notifyMessageObservers("Selecione um território de destino de um oponente");
+                return;
+            }
+            selectedDestinationTerritory = territory;
+        }
+        // TODO: Implementar
+    }
+
+    private void handleSelectMovingUnits(Territory territory) {
+        // TODO: Implementar
     }
 }

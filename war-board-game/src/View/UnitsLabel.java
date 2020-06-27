@@ -57,7 +57,7 @@ public class UnitsLabel extends JPanel implements UnitNumberObserver {
     }
 
     private void pressed() {
-        System.out.println("Label selecionada");
+        System.out.println("Selecionado " + associatedTerritory.getName());
         if (delegate != null) {
             delegate.didSelectLabel(associatedTerritory);
         }

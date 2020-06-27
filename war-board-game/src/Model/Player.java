@@ -90,7 +90,6 @@ class Player {
 		numberOfCardExchanges++;
 		availableUnits += getNumberOfCardExchangeNewUnits();
 
-		// TODO: Refactor
 		for (Card card : cardList) {
 			// Adds card territory owner units
 			if (card.getTerritory() != null) {
@@ -117,5 +116,12 @@ class Player {
 
 	String getName() {
 		return name;
+	}
+
+	void putAvailableUnits(int units, Territory territory) {
+		if (territory.getOwner() != this) return;
+		if (units > availableUnits) units = availableUnits;
+		territory.addArmy(units);
+		availableUnits -= units;
 	}
 }
