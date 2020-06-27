@@ -71,6 +71,7 @@ public class PlayerOptionsView extends JFrame {
         int numberOfPlayers = 0;
         boolean playersName = false;
         for1: for (int i = 0; i < 6; i++) {
+            playersName = false;
             numberOfPlayers += checkNumbersOfPlayers(i);
             for (int j = i+1; j<5; j++){
                 if(checkPlayersName(i, j)){
