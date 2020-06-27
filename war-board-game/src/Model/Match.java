@@ -1,13 +1,7 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import Model.observer.StringObserver;
-import Model.observer.UnitNumberObserver;
+import java.util.*;
+import Model.observer.*;
 
 public class Match {
 
@@ -16,6 +10,9 @@ public class Match {
     private Board board = new Board();
     private int currentPlayerIndex = 0;
     private boolean objectiveComplete = false;
+    private GameState currentState = GameState.firstRoundDistribute;
+    private int roundConqueredTerritoriesCount = 0;
+
     private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
     private List<StringObserver> currentStateObservers = new ArrayList<StringObserver>();
 
@@ -72,8 +69,10 @@ public class Match {
 
     public void clear(boolean keepPlayers) {
 
+        currentState = GameState.firstRoundDistribute;
         board = new Board();
         currentPlayerIndex = 0;
+        roundConqueredTerritoriesCount = 0;
         // reset players accordingly
         if (keepPlayers) {
             // resets objective, cards, territories etc
@@ -85,16 +84,50 @@ public class Match {
         }
     }
 
-    public void advanceToNextPlayer() {
+    private void advanceToNextPlayer() {
         if (++currentPlayerIndex >= players.length) {
             currentPlayerIndex = 0;
-            currentRound++;
+            if (currentState != GameState.firstRoundDistribute) {
+                currentRound++;
+            }   
         }
         for (StringObserver playerObserver : currentPlayerObservers) {
             playerObserver.notify(players[currentPlayerIndex].getName());
         }
     }
-    
+
+    // Returns error message or null
+    private String advanceToNextState() {
+        Player currentPlayer = players[currentPlayerIndex];
+
+        switch (currentState) {
+            case firstRoundDistribute:
+                if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
+                if (currentPlayer == players[players.length - 1]) {
+                    currentState = GameState.unitDistributing;
+                }
+                advanceToNextPlayer();
+                return null;
+            case unitDistributing:
+                if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
+                currentState = GameState.attacking;
+                return null;
+            case attacking:
+                // TODO: Implement
+                currentState = GameState.movingUnits;
+                return null;
+            case movingUnits:
+                if (roundConqueredTerritoriesCount > 1) {
+                    newCardForConqueredTerritory();
+                }
+                roundConqueredTerritoriesCount = 0;
+                currentState = GameState.unitDistributing;
+                return null;
+            default:
+                // Shoud never execute
+                return "Erro: Estados demais";
+        }
+    }
 
     private int getRandomListIndex(List<?> list) {
 		Random generator = new Random();
@@ -121,17 +154,16 @@ public class Match {
     private void distributeObjectives(){
         List<Objective> objectivesCopy = new ArrayList<>(board.objectives);
 
-        for (int distributerdObjectives = 0; distributerdObjectives < players.length; distributerdObjectives++) {
+        for (int distributedObjectives = 0; distributedObjectives < players.length; distributedObjectives++) {
             int objectiveIndex = getRandomListIndex(objectivesCopy);
-            while(objectivesCopy.get(objectiveIndex).type == ObjectiveType.defeatPlayer && !isObjectiveValid(players[distributerdObjectives], 
+            while(objectivesCopy.get(objectiveIndex).type == ObjectiveType.defeatPlayer && !isObjectiveValid(players[distributedObjectives], 
                     (DefeatPlayerObjective) objectivesCopy.get(objectiveIndex))) {
                         objectivesCopy.remove(objectivesCopy.get(objectiveIndex));
                         objectiveIndex = getRandomListIndex(objectivesCopy);
             }
-            players[distributerdObjectives].setObjective(objectivesCopy.get(objectiveIndex));
+            players[distributedObjectives].setObjective(objectivesCopy.get(objectiveIndex));
             // removes the selected card from the list so there's no duplicates.
             objectivesCopy.remove(objectiveIndex);
-            
         }
     }
 
@@ -139,7 +171,7 @@ public class Match {
         if (player.getColor() == objective.colorToEliminate){
             return false;
         }
-        for(int i=0; i<players.length; i++){
+        for(int i = 0; i < players.length; i++){
             if(players[i].getColor() == objective.colorToEliminate){
                 return true;
             }
@@ -147,13 +179,12 @@ public class Match {
         return false;
     }
 
-    private void makeDefeatPlayersObjectives(){
-        for(int i=0; i<players.length; i++){
-            board.objectives.add(new DefeatPlayerObjective(players[i].getColor()));
-        }
-    }
+    // private void makeDefeatPlayersObjectives() {
+    //     for(int i = 0; i < players.length; i++){
+    //         board.objectives.add(new DefeatPlayerObjective(players[i].getColor()));
+    //     }
+    // }
     
-
     private void distributeFirstRoundUnits() {
         for (Player player : players) {
             player.addRoundStartUnits();
@@ -194,9 +225,8 @@ public class Match {
         }
 
         /* Move armies */
-        // TODO: Checar consistencia, acho q ta criando novos exercitos
         if(numberOfDefendDice - numberOfAttackWin <= 0){ /*if player conquered territory*/
-            conqueredTerritory(destinationTerritory, originTerritory.getArmyCount() - 1);
+            handleConqueredTerritory(originTerritory, destinationTerritory);
         } else {
             destinationTerritory.removeArmy(numberOfAttackWin);
             originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
@@ -246,15 +276,17 @@ public class Match {
         return dices;
     }
 
-    public void conqueredTerritory(Territory newTerritory, int armiesToNewTerritory){
+    public void handleConqueredTerritory(Territory originTerritory, Territory newTerritory) {
+        int unitsToMove = originTerritory.getArmyCount() > 3 ? 3 : originTerritory.getArmyCount() - 1;
         players[currentPlayerIndex].addTerritory(newTerritory);
         newTerritory.removeAllArmies();
-        newTerritory.addArmy(armiesToNewTerritory);
+        newTerritory.addArmy(unitsToMove);
+        roundConqueredTerritoriesCount++;
     }
 
-    // private void newCardForConqueredTerritory(){
-    //     players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
-    // }
+    private void newCardForConqueredTerritory() {
+        players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
+    }
 
     public void addTerritoryObserver(Territories territory, UnitNumberObserver observer) {
         board.getTerritory(territory).addObserver(observer);
