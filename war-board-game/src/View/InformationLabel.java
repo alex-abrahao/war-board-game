@@ -9,7 +9,7 @@ import Model.observer.StringObserver;
 public class InformationLabel extends JPanel implements StringObserver {
 
     private static final long serialVersionUID = 1400198522438442351L;
-    private JLabel textLabel = new JLabel("0", JLabel.CENTER);
+    private JLabel textLabel = new JLabel("", JLabel.CENTER);
 
     InformationLabel() {
         this.setBackground(new Color(0.0f, 0.0f, 0.0f, 0.5f));

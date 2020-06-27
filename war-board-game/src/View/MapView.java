@@ -92,6 +92,7 @@ public class MapView extends JFrame {
         controller.addCurrentPlayerObserver(makeInformationLabel(30, 16, 300, 28));
         controller.addCurrentStateObserver(makeInformationLabel(30, 53, 300, 28));
         controller.addMessageLabelObserver(makeInformationLabel(367, 16, 500, 28));
+        controller.addResultLabelObserver(makeInformationLabel(367, 53, 500, 28));
     }
 
     private InformationLabel makeInformationLabel(int x, int y, int width, int height) {
@@ -174,6 +175,7 @@ public class MapView extends JFrame {
 
     private void didPressThrowDice() {
         System.out.println("Jogar dados");
+        controller.didSelectPlayDice();
     }
 
     private void didPressSeeObjective() {

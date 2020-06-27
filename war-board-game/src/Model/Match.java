@@ -18,6 +18,7 @@ public class Match {
     private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
     private List<StringObserver> currentStateObservers = new ArrayList<StringObserver>();
     private List<StringObserver> messageObservers = new ArrayList<StringObserver>();
+    private List<StringObserver> resultObservers = new ArrayList<StringObserver>();
 
     private final static Match instance = new Match();
 
@@ -106,7 +107,7 @@ public class Match {
     // Returns error message or null
     private String advanceToNextState() {
         Player currentPlayer = players[currentPlayerIndex];
-
+        notifyResultObservers("");
         switch (currentState) {
             case firstRoundDistribute:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
@@ -118,10 +119,12 @@ public class Match {
             case unitDistributing:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
                 setState(GameState.attacking);
-                notifyMessageObservers("Selecione o terrotório de origem");
+                notifyMessageObservers("Selecione o território de origem");
                 return null;
             case attacking:
                 // TODO: Implement
+                selectedOriginTerritory = null;
+                selectedDestinationTerritory = null;
                 setState(GameState.movingUnits);
                 return null;
             case movingUnits:
@@ -173,14 +176,15 @@ public class Match {
         for (int distributedObjectives = 0; distributedObjectives < players.length; distributedObjectives++) {
             int objectiveIndex = getRandomListIndex(objectives);
             Objective objective = objectives.get(objectiveIndex);
+            Player player = players[distributedObjectives];
             while(objective.type == ObjectiveType.defeatPlayer &&
-                  !isObjectiveValid(players[distributedObjectives], (DefeatPlayerObjective) objective)) {
+                  !isObjectiveValid(player, (DefeatPlayerObjective) objective)) {
                         objectives.remove(objective);
                         objectiveIndex = getRandomListIndex(objectives);
                         objective = objectives.get(objectiveIndex);
             }
-            players[distributedObjectives].setObjective(objective);
-            System.out.println(String.format("Player: %s %s, Objetivo %s", players[distributedObjectives].getName(), players[distributedObjectives].getColor().getName(), objective.getDescription()));
+            player.setObjective(objective);
+            System.out.println(String.format("Player: %s %s, Objetivo %s", player.getName(), player.getColor().getName(), objective.getDescription()));
             // removes the selected card from the list so there's no duplicates.
             objectives.remove(objectiveIndex);
         }
@@ -221,6 +225,7 @@ public class Match {
         defendDices = rollDices(numberOfDefendDice);
         Arrays.sort(attackDices, Collections.reverseOrder());
         Arrays.sort(defendDices, Collections.reverseOrder());
+        notifyDiceResults(attackDices, defendDices);
         for(int i = 0; i < numberOfDefendDice && i < numberOfAttackDice; i++){
             if(attackDices[i] > defendDices[i]){
                 numberOfAttackWin++;
@@ -234,8 +239,24 @@ public class Match {
             destinationTerritory.removeArmy(numberOfAttackWin);
             originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
         }
-        selectedDestinationTerritory = null;
-        selectedOriginTerritory = null;
+    }
+
+    private void notifyDiceResults(Integer[] attack, Integer[] defense) {
+        String result = "Ataque: ";
+        for (int i = 0; i < attack.length; i++) {
+            result += String.format("%d", attack[i]);
+            if (i < attack.length - 1) {
+                result += ", ";
+            }
+        }
+        result += " | Defesa: ";
+        for (int i = 0; i < defense.length; i++) {
+            result += String.format("%d", defense[i]);
+            if (i < defense.length - 1) {
+                result += ", ";
+            }
+        }
+        notifyResultObservers(result);
     }
 
     /**
@@ -303,6 +324,10 @@ public class Match {
         messageObservers.add(observer);
     }
 
+    public void addResultObserver(StringObserver observer) {
+        resultObservers.add(observer);
+    }
+
     public String getCurrentPlayerObjective() {
         return players[currentPlayerIndex].getObjective().getDescription();
     }
@@ -314,6 +339,12 @@ public class Match {
     private void notifyMessageObservers(String message) {
         for (StringObserver observer : messageObservers) {
             observer.notify(message);
+        }
+    }
+
+    private void notifyResultObservers(String result) {
+        for (StringObserver observer : resultObservers) {
+            observer.notify(result);
         }
     }
 
@@ -338,44 +369,45 @@ public class Match {
     private void handleSelectDistribute(Territory territory) {
         Player currentPlayer = players[currentPlayerIndex];
         if (currentPlayer != territory.getOwner()) {
-            notifyMessageObservers("Selecione um território conquistado");
+            notifyResultObservers("Selecione um território conquistado");
             return;
         }
         if (currentPlayer.getAvailableUnits() == 0) {
-            notifyMessageObservers("Sem unidades disponíveis");
+            notifyResultObservers("Sem unidades disponíveis. Selecione Próxima Jogada");
             return;
         }
         currentPlayer.putAvailableUnits(1, territory);
         setRemainingUnitsMessage(currentPlayer.getAvailableUnits());
+        notifyResultObservers("");
     }
 
     private void handleSelectAttack(Territory territory) {
         Player currentPlayer = players[currentPlayerIndex];
         if (selectedOriginTerritory == null) {
             if (territory.getOwner() != currentPlayer) {
-                notifyMessageObservers("Selecione um território de origem conquistado");
+                notifyResultObservers("Selecione um território de origem conquistado");
                 return;
             }
             if (!territory.isAttackValid()){
-                notifyMessageObservers("Selecione um território de origem conquistado com mais de um exército");
+                notifyResultObservers("Selecione um território de origem conquistado com mais de um exército");
                 return;
             }
             selectedOriginTerritory = territory;
             notifyMessageObservers("Selecione um território de destino");
+            notifyResultObservers("");
         } else {
             if (territory.getOwner() == currentPlayer) {
-                notifyMessageObservers("Selecione um território de destino de um oponente");
+                notifyResultObservers("Selecione um território de destino de um oponente");
                 return;
             }
-            if(selectedOriginTerritory.isNeighbor(territory) == false){
-                notifyMessageObservers("Ataque não é valido, território não é vizinho, selecione um vizinho");
+            if (selectedOriginTerritory.isNeighbor(territory) == false) {
+                notifyResultObservers("Ataque não é valido, território não é vizinho, selecione um vizinho");
                 return;
             }   
             selectedDestinationTerritory = territory;
             notifyMessageObservers("Ataque válido, jogue os dados");
-            attack(selectedOriginTerritory, selectedDestinationTerritory);
+            notifyResultObservers("");
         }
-        // TODO: Implementar
     }
 
     private void handleSelectMovingUnits(Territory territory) {
@@ -387,5 +419,16 @@ public class Match {
         if (errorMessage != null) {
             notifyMessageObservers(errorMessage);
         }
+    }
+
+    public void playDice() {
+        if (currentState != GameState.attacking) {
+            notifyResultObservers("Não está atacando");
+            return;
+        }
+        attack(selectedOriginTerritory, selectedDestinationTerritory);
+        selectedDestinationTerritory = null;
+        selectedOriginTerritory = null;
+        notifyMessageObservers("Selecione um território de origem");
     }
 }

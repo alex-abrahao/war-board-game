@@ -50,6 +50,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         match.addMessageObserver(observer);
     }
 
+    public void addResultLabelObserver(StringObserver observer) {
+        match.addResultObserver(observer);
+    }
+
     public void start() {
         match.start();
     }
@@ -64,6 +68,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
 
     public void didSelectNewRound() {
         match.goToNextRound();
+    }
+
+    public void didSelectPlayDice() {
+        match.playDice();
     }
 
     @Override
