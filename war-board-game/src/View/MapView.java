@@ -89,6 +89,7 @@ public class MapView extends JFrame {
     private void addInformationLabels() {
         controller.addCurrentPlayerObserver(makeInformationLabel(30, 16, 300, 28));
         controller.addCurrentStateObserver(makeInformationLabel(30, 53, 300, 28));
+        controller.addMessageLabelObserver(makeInformationLabel(367, 16, 500, 28));
     }
 
     private InformationLabel makeInformationLabel(int x, int y, int width, int height) {

@@ -12,9 +12,12 @@ public class Match {
     private boolean objectiveComplete = false;
     private GameState currentState = GameState.firstRoundDistribute;
     private int roundConqueredTerritoriesCount = 0;
+    private Territory selectedOriginTerritory;
+    private Territory selectedDestinationTerritory;
 
     private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
     private List<StringObserver> currentStateObservers = new ArrayList<StringObserver>();
+    private List<StringObserver> messageObservers = new ArrayList<StringObserver>();
 
     private final static Match instance = new Match();
 
@@ -64,6 +67,7 @@ public class Match {
         distributePlayerTerritories();
         // distribuir exercitos extras pra cada player
         distributeFirstRoundUnits();
+        setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
     }
 
     public void clear(boolean keepPlayers) {
@@ -103,28 +107,35 @@ public class Match {
             case firstRoundDistribute:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
                 if (currentPlayer == players[players.length - 1]) {
-                    currentState = GameState.unitDistributing;
+                    setState(GameState.unitDistributing);
                 }
                 advanceToNextPlayer();
                 return null;
             case unitDistributing:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
-                currentState = GameState.attacking;
+                setState(GameState.attacking);
                 return null;
             case attacking:
                 // TODO: Implement
-                currentState = GameState.movingUnits;
+                setState(GameState.movingUnits);
                 return null;
             case movingUnits:
                 if (roundConqueredTerritoriesCount > 1) {
                     newCardForConqueredTerritory();
                 }
                 roundConqueredTerritoriesCount = 0;
-                currentState = GameState.unitDistributing;
+                setState(GameState.unitDistributing);
                 return null;
             default:
                 // Shoud never execute
                 return "Erro: Estados demais";
+        }
+    }
+
+    private void setState(GameState state) {
+        currentState = state;
+        for (StringObserver observer : currentStateObservers) {
+            observer.notify(currentState.name);
         }
     }
 
@@ -170,7 +181,7 @@ public class Match {
     }
 
     private boolean isObjectiveValid(Player player, DefeatPlayerObjective objective){
-        for(int i = 0; i < players.length; i++){
+        for(int i = 0; i < players.length; i++) {
             if(players[i].getColor() == objective.colorToEliminate){
                 return true;
             }
@@ -182,6 +193,7 @@ public class Match {
         for (Player player : players) {
             player.addRoundStartUnits();
         }
+        
     }
 
     public int getCurrentRound() {
@@ -292,12 +304,28 @@ public class Match {
 
     public void addCurrentStateObserver(StringObserver observer) {
         currentStateObservers.add(observer);
-        // TODO: Notify state
-        // observer.notify(value);
-        observer.notify("Estado");
+        observer.notify(currentState.name);
+    }
+
+    public void addMessageObserver(StringObserver observer) {
+        messageObservers.add(observer);
     }
 
     public String getCurrentPlayerObjective() {
         return players[currentPlayerIndex].getObjective().getDescription();
+    }
+
+    private void setRemainingUnitsMessage(int number) {
+        notifyMessageObservers(String.format("Unidades para distribuir: %d", number));
+    }
+
+    private void notifyMessageObservers(String message) {
+        for (StringObserver observer : messageObservers) {
+            observer.notify(message);
+        }
+    }
+
+    public void selectTerritory(Territories territory) {
+        
     }
 }

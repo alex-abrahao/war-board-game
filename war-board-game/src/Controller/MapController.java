@@ -46,6 +46,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         match.addCurrentStateObserver(observer);
     }
 
+    public void addMessageLabelObserver(StringObserver observer) {
+        match.addMessageObserver(observer);
+    }
+
     public void start() {
         match.start();
     }
@@ -60,6 +64,6 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
 
     @Override
     public void didSelectLabel(Territories territory) {
-        // TODO: Implement
+        match.selectTerritory(territory);
     }
 }
