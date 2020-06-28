@@ -77,7 +77,7 @@ class Territory implements Observable<UnitNumberObserver> {
 		return neighbors.contains(territory);
 	}
 	
-	boolean isAttackValid() {
+	boolean canAttack() {
 		if (this.armyCount <= 1) {
 			return false;
 		}

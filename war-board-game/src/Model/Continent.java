@@ -51,6 +51,10 @@ class Continent {
 		return conqueror;
 	}
 
+	boolean hasTerritory(Territory territory) {
+		return territories.get(territory.name) != null;
+	}
+
 	Territory getTerritory(String name) {
 		return territories.get(name);
 	}

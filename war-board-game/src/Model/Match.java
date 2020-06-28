@@ -6,14 +6,14 @@ import Model.observer.*;
 public class Match {
 
     private Player[] players;
-    private int currentRound = 0;
     private Board board = new Board();
     private int currentPlayerIndex = 0;
-    private boolean objectiveComplete = false;
     private GameState currentState = GameState.firstRoundDistribute;
-    private int roundConqueredTerritoriesCount = 0;
+    private boolean currentPlayerHasConqueredTerritories = false;
     private Territory selectedOriginTerritory;
     private Territory selectedDestinationTerritory;
+    private List<Continent> bonusContinentsToDistribute = new ArrayList<>();
+    private Continent currentContinentToDistribute;
 
     private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
     private List<StringObserver> currentStateObservers = new ArrayList<StringObserver>();
@@ -46,10 +46,6 @@ public class Match {
         return players;
     }
 
-    public boolean getObjectiveComplete() {
-        return objectiveComplete;
-    }
-
     private void shufflePlayers() {
         // Embaralha o array de players
         List<Player> playerList = Arrays.asList(this.players);
@@ -76,7 +72,7 @@ public class Match {
         currentState = GameState.firstRoundDistribute;
         board = new Board();
         currentPlayerIndex = 0;
-        roundConqueredTerritoriesCount = 0;
+        currentPlayerHasConqueredTerritories = false;
         // reset players accordingly
         if (keepPlayers) {
             // resets objective, cards, territories etc
@@ -92,16 +88,9 @@ public class Match {
         if (++currentPlayerIndex >= players.length) {
             currentPlayerIndex = 0;
         }
-        if (currentState != GameState.firstRoundDistribute) {
-            currentRound++;
-            System.out.printf("Round %d\n", currentRound);
-            players[currentPlayerIndex].addRoundStartUnits();
-            // TODO: handle next player bonuses
-        } 
         for (StringObserver playerObserver : currentPlayerObservers) {
             playerObserver.notify(players[currentPlayerIndex].getName());
         }
-        setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
     }
 
     // Returns error message or null
@@ -110,10 +99,12 @@ public class Match {
         switch (currentState) {
             case firstRoundDistribute:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
-                if (currentPlayer == players[players.length - 1]) {
-                    setState(GameState.unitDistributing);
-                }
                 advanceToNextPlayer();
+                if (currentPlayerIndex == 0) { // If after advancing the player is back to the first
+                    setState(GameState.unitDistributing);
+                    setPlayerContinentBonusUnits();
+                }
+                setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
                 return null;
             case unitDistributing:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
@@ -126,11 +117,13 @@ public class Match {
                 setState(GameState.movingUnits);
                 return null;
             case movingUnits:
-                if (roundConqueredTerritoriesCount > 1) {
+                if (currentPlayerHasConqueredTerritories) {
                     newCardForConqueredTerritory();
                 }
-                roundConqueredTerritoriesCount = 0;
+                currentPlayerHasConqueredTerritories = false;
                 advanceToNextPlayer();
+                setPlayerContinentBonusUnits();
+                setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
                 setState(GameState.unitDistributing);
                 return null;
             default:
@@ -143,6 +136,33 @@ public class Match {
         currentState = state;
         for (StringObserver observer : currentStateObservers) {
             observer.notify(currentState.name);
+        }
+    }
+
+    private void setPlayerContinentBonusUnits() {
+        Player currentPlayer = players[currentPlayerIndex];
+        fillContinentBonusesList(currentPlayer);
+        handleCurrentPlayerNextBonusUnits();
+    }
+
+    private void handleCurrentPlayerNextBonusUnits() {
+
+        if (bonusContinentsToDistribute.isEmpty()) {
+            currentContinentToDistribute = null;
+            players[currentPlayerIndex].addRoundStartUnits();
+            return;
+        }
+        currentContinentToDistribute = bonusContinentsToDistribute.get(0);
+        bonusContinentsToDistribute.remove(0);
+        players[currentPlayerIndex].addContinentBonusUnits(currentContinentToDistribute);
+    }
+
+    private void fillContinentBonusesList(Player player) {
+        bonusContinentsToDistribute.clear();
+        for (Continent continent : board.continents.values()) {
+            if (player == continent.getConqueror()) {
+                bonusContinentsToDistribute.add(continent);
+            }
         }
     }
 
@@ -203,10 +223,6 @@ public class Match {
         }
     }
 
-    public int getCurrentRound() {
-        return currentRound;
-    }
-
     /**
      * Attack territories.
      * @param originTerritory
@@ -225,7 +241,7 @@ public class Match {
         Arrays.sort(defendDices, Collections.reverseOrder());
         notifyDiceResults(attackDices, defendDices);
         for(int i = 0; i < numberOfDefendDice && i < numberOfAttackDice; i++){
-            if(attackDices[i] > defendDices[i]){
+            if (attackDices[i] > defendDices[i]){
                 numberOfAttackWin++;
             }
         }
@@ -297,7 +313,7 @@ public class Match {
         newTerritory.removeAllArmies();
         newTerritory.addArmy(unitsToMove);
         originTerritory.removeArmy(unitsToMove);
-        roundConqueredTerritoriesCount++;
+        currentPlayerHasConqueredTerritories = true;
     }
 
     private void newCardForConqueredTerritory() {
@@ -331,7 +347,11 @@ public class Match {
     }
 
     private void setRemainingUnitsMessage(int number) {
-        notifyMessageObservers(String.format("Unidades para distribuir: %d", number));
+        if (currentContinentToDistribute != null) {
+            notifyMessageObservers(String.format("Unidades para distribuir em %s: %d", currentContinentToDistribute.name, number));
+        } else {
+            notifyMessageObservers(String.format("Unidades para distribuir: %d", number));
+        }
     }
 
     private void notifyMessageObservers(String message) {
@@ -374,9 +394,20 @@ public class Match {
             notifyResultObservers("Sem unidades disponíveis. Selecione Próxima Jogada");
             return;
         }
+        if (currentContinentToDistribute != null && !currentContinentToDistribute.hasTerritory(territory)) {
+            notifyResultObservers("Selecione um território do continente " + currentContinentToDistribute.name);
+            return;
+        }
         currentPlayer.putAvailableUnits(1, territory);
+        moveToNextDistributionIfNeeded(currentPlayer);
         setRemainingUnitsMessage(currentPlayer.getAvailableUnits());
         notifyResultObservers("");
+    }
+
+    private void moveToNextDistributionIfNeeded(Player currentPlayer) {
+        if (currentPlayer.getAvailableUnits() == 0 && currentContinentToDistribute != null) {
+            handleCurrentPlayerNextBonusUnits();
+        }
     }
 
     private void handleSelectAttack(Territory territory) {
@@ -386,13 +417,12 @@ public class Match {
                 notifyResultObservers("Selecione um território de origem conquistado");
                 return;
             }
-            if (!territory.isAttackValid()){
+            if (!territory.canAttack()) {
                 notifyResultObservers("Selecione um território de origem conquistado com mais de um exército");
                 return;
             }
             selectedOriginTerritory = territory;
             notifyMessageObservers("Selecione um território de destino");
-            notifyResultObservers("");
         } else {
             if (territory.getOwner() == currentPlayer) {
                 notifyResultObservers("Selecione um território de destino de um oponente");
@@ -404,12 +434,12 @@ public class Match {
             }
             selectedDestinationTerritory = territory;
             notifyMessageObservers("Ataque válido, jogue os dados");
-            notifyResultObservers("");
         }
+        notifyResultObservers("");
     }
 
     private void handleSelectMovingUnits(Territory territory) {
-
+        // TODO: Implement
     }
 
     public void goToNextPlay() {
