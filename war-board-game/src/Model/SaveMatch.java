@@ -11,9 +11,11 @@ public class SaveMatch implements Serializable {
     SavePlayer[] players;
     SaveMatchInfo matchInfo;
 
-    SaveMatch(SaveTerritory[] territories, SavePlayer[] players, SaveMatchInfo matchInfo) {
+    public SaveMatch(SaveTerritory[] territories, SavePlayer[] players, SaveMatchInfo matchInfo) {
 		this.territories = territories;
         this.players = players;
         this.matchInfo = matchInfo;
 	}
+
+	
 }

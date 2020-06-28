@@ -524,7 +524,7 @@ public class Match {
         notifyMessageObservers("Selecione um território de origem");
     }
 
-    private SavePlayer[] savePlayers(){
+    public SavePlayer[] savePlayers(){
         SavePlayer[] savingPlayers = new SavePlayer[players.length];
         for(int i=0; i < players.length; i++){
             String[] cards = new String[players[i].getCards().size()];
@@ -538,7 +538,7 @@ public class Match {
         return savingPlayers;
     }
 
-    private SaveTerritory[] saveTerritories(){
+    public SaveTerritory[] saveTerritories(){
         SaveTerritory[] savingTerritories = new SaveTerritory[51];
         int index = 0;
         Collection<Continent> continents = board.continents.values();
@@ -553,7 +553,7 @@ public class Match {
         return savingTerritories;
     }
 
-    private SaveMatchInfo saveMatchInfo(){
+    public SaveMatchInfo saveMatchInfo(){
         String[] bonusStrings = new String[bonusContinentsToDistribute.size()];
         for(int i=0; i < bonusContinentsToDistribute.size(); i++){
             bonusStrings[i] = bonusContinentsToDistribute.get(i).name;
@@ -561,6 +561,5 @@ public class Match {
         SaveMatchInfo savingMatch = new SaveMatchInfo(currentPlayerIndex, currentState.name, currentPlayerHasConqueredTerritories, bonusStrings);
         return savingMatch;
     }
-
 
 }
