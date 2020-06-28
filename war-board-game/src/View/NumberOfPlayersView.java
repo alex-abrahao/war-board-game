@@ -44,30 +44,6 @@ public class NumberOfPlayersView extends JFrame {
         return button;
     }
 
-    // public void actionPerformed(Action e) {
-    //     if (e.getSource() == button){
-    //         getPlayersNumber();
-    //     }
-    // }
-    
-    // private void getPlayersNumber() {
-        //int playersNumber;
-        // if (threePlayers.isSelected()){
-        //     playersNumber = 3;
-        // }
-        // else if (fourPlayers.isSelected()){
-        //     playersNumber = 4;
-        // }
-        // else if (fourPlayers.isSelected()){
-        //     playersNumber = 5;
-        // }
-        // else if (fivePlayers.isSelected()){
-        //     playersNumber = 6;
-        // }
-
-       // JOptionPane.showMessageDialog(null, "pronto");
-    //}
-
     public static void main(String[] args) {
         NumberOfPlayersView box = new NumberOfPlayersView();
         box.setVisible(true);

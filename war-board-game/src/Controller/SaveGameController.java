@@ -3,17 +3,23 @@ package Controller;
 import Model.Match;
 import Model.SaveGame;
 import Model.SaveMatch;
-import Model.SavePlayer;
+import View.SaveGameView;
 
 public class SaveGameController {
     
-    
-    private Match match = Match.getInstance();
+    private final Match match = Match.getInstance();
    
-    private void saveGame(String fileName){
-        SaveMatch save = new SaveMatch(match.saveTerritories(), match.savePlayers(), match.saveMatchInfo());
-        SaveGame.saveBinary(save, fileName);
+    void saveGame(String fileName, SaveGameView view) {
+        SaveMatch save = match.getMatchSaveData();
+        if (save == null) {
+            view.showSaveGameError("É possível salvar apenas durante o ataque ou movimentação de unidades");
+            return;
+        }
+        if (SaveGame.saveBinary(save, fileName) == false) {
+            view.showSaveGameError("Problema ao salvar no arquivo " + fileName);
+            return;
+        }
+        view.showSaveGameSuccess();
     }
-
     
 }

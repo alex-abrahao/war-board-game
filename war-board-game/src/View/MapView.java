@@ -14,7 +14,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class MapView extends JFrame {
+public class MapView extends JFrame implements SaveGameView {
 
     private static final long serialVersionUID = -8933186418761493148L;
     public static final int DEFAULT_WIDTH = 1024;
@@ -87,7 +87,8 @@ public class MapView extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                System.out.println("salvar");
+                System.out.println("Salvar");
+                controller.didSelectSaveGame();
             }
         });
 
@@ -218,6 +219,16 @@ public class MapView extends JFrame {
         });
         MapView mapView = new MapView(mapController);
         mapView.setVisible(true);
+    }
+
+    @Override
+    public void showSaveGameSuccess() {
+        JOptionPane.showMessageDialog(this, "Jogo salvo com sucesso!");
+    }
+
+    @Override
+    public void showSaveGameError(String message) {
+        JOptionPane.showMessageDialog(this, "Erro ao salvar jogo: " + message);
     }
 }
 

@@ -530,7 +530,18 @@ public class Match {
         notifyMessageObservers("Selecione um território de origem");
     }
 
-    public SavePlayer[] savePlayers(){
+    // Returns null if the game state does not allow saving
+    public SaveMatch getMatchSaveData() {
+        switch (currentState) {
+            case attacking:
+            case movingUnits:
+                return new SaveMatch(getSaveTerritoriesData(), getSavePlayersData(), getSaveMatchInfoData());
+            default:
+                return null;
+        }
+    }
+
+    private SavePlayer[] getSavePlayersData() {
         SavePlayer[] savingPlayers = new SavePlayer[players.length];
         for(int i=0; i < players.length; i++){
             String[] cards = new String[players[i].getCards().size()];
@@ -544,22 +555,21 @@ public class Match {
         return savingPlayers;
     }
 
-    public SaveTerritory[] saveTerritories(){
+    private SaveTerritory[] getSaveTerritoriesData() {
         SaveTerritory[] savingTerritories = new SaveTerritory[51];
         int index = 0;
         Collection<Continent> continents = board.continents.values();
         for (Continent continent : continents) {
             for (Territory territory : continent.getTerritories()) {
-                savingTerritories[index].name = territory.name;
-                savingTerritories[index].owner = territory.getOwner().getName();
-                savingTerritories[index].units = territory.getArmyCount();
+                SaveTerritory saveTerritory = new SaveTerritory(territory.name, territory.getArmyCount(), territory.getOwner().getName());
+                savingTerritories[index] = saveTerritory;
                 index++;
             }
         }
         return savingTerritories;
     }
 
-    public SaveMatchInfo saveMatchInfo(){
+    private SaveMatchInfo getSaveMatchInfoData() {
         String[] bonusStrings = new String[bonusContinentsToDistribute.size()];
         for(int i=0; i < bonusContinentsToDistribute.size(); i++){
             bonusStrings[i] = bonusContinentsToDistribute.get(i).name;

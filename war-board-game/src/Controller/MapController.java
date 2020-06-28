@@ -12,6 +12,7 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
 
     private MapView view;
     private Match match = Match.getInstance();
+    private final String saveDataFileName = "saveData.dat";
 
     public MapController(PlayerInfo[] players) {
         match.setPlayers(players);
@@ -72,6 +73,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
 
     public void didSelectPlayDice() {
         match.playDice();
+    }
+
+    public void didSelectSaveGame() {
+        new SaveGameController().saveGame(saveDataFileName, view);
     }
 
     @Override
