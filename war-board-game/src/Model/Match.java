@@ -272,7 +272,7 @@ public class Match {
         }
 
         /* Move armies */
-        if(numberOfDefendDice - numberOfAttackWin <= 0){ /*if player conquered territory*/
+        if(destinationTerritory.getArmyCount() - numberOfAttackWin <= 0){ /*if player conquered territory*/
             handleConqueredTerritory(originTerritory, destinationTerritory);
         } else {
             destinationTerritory.removeArmy(numberOfAttackWin);
