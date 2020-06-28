@@ -215,7 +215,7 @@ public class MapView extends JFrame implements SaveGameView {
         MapController mapController = new MapController(new PlayerInfo[] {
             new PlayerInfo("Alexandre", PlayerColor.blue),
             new PlayerInfo("Fernanda", PlayerColor.red),
-            new PlayerInfo("Marcia", PlayerColor.white)
+            new PlayerInfo("Ivan", PlayerColor.white)
         });
         MapView mapView = new MapView(mapController);
         mapView.setVisible(true);

@@ -554,8 +554,8 @@ public class Match {
             String[] cards = new String[players[i].getCards().size()];
             for(int numberOfCards = 0; numberOfCards<players[i].getCards().size(); numberOfCards++){
                 List<Card> playerCards =  players[i].getCards();
-                cards[numberOfCards] = playerCards.get(numberOfCards).getType().toString();
-
+                Territory territory = playerCards.get(numberOfCards).getTerritory();
+                cards[numberOfCards] = territory == null ? "" : territory.name;
             }
             savingPlayers[i] = new SavePlayer(players[i].getName(), players[i].getColor().getName(), players[i].getObjective().getDescription(),cards,players[i].getAvailableUnits(), players[i].getNumberOfCardExchanges());
         }
@@ -577,17 +577,12 @@ public class Match {
     }
 
     private SaveMatchInfo getSaveMatchInfoData() {
-        String[] bonusStrings = new String[bonusContinentsToDistribute.size()];
-        for(int i=0; i < bonusContinentsToDistribute.size(); i++){
-            bonusStrings[i] = bonusContinentsToDistribute.get(i).name;
-        }
-        SaveMatchInfo savingMatch = new SaveMatchInfo(currentPlayerIndex, currentState.name, currentPlayerHasConqueredTerritories, bonusStrings);
+        SaveMatchInfo savingMatch = new SaveMatchInfo(currentPlayerIndex, currentState.name, currentPlayerHasConqueredTerritories);
         return savingMatch;
     }
 
     public void loadedPlayers(SavePlayer[] players){
         Player[] loadedPlayers = new Player[players.length];
-        List<Card> cards = new ArrayList<>();
         for (int i = 0; i < players.length; i++) {
             loadedPlayers[i] = new Player(players[i].name, translateToPlayerColor(players[i].color));
             loadedPlayers[i].setAvailableUnits(players[i].getAvailableUnits());
@@ -598,14 +593,13 @@ public class Match {
                     break;
                 }
             }
-            for (Card card : board.cards) {
-                for(int numberOfCards = 0; numberOfCards < players[i].cards.length; numberOfCards++){
-                    if(card.getType().toString().compareTo(players[i].cards[numberOfCards]) == 0){
-                        cards.add(card);
-                    }
-                }
+            String[] playerCards = players[i].cards;
+            for (String cardName : playerCards) {
+                Card card = board.getCardWithName(cardName);
+                loadedPlayers[i].addCard(card);
+                board.cards.remove(card);
+                System.out.println(String.format("Player %s tem carta %s", loadedPlayers[i].getName(), cardName));
             }
-            
         }
         this.players = loadedPlayers;
     }
@@ -626,12 +620,6 @@ public class Match {
         this.currentPlayerHasConqueredTerritories = matchInfo.currentPlayerHasConqueredTerritories;
         this.currentPlayerIndex = matchInfo.currentPlayerIndex;
         this.setState(traslateState(matchInfo.gameState));
-        for (Continent continent : board.continents.values()) {
-            for(int i=0; i<matchInfo.bonusContinentsToDistribute.length; i++ ){
-                if(continent.toString().compareTo(matchInfo.bonusContinentsToDistribute[i]) == 0){
-                }
-            }
-        }
     }
 
     GameState traslateState(String state){
@@ -645,14 +633,14 @@ public class Match {
         return null;
     }
 
-    private void loadTerritories(SaveTerritory[] territoriesInfo, Player[] possibleOwnePlayers){
-        for(int i=0; i<territoriesInfo.length; i++){
+    private void loadTerritories(SaveTerritory[] territoriesInfo, Player[] possibleOwnerPlayers) {
+        for (int i = 0; i < territoriesInfo.length; i++) {
             Territory territory = board.getTerritory(territoriesInfo[i].name);
-            territory.addArmy(territoriesInfo[i].units-1);
-            for(int playerIndex = 0; playerIndex<possibleOwnePlayers.length; playerIndex++){
+            territory.addArmy(territoriesInfo[i].units - 1);
+            for (int playerIndex = 0; playerIndex<possibleOwnerPlayers.length; playerIndex++) {
                 System.out.println(territoriesInfo[i].owner);
-                if(territoriesInfo[i].owner.compareTo(possibleOwnePlayers[playerIndex].getName()) == 0){
-                    possibleOwnePlayers[playerIndex].addTerritory(territory);
+                if(territoriesInfo[i].owner.compareTo(possibleOwnerPlayers[playerIndex].getName()) == 0) {
+                    possibleOwnerPlayers[playerIndex].addTerritory(territory);
                 }
             }
         }

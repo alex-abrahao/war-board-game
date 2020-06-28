@@ -40,6 +40,20 @@ class Board {
         return getTerritory(t.getName());
     }
 
+    Card getCardWithName(String name) {
+        System.out.println("Board procurando " + name);
+        for (Card card : cards) {
+            if (card != null) {
+                if (card.getTerritory().name.equals(name)) {
+                    return card;
+                }
+            } else if (name.isEmpty()) { // Handles joker
+                return card;
+            }
+        }
+        return null;
+    }
+
     Card getRandomCard(List<Card> cards) { 
         Random rand = new Random(); 
         Card card = cards.get(rand.nextInt(cards.size()));

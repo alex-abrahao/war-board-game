@@ -112,6 +112,7 @@ class Territory implements Observable<UnitNumberObserver> {
 	@Override
 	public void addObserver(UnitNumberObserver observer) {
 		observers.add(observer);
+		if (owner == null) return;
 		observer.notify(armyCount, owner.getColor());
 	}
 
