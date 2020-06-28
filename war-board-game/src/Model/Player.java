@@ -7,7 +7,6 @@ class Player {
 	
 	private final String name;
 	private final PlayerColor color;
-	int orderToPlay;
 	private List<Card> cards = new ArrayList<>();
 	private List<Territory> territories = new ArrayList<>();
 	private Objective objective;
