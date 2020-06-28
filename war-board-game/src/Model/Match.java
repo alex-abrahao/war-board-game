@@ -437,11 +437,6 @@ public class Match {
     private void handleSelectAttack(Territory territory) {
         Player currentPlayer = players[currentPlayerIndex];
         if (selectedOriginTerritory == null) {
-            if (selectedOriginTerritory == territory) {
-                notifyMessageObservers("Selecione um território de origem");
-                selectedOriginTerritory = null;
-                return;
-            }
             if (territory.getOwner() != currentPlayer) {
                 notifyResultObservers("Selecione um território de origem conquistado");
                 return;
@@ -454,6 +449,12 @@ public class Match {
             notifyMessageObservers("Selecione um território de destino");
             notifyResultObservers("Origem do ataque: " + territory.name);
         } else {
+            if (selectedOriginTerritory == territory) {
+                notifyMessageObservers("Selecione um território de origem");
+                notifyResultObservers("");
+                selectedOriginTerritory = null;
+                return;
+            }
             if (territory.getOwner() == currentPlayer) {
                 notifyResultObservers("Selecione um território de destino de um oponente");
                 return;
@@ -471,11 +472,6 @@ public class Match {
     private void handleSelectMovingUnits(Territory territory) {
         Player currentPlayer = players[currentPlayerIndex];
         if (selectedOriginTerritory == null) {
-            if (selectedOriginTerritory == territory) {
-                notifyMessageObservers("Selecione um território de origem");
-                selectedOriginTerritory = null;
-                return;
-            }
             if (territory.getOwner() != currentPlayer) {
                 notifyResultObservers("Selecione um território de origem conquistado");
                 return;
@@ -488,6 +484,12 @@ public class Match {
             notifyMessageObservers("Selecione um território de destino");
             notifyResultObservers("Origem da transferência: " + territory.name);
         } else {
+            if (selectedOriginTerritory == territory) {
+                notifyMessageObservers("Selecione um território de origem");
+                notifyResultObservers("");
+                selectedOriginTerritory = null;
+                return;
+            }
             if (!selectedOriginTerritory.isTransferArmyValid(territory, 1)) {
                 notifyResultObservers("Selecione um território de destino vizinho conquistado");
                 return;

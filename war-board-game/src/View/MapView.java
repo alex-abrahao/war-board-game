@@ -56,7 +56,6 @@ public class MapView extends JFrame {
         chooseDicesValue.setBounds(85, DEFAULT_HEIGHT - 100, 200, 40);
         saveButton.setBounds(300, DEFAULT_HEIGHT - 100, 100, 40);
 
-
         throwDiceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
