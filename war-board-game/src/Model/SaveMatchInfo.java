@@ -1,6 +1,14 @@
 package Model;
 
-public class SaveMatchInfo {
+import java.io.Serializable;
+
+public class SaveMatchInfo implements Serializable{
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3296264785554985676L;
+    
     int currentPlayerIndex;
     String gameState;
     boolean currentPlayerHasConqueredTerritories;
