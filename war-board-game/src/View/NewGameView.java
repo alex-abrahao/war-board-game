@@ -17,6 +17,7 @@ public class NewGameView extends JFrame implements ActionListener {
 	private static final int DEFAULT_HEIGHT = 650;
     private final JPanel panel = new NewGamePanel();
     private final JButton newGameButton = new JButton();
+    private final JButton loadGameButton = new JButton("Carregar Jogo");
     private final NewGameController controller;
     
     public NewGameView(NewGameController controller) {
@@ -47,6 +48,16 @@ public class NewGameView extends JFrame implements ActionListener {
         newGameButton.setBounds(13, 45, 205, 60);
         newGameButton.addActionListener(this);
         add(newGameButton);
+
+        loadGameButton.setBounds(13, 115, 205, 60);
+        loadGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Botao pressionado load game");
+                controller.didSelectLoadGame();
+            }
+        });
+        add(loadGameButton);
     }
 
     public static void main(String[] args) {

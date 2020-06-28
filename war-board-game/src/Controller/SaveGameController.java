@@ -5,6 +5,7 @@ import Model.SaveGame;
 import Model.SaveMatch;
 import View.SaveGameView;
 
+
 public class SaveGameController {
     
     private final Match match = Match.getInstance();
@@ -21,5 +22,10 @@ public class SaveGameController {
         }
         view.showSaveGameSuccess();
     }
-    
+
+    SaveMatch loadGame(String fileName){
+        SaveMatch loadedMatch = SaveGame.readBinary(fileName);
+        return loadedMatch;
+    }
+
 }

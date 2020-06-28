@@ -17,5 +17,8 @@ public class SaveMatch implements Serializable {
         this.matchInfo = matchInfo;
 	}
 
+	public SaveMatch() {
+	}
+
 	
 }

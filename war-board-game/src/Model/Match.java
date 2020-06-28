@@ -279,7 +279,7 @@ public class Match {
         }
 
         /* Move armies */
-        if(numberOfDefendDice - numberOfAttackWin <= 0){ /*if player conquered territory*/
+        if(destinationTerritory.getArmyCount() - numberOfAttackWin <= 0){ /*if player conquered territory*/
             handleConqueredTerritory(originTerritory, destinationTerritory);
         } else {
             destinationTerritory.removeArmy(numberOfAttackWin);
@@ -585,4 +585,83 @@ public class Match {
         return savingMatch;
     }
 
+    public void loadedPlayers(SavePlayer[] players){
+        Player[] loadedPlayers = new Player[players.length];
+        List<Card> cards = new ArrayList<>();
+        for (int i = 0; i < players.length; i++) {
+            loadedPlayers[i] = new Player(players[i].name, translateToPlayerColor(players[i].color));
+            loadedPlayers[i].setAvailableUnits(players[i].getAvailableUnits());
+            loadedPlayers[i].setNumberOfCardExchanges(players[i].getNumberOfCardExchanges());
+            for (Objective objective : board.objectives) {
+                if(objective.getDescription().compareTo(players[i].objective) == 0){
+                    loadedPlayers[i].setObjective(objective);
+                    break;
+                }
+            }
+            for (Card card : board.cards) {
+                for(int numberOfCards = 0; numberOfCards < players[i].cards.length; numberOfCards++){
+                    if(card.getType().toString().compareTo(players[i].cards[numberOfCards]) == 0){
+                        cards.add(card);
+                    }
+                }
+            }
+            
+        }
+        this.players = loadedPlayers;
+    }
+
+    PlayerColor translateToPlayerColor(String color){
+        switch (color) {
+            case "Vermelha": return PlayerColor.red;
+            case "Verde": return PlayerColor.green;
+            case "Azul": return PlayerColor.blue;
+            case "Amarela": return PlayerColor.yellow;
+            case "Preta": return PlayerColor.black;
+            case "Branca": return PlayerColor.white;
+        }
+        return null;
+    }
+
+    public void loadMatchInfo(SaveMatchInfo matchInfo){
+        this.currentPlayerHasConqueredTerritories = matchInfo.currentPlayerHasConqueredTerritories;
+        this.currentPlayerIndex = matchInfo.currentPlayerIndex;
+        this.setState(traslateState(matchInfo.gameState));
+        for (Continent continent : board.continents.values()) {
+            for(int i=0; i<matchInfo.bonusContinentsToDistribute.length; i++ ){
+                if(continent.toString().compareTo(matchInfo.bonusContinentsToDistribute[i]) == 0){
+                }
+            }
+        }
+    }
+
+    GameState traslateState(String state){
+        switch(state){
+            case "Distribuição Primeira Rodada": return GameState.firstRoundDistribute;
+            case "Distribuindo Exércitos": return GameState.unitDistributing;
+            case "Atacando": return GameState.attacking;
+            case "Remanejando Exércitos": return GameState.movingUnits;
+            case "Vitória": return GameState.victory;
+        }
+        return null;
+    }
+
+    private void loadTerritories(SaveTerritory[] territoriesInfo, Player[] possibleOwnePlayers){
+        for(int i=0; i<territoriesInfo.length; i++){
+            Territory territory = board.getTerritory(territoriesInfo[i].name);
+            territory.addArmy(territoriesInfo[i].units-1);
+            for(int playerIndex = 0; playerIndex<possibleOwnePlayers.length; playerIndex++){
+                System.out.println(territoriesInfo[i].owner);
+                if(territoriesInfo[i].owner.compareTo(possibleOwnePlayers[playerIndex].getName()) == 0){
+                    possibleOwnePlayers[playerIndex].addTerritory(territory);
+                }
+            }
+        }
+    }
+
+    public void loadFromSaveMatch(SaveMatch match){
+        loadedPlayers(match.players);
+        loadTerritories(match.territories, players);
+        loadMatchInfo(match.matchInfo);
+        
+    }
 }
