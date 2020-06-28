@@ -40,6 +40,12 @@ class Player {
 
 	void addCard(Card card) {
 		cards.add(card);
+		String message = String.format("Jogador %s, cartas: ", name);
+		for (Card cardPrint : cards) {
+			Territory cardTerritory = cardPrint.getTerritory();
+			message += String.format("%s tipo %s, ", cardTerritory != null ? cardTerritory.name : "Coringa", cardPrint.getType().toString());
+		}
+		System.out.println(message);
 	}
 
 	void resetPlayer() {
@@ -71,12 +77,16 @@ class Player {
 		return color;
 	}
 
+	int getNumberOfCardExchanges() {
+		return numberOfCardExchanges;
+	}
+
 	boolean playerHasTerritory(Territory territory){
 		return (territories.contains(territory));
 	}
 
 	void addRoundStartUnits(){
-		int newArmyAmount = territories.size() /2;
+		int newArmyAmount = territories.size() / 2;
 		availableUnits += newArmyAmount > 3 ? newArmyAmount : 3;
 	}
 
@@ -84,12 +94,15 @@ class Player {
 		availableUnits += continent.getContinentBonus();
 	}
 
-	void addCardExchangeBonus(List<Card> cardList) {
+	// Returns the exchanged cards to be placed back into the deck or null if no exchange was made
+	List<Card> addCardExchangeBonus() {
+		List<Card> exchangeCards = getExchangeCards();
+		if (exchangeCards == null) return null;
 
 		numberOfCardExchanges++;
 		availableUnits += getNumberOfCardExchangeNewUnits();
 
-		for (Card card : cardList) {
+		for (Card card : exchangeCards) {
 			// Adds card territory owner units
 			if (card.getTerritory() != null) {
 				for (Territory territory : territories) {
@@ -98,7 +111,85 @@ class Player {
 					}
 				}
 			}
+			cards.remove(card);
 		}
+		return exchangeCards;
+	}
+
+	private List<Card> getExchangeCards() {
+		if (cards.size() < 3) return null;
+
+		int squareCards = 0, triangleCards = 0, circleCards = 0; // joker counts to all
+
+		for (Card card : cards) {
+			switch (card.getType()) {
+				case circle:
+					circleCards++;
+					break;
+				case square:
+					squareCards++;
+					break;
+				case triangle:
+					triangleCards++;
+					break;
+				default: // joker
+					circleCards++; squareCards++; triangleCards++;
+					break;
+			}
+		}
+		if (squareCards >= 3) return getExchangeCardsOfType(CardType.square);
+		if (circleCards >= 3) return getExchangeCardsOfType(CardType.circle);
+		if (triangleCards >= 3) return getExchangeCardsOfType(CardType.triangle);
+		if (squareCards > 0 && triangleCards > 0 && circleCards > 0) return getMixedExchangeCards();
+		// If it gets here, no exchange can be made
+		return null;
+	}
+
+	private List<Card> getExchangeCardsOfType(CardType type) {
+		List<Card> exchangeCards = new ArrayList<>();
+		for (Card card : cards) {
+			if (card.getType() == type || card.getType() == CardType.joker) {
+				exchangeCards.add(card);
+			}
+			if (exchangeCards.size() == 3) break;
+		}
+		return exchangeCards;
+	}
+
+	private List<Card> getMixedExchangeCards() {
+		List<Card> exchangeCards = new ArrayList<>();
+		boolean hasAddedTriangle = false, hasAddedCircle = false, hasAddedSquare = false;
+		for (Card card : cards) {
+			switch (card.getType()) {
+				case square:
+					if (!hasAddedSquare) {
+						exchangeCards.add(card);
+						hasAddedSquare = true;
+					}
+					break;
+				case circle:
+					if (!hasAddedCircle) {
+						exchangeCards.add(card);
+						hasAddedCircle = true;
+					}
+					break;
+				case triangle:
+					if (!hasAddedTriangle) {
+						exchangeCards.add(card);
+						hasAddedTriangle = true;
+					}
+					break;
+				default: // joker
+					exchangeCards.add(card);
+					break;
+			}
+			if (exchangeCards.size() == 3) break;
+		}
+		return exchangeCards;
+	}
+
+	boolean canExchangeCards() {
+		return getExchangeCards() != null;
 	}
 
 	private int getNumberOfCardExchangeNewUnits() {

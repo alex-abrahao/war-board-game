@@ -93,6 +93,7 @@ public class Match {
     // Returns error message or null
     private String advanceToNextState() {
         Player currentPlayer = players[currentPlayerIndex];
+        notifyResultObservers("");
         switch (currentState) {
             case firstRoundDistribute:
                 if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
@@ -109,16 +110,16 @@ public class Match {
                 notifyMessageObservers("Selecione o território de origem");
                 return null;
             case attacking:
+                if (currentPlayerHasConqueredTerritories) {
+                    newCardForConqueredTerritory();
+                }
+                currentPlayerHasConqueredTerritories = false;
                 selectedOriginTerritory = null;
                 selectedDestinationTerritory = null;
                 setState(GameState.movingUnits);
                 notifyMessageObservers("Selecione o território de origem");
                 return null;
             case movingUnits:
-                if (currentPlayerHasConqueredTerritories) {
-                    newCardForConqueredTerritory();
-                }
-                currentPlayerHasConqueredTerritories = false;
                 advanceToNextPlayer();
                 setPlayerContinentBonusUnits();
                 setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
@@ -146,15 +147,32 @@ public class Match {
     }
 
     private void handleCurrentPlayerNextBonusUnits() {
-
+        Player currentPlayer = players[currentPlayerIndex];
         if (bonusContinentsToDistribute.isEmpty()) {
             currentContinentToDistribute = null;
-            players[currentPlayerIndex].addRoundStartUnits();
+            currentPlayer.addRoundStartUnits();
+            List<Card> exchangeCards = currentPlayer.addCardExchangeBonus();
+            if (exchangeCards != null) {
+                board.returnCardsToDeck(exchangeCards);
+                notifyExchangeResult(currentPlayer, exchangeCards);
+            }
             return;
         }
         currentContinentToDistribute = bonusContinentsToDistribute.get(0);
         bonusContinentsToDistribute.remove(0);
-        players[currentPlayerIndex].addContinentBonusUnits(currentContinentToDistribute);
+        currentPlayer.addContinentBonusUnits(currentContinentToDistribute);
+    }
+
+    private void notifyExchangeResult(Player player, List<Card> exchangeCards) {
+        String result = String.format("%dª troca: ", player.getNumberOfCardExchanges());
+        for (int i = 0; i < exchangeCards.size(); i++) {
+            Territory cardTerritory = exchangeCards.get(i).getTerritory();
+            result += String.format("%s %s", cardTerritory != null ? cardTerritory.name : "Coringa", exchangeCards.get(i).getType().toString());
+            if (i < exchangeCards.size() - 1) {
+                result += ", ";
+            }
+        }
+        notifyResultObservers(result);
     }
 
     private void fillContinentBonusesList(Player player) {
@@ -208,9 +226,9 @@ public class Match {
         }
     }
 
-    private boolean isObjectiveValid(Player player, DefeatPlayerObjective objective){
-        for(int i = 0; i < players.length; i++) {
-            if(players[i].getColor() == objective.colorToEliminate){
+    private boolean isObjectiveValid(Player player, DefeatPlayerObjective objective) {
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getColor() == objective.colorToEliminate) {
                 return true;
             }
         }
@@ -317,7 +335,10 @@ public class Match {
     }
 
     private void newCardForConqueredTerritory() {
-        players[currentPlayerIndex].addCard(board.getRandomCard(board.cards));
+        Card card = board.getRandomCard(board.cards);
+        players[currentPlayerIndex].addCard(card);
+        Territory cardTerritory = card.getTerritory();
+        notifyResultObservers(String.format("Recebeu carta: %s tipo %s", cardTerritory != null ? cardTerritory.name : "Coringa", card.getType().toString()));
     }
 
     public void addTerritoryObserver(Territories territory, UnitNumberObserver observer) {
@@ -471,7 +492,6 @@ public class Match {
             notifyResultObservers(errorMessage);
             return;
         }
-        notifyResultObservers("");
     }
 
     public void playDice() {
