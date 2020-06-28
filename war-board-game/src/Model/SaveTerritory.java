@@ -1,6 +1,12 @@
 package Model;
 
-public class SaveTerritory {
+import java.io.Serializable;
+
+public class SaveTerritory implements Serializable{
+    /**
+     *
+     */
+    private static final long serialVersionUID = -2402495553655675606L;
     String name;
     int units;
     String owner;

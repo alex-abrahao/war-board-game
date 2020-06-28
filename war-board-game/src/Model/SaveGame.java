@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 
 public class SaveGame {
 
-    public static void saveBinario(Object match, String fileName) {
+    public static void saveBinary(Object match, String fileName) {
       File file = new File(fileName);
       try {
         file.delete();
@@ -43,7 +43,7 @@ public class SaveGame {
     //   return(lista);
     // }
 
-    public static void readBinario(String fileName) {
+    public static void readBinary(String fileName) {
       Object load = new Object();
       try {
         File arq = new File(fileName);
@@ -58,7 +58,7 @@ public class SaveGame {
           System.out.printf("Erro: %s", erro2.getMessage());
       }
       System.out.println(load);
-      //return(lista);
+      //return(load);
     }
 
 
