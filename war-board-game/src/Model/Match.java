@@ -327,6 +327,7 @@ public class Match {
 
     public void handleConqueredTerritory(Territory originTerritory, Territory newTerritory) {
         int unitsToMove = originTerritory.getArmyCount() > 3 ? 3 : originTerritory.getArmyCount() - 1;
+        newTerritory.getOwner().removeTerritory(newTerritory);
         players[currentPlayerIndex].addTerritory(newTerritory);
         newTerritory.removeAllArmies();
         newTerritory.addArmy(unitsToMove);
