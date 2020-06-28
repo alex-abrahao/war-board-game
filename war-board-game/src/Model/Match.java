@@ -536,10 +536,19 @@ public class Match {
         return savingPlayers;
     }
 
-    private void saveTerritories(){
-        SaveTerritory[] savingTerritories = new SaveTerritory[50];
-
-
+    private SaveTerritory[] saveTerritories(){
+        SaveTerritory[] savingTerritories = new SaveTerritory[51];
+        int index = 0;
+        Collection<Continent> continents = board.continents.values();
+        for (Continent continent : continents) {
+            for (Territory territory : continent.getTerritories()) {
+                savingTerritories[index].name = territory.name;
+                savingTerritories[index].owner = territory.getOwner().getName();
+                savingTerritories[index].units = territory.getArmyCount();
+                index++;
+            }
+        }
+        return savingTerritories;
     }
 
     private SaveMatchInfo saveMatchInfo(){

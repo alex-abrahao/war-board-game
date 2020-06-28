@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,10 @@ class Continent {
 
 	Continent(Continents c, Territory[] territories, int continentBonus) {
 		this(c.getName(), territories, continentBonus);
+	}
+
+	Collection<Territory> getTerritories() {
+		return territories.values();
 	}
 
 	private Map<String, Territory> makeTerritoriesMap(Territory[] territoriesArray) {
