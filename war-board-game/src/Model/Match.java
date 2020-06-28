@@ -172,6 +172,7 @@ public class Match {
                 result += ", ";
             }
         }
+        System.out.println(result);
         notifyResultObservers(result);
     }
 
@@ -288,6 +289,7 @@ public class Match {
                 result += ", ";
             }
         }
+        System.out.println(result);
         notifyResultObservers(result);
     }
 
@@ -420,10 +422,10 @@ public class Match {
             notifyResultObservers("Selecione um território do continente " + currentContinentToDistribute.name);
             return;
         }
+        notifyResultObservers("");
         currentPlayer.putAvailableUnits(1, territory);
         moveToNextDistributionIfNeeded(currentPlayer);
         setRemainingUnitsMessage(currentPlayer.getAvailableUnits());
-        notifyResultObservers("");
     }
 
     private void moveToNextDistributionIfNeeded(Player currentPlayer) {
@@ -435,6 +437,11 @@ public class Match {
     private void handleSelectAttack(Territory territory) {
         Player currentPlayer = players[currentPlayerIndex];
         if (selectedOriginTerritory == null) {
+            if (selectedOriginTerritory == territory) {
+                notifyMessageObservers("Selecione um território de origem");
+                selectedOriginTerritory = null;
+                return;
+            }
             if (territory.getOwner() != currentPlayer) {
                 notifyResultObservers("Selecione um território de origem conquistado");
                 return;
@@ -464,6 +471,11 @@ public class Match {
     private void handleSelectMovingUnits(Territory territory) {
         Player currentPlayer = players[currentPlayerIndex];
         if (selectedOriginTerritory == null) {
+            if (selectedOriginTerritory == territory) {
+                notifyMessageObservers("Selecione um território de origem");
+                selectedOriginTerritory = null;
+                return;
+            }
             if (territory.getOwner() != currentPlayer) {
                 notifyResultObservers("Selecione um território de origem conquistado");
                 return;
