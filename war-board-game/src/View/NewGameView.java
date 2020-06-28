@@ -17,7 +17,12 @@ public class NewGameView extends JFrame implements ActionListener {
 	private static final int DEFAULT_HEIGHT = 650;
     private final JPanel panel = new NewGamePanel();
     private final JButton newGameButton = new JButton();
-    private final JButton loadGameButton = new JButton("Carregar Jogo");
+    private final JButton loadGameContinentsButton = new JButton("Carregar Conq Continentes");
+    private final JButton loadGame24TerritoriesButton = new JButton("Carregar Conq de 24 Terr");
+    private final JButton loadGameDefeatPlayerButton = new JButton("Carregar Destru Exército");
+    private final JButton loadGameChangeCardsButton = new JButton("Troca de cartas");
+
+
     private final NewGameController controller;
     
     public NewGameView(NewGameController controller) {
@@ -49,15 +54,46 @@ public class NewGameView extends JFrame implements ActionListener {
         newGameButton.addActionListener(this);
         add(newGameButton);
 
-        loadGameButton.setBounds(13, 115, 205, 60);
-        loadGameButton.addActionListener(new ActionListener() {
+        loadGameContinentsButton.setBounds(13, 115, 205, 60);
+        loadGameContinentsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 System.out.println("Botao pressionado load game");
-                controller.didSelectLoadGame();
+                controller.didSelectLoadGame("saveData.dat");
             }
         });
-        add(loadGameButton);
+        add(loadGameContinentsButton);
+
+        loadGame24TerritoriesButton.setBounds(13, 185, 205, 60);
+        loadGame24TerritoriesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Botao pressionado load game");
+                controller.didSelectLoadGame("saveData.dat");
+            }
+        });
+        add(loadGame24TerritoriesButton);
+
+        loadGameDefeatPlayerButton.setBounds(13, 255, 205, 60);
+        loadGameDefeatPlayerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Botao pressionado load game");
+                controller.didSelectLoadGame("saveData.dat");
+            }
+        });
+        add(loadGameDefeatPlayerButton);
+
+        loadGameChangeCardsButton.setBounds(13, 325, 205, 60);
+        loadGameChangeCardsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Botao pressionado load game");
+                controller.didSelectLoadGame("saveData.dat");
+            }
+        });
+        add(loadGameChangeCardsButton);
+
     }
 
     public static void main(String[] args) {

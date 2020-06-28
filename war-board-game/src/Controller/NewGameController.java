@@ -21,9 +21,9 @@ public class NewGameController implements Controller<NewGameView>, PlayerOptions
         optionsView.setVisible(true);
     }
 
-    public void didSelectLoadGame(){
+    public void didSelectLoadGame(String fileName){
         SaveGameController saveController = new SaveGameController();
-        SaveMatch newMatch = saveController.loadGame("saveData.dat");
+        SaveMatch newMatch = saveController.loadGame(fileName);
         if(newMatch != null){
             MapController mapController = new MapController(newMatch);
             MapView mapView = new MapView(mapController);

@@ -1,8 +1,6 @@
 package Model;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -10,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 public class SaveGame {
 	
-	// Returns if the save was successfull
+	// Returns if the save was successful
 	public static boolean saveBinary(Object match, String fileName) {
 		File file = new File(fileName);
 		try {

@@ -650,7 +650,6 @@ public class Match {
             Territory territory = board.getTerritory(territoriesInfo[i].name);
             territory.addArmy(territoriesInfo[i].units-1);
             for(int playerIndex = 0; playerIndex<possibleOwnePlayers.length; playerIndex++){
-                System.out.println(territoriesInfo[i].owner);
                 if(territoriesInfo[i].owner.compareTo(possibleOwnePlayers[playerIndex].getName()) == 0){
                     possibleOwnePlayers[playerIndex].addTerritory(territory);
                 }
