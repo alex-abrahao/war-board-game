@@ -9,14 +9,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SaveGame {
-    public static void saveBinario(Object []objecLists, String fileName) {
+
+    public static void saveBinario(Object match, String fileName) {
       File file = new File(fileName);
       try {
         file.delete();
         file.createNewFile();
       
         ObjectOutputStream objOutput = new ObjectOutputStream(new FileOutputStream(file));
-        objOutput.writeObject(objecLists);
+        objOutput.writeObject(match);
         objOutput.close();
       
       } catch(IOException erro) {
@@ -43,12 +44,12 @@ public class SaveGame {
     // }
 
     public static void readBinario(String fileName) {
-      Object[] lista = new Object[2];
+      Object load = new Object();
       try {
         File arq = new File(fileName);
         if (arq.exists()) {
            ObjectInputStream objInput = new ObjectInputStream(new FileInputStream(arq));
-           lista = (Object[])objInput.readObject();
+           load = (Object)objInput.readObject();
            objInput.close();
         }
       } catch(IOException erro1) {
@@ -56,7 +57,7 @@ public class SaveGame {
       } catch(ClassNotFoundException erro2) {
           System.out.printf("Erro: %s", erro2.getMessage());
       }
-      System.out.println(lista);
+      System.out.println(load);
       //return(lista);
     }
 
