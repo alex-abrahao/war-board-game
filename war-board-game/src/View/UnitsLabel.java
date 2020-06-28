@@ -1,9 +1,8 @@
 package View;
 
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 
 import Model.PlayerColor;
 import Model.Territories;
@@ -14,22 +13,28 @@ import java.awt.*;
 public class UnitsLabel extends JPanel implements UnitNumberObserver {
 
     private static final long serialVersionUID = 4587872428157231272L;
-    private JLabel numberLabel = new JLabel("0", JLabel.CENTER);
+    private JButton numberButton = new JButton("0");
     private final Territories associatedTerritory;
     private final UnitsLabelDelegate delegate;
 
     public UnitsLabel(Territories associatedTerritory, UnitsLabelDelegate delegate) {
         this.delegate = delegate;
         this.associatedTerritory = associatedTerritory;
-        this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
-        numberLabel.setForeground(Color.black);
-        numberLabel.setFont(numberLabel.getFont().deriveFont(Font.BOLD));
-        this.add(numberLabel);
-        this.setSize(30, 30);
+        setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
+        setLayout(null);
         setOpaque(false);
-        addMouseListener(new MouseInputAdapter() {
+        numberButton.setForeground(Color.black);
+        numberButton.setFont(numberButton.getFont().deriveFont(Font.BOLD));
+        numberButton.setOpaque(false);
+        numberButton.setBorder(BorderFactory.createEmptyBorder());
+        
+        add(numberButton);
+        setSize(30, 30);
+        numberButton.setSize(30, 30);
+        
+        numberButton.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 pressed();
             }
         });
@@ -49,11 +54,11 @@ public class UnitsLabel extends JPanel implements UnitNumberObserver {
         } else {
             this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.5f));
         }
-        numberLabel.setForeground(labelColor);
+        numberButton.setForeground(labelColor);
     }
 
     public void setNumberOfUnits(int number) {
-        numberLabel.setText(String.valueOf(number));
+        numberButton.setText(String.valueOf(number));
     }
 
     private void pressed() {
