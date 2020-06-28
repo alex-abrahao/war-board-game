@@ -112,6 +112,7 @@ public class Match {
                 selectedOriginTerritory = null;
                 selectedDestinationTerritory = null;
                 setState(GameState.movingUnits);
+                notifyMessageObservers("Selecione o território de origem");
                 return null;
             case movingUnits:
                 if (currentPlayerHasConqueredTerritories) {
@@ -122,6 +123,8 @@ public class Match {
                 setPlayerContinentBonusUnits();
                 setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
                 setState(GameState.unitDistributing);
+                selectedOriginTerritory = null;
+                selectedDestinationTerritory = null;
                 return null;
             default:
                 // Shoud never execute
@@ -420,23 +423,46 @@ public class Match {
             }
             selectedOriginTerritory = territory;
             notifyMessageObservers("Selecione um território de destino");
+            notifyResultObservers("Origem do ataque: " + territory.name);
         } else {
             if (territory.getOwner() == currentPlayer) {
                 notifyResultObservers("Selecione um território de destino de um oponente");
                 return;
             }
             if (selectedOriginTerritory.isNeighbor(territory) == false) {
-                notifyResultObservers("Ataque não é valido, território não é vizinho, selecione um vizinho");
+                notifyResultObservers("Ataque não é valido, selecione um território de destino vizinho");
                 return;
             }
             selectedDestinationTerritory = territory;
             notifyMessageObservers("Ataque válido, jogue os dados");
+            notifyResultObservers(selectedOriginTerritory.name + " atacará " + selectedDestinationTerritory.name);
         }
-        notifyResultObservers("");
     }
 
     private void handleSelectMovingUnits(Territory territory) {
-        // TODO: Implement
+        Player currentPlayer = players[currentPlayerIndex];
+        if (selectedOriginTerritory == null) {
+            if (territory.getOwner() != currentPlayer) {
+                notifyResultObservers("Selecione um território de origem conquistado");
+                return;
+            }
+            if (!territory.canTransferUnits()) {
+                notifyResultObservers("Selecione um território de origem conquistado com mais de um exército");
+                return;
+            }
+            selectedOriginTerritory = territory;
+            notifyMessageObservers("Selecione um território de destino");
+            notifyResultObservers("Origem da transferência: " + territory.name);
+        } else {
+            if (!selectedOriginTerritory.isTransferArmyValid(territory, 1)) {
+                notifyResultObservers("Selecione um território de destino vizinho conquistado");
+                return;
+            }
+            selectedOriginTerritory.transferArmy(territory, 1);
+            notifyMessageObservers("Selecione um território de origem");
+            notifyResultObservers("Exército movido de " + selectedOriginTerritory.name + " para " + territory.name);
+            selectedOriginTerritory = null;
+        }
     }
 
     public void goToNextPlay() {

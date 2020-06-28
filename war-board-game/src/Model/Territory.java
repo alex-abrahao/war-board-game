@@ -20,11 +20,11 @@ class Territory implements Observable<UnitNumberObserver> {
 	}
 
 	Territory(Territories t) {
-		this.name = t.getName();
+		name = t.getName();
 	}
 
 	void setOwner(Player player) {
-		this.owner = player;
+		owner = player;
 		notifyObservers();
 	}
 
@@ -51,12 +51,12 @@ class Territory implements Observable<UnitNumberObserver> {
 
 	void addContinentNeighbors(Territories[] territories) {
 		for (Territories territory : territories) {
-			this.addNeighbor(continent.getTerritory(territory.getName()));
+			addNeighbor(continent.getTerritory(territory.getName()));
 		}
 	}
 
 	void addArmy(int quantity) {
-		this.armyCount += quantity;
+		armyCount += quantity;
 		notifyObservers();
 	}
 
@@ -69,7 +69,7 @@ class Territory implements Observable<UnitNumberObserver> {
 
 	// To be used when there's a change of ownership
 	void removeAllArmies() {
-		this.armyCount = 0;
+		armyCount = 0;
 		notifyObservers();
 	}
 
@@ -78,27 +78,28 @@ class Territory implements Observable<UnitNumberObserver> {
 	}
 	
 	boolean canAttack() {
-		if (this.armyCount <= 1) {
-			return false;
-		}
-		return true;
+		return armyCount > 1;
+	}
+
+	boolean canTransferUnits() {
+		return armyCount > 1;
 	}
 
 	boolean isTransferArmyValid(Territory destinationTerritory, int armyCount) {
-		if(destinationTerritory.getOwner() == this.owner) {
+		if (destinationTerritory.getOwner() != this.owner) {
 			return false;
 		}
-		if(this.armyCount - armyCount <= 0) {
+		if (this.armyCount - armyCount <= 0) {
 			return false;
 		}
-		if(!this.isNeighbor(destinationTerritory)) {
+		if (!this.isNeighbor(destinationTerritory)) {
 			return false;
 		}
 		return true;
 	}
 
 	void transferArmy(Territory destinationTerritory, int armyCount) {
-		this.removeArmy(armyCount);
+		removeArmy(armyCount);
 		destinationTerritory.addArmy(armyCount);
 	}
 
