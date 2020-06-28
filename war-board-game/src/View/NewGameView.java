@@ -20,7 +20,7 @@ public class NewGameView extends JFrame implements ActionListener {
     private final JButton loadGameContinentsButton = new JButton("Carregar Conq Continentes");
     private final JButton loadGame24TerritoriesButton = new JButton("Carregar Conq de 24 Terr");
     private final JButton loadGameDefeatPlayerButton = new JButton("Carregar Destru Exército");
-    private final JButton loadGameChangeCardsButton = new JButton("Troca de cartas");
+    private final JButton loadGameChangeCardsButton = new JButton("Carregar troca de cartas");
 
 
     private final NewGameController controller;
@@ -52,7 +52,6 @@ public class NewGameView extends JFrame implements ActionListener {
         newGameButton.setBorderPainted(false);
         newGameButton.setBounds(13, 45, 205, 60);
         newGameButton.addActionListener(this);
-        add(newGameButton);
 
         loadGameContinentsButton.setBounds(13, 115, 205, 60);
         loadGameContinentsButton.addActionListener(new ActionListener() {
@@ -62,7 +61,6 @@ public class NewGameView extends JFrame implements ActionListener {
                 controller.didSelectLoadGame("saveData.dat");
             }
         });
-        add(loadGameContinentsButton);
 
         loadGame24TerritoriesButton.setBounds(13, 185, 205, 60);
         loadGame24TerritoriesButton.addActionListener(new ActionListener() {
@@ -72,7 +70,6 @@ public class NewGameView extends JFrame implements ActionListener {
                 controller.didSelectLoadGame("saveData.dat");
             }
         });
-        add(loadGame24TerritoriesButton);
 
         loadGameDefeatPlayerButton.setBounds(13, 255, 205, 60);
         loadGameDefeatPlayerButton.addActionListener(new ActionListener() {
@@ -82,7 +79,6 @@ public class NewGameView extends JFrame implements ActionListener {
                 controller.didSelectLoadGame("saveData.dat");
             }
         });
-        add(loadGameDefeatPlayerButton);
 
         loadGameChangeCardsButton.setBounds(13, 325, 205, 60);
         loadGameChangeCardsButton.addActionListener(new ActionListener() {
@@ -92,8 +88,13 @@ public class NewGameView extends JFrame implements ActionListener {
                 controller.didSelectLoadGame("saveData.dat");
             }
         });
-        add(loadGameChangeCardsButton);
 
+        add(newGameButton);
+        add(loadGameContinentsButton);
+        add(loadGame24TerritoriesButton);
+        add(loadGameDefeatPlayerButton);
+        add(loadGameChangeCardsButton);
+    
     }
 
     public static void main(String[] args) {
