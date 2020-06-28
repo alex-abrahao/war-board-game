@@ -52,9 +52,6 @@ public class Match {
         Collections.shuffle(playerList);
         playerList.toArray(this.players);
         // O array embaralhado agora representa a ordem dos jogadores
-        for (int i = 0; i < players.length; i++) {
-            this.players[i].orderToPlay = i + 1;
-        }
     }
 
     public void start() {
