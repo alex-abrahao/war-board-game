@@ -27,32 +27,14 @@ public class SaveGame {
 		}
 		return true;
 	}
-	
-	// public static ArrayList<Object> readBinario(String fileName) {
-	//   ArrayList<Object> lista = new ArrayList();
-	//   try {
-	//     File arq = new File(fileName);
-	//     if (arq.exists()) {
-	//        ObjectInputStream objInput = new ObjectInputStream(new FileInputStream(arq));
-	//        lista = (ArrayList<Object>)objInput.readObject();
-	//        objInput.close();
-	//     }
-	//   } catch(IOException erro1) {
-	//       System.out.printf("Erro: %s", erro1.getMessage());
-	//   } catch(ClassNotFoundException erro2) {
-	//       System.out.printf("Erro: %s", erro2.getMessage());
-	//   }
-	
-	//   return(lista);
-	// }
 						
-	public static void readBinary(String fileName) {
-		Object load = new Object();
+	public static SaveMatch readBinary(String fileName) {
+		SaveMatch load = new SaveMatch();
 		try {
 			File arq = new File(fileName);
 			if (arq.exists()) {
 				ObjectInputStream objInput = new ObjectInputStream(new FileInputStream(arq));
-				load = (Object)objInput.readObject();
+				load = (SaveMatch)objInput.readObject();
 				objInput.close();
 			}
 		} catch(IOException erro1) {
@@ -64,6 +46,6 @@ public class SaveGame {
 		System.out.println(load);
 		
 		
-		//return(load);
+		return(load);
 	}					
 }

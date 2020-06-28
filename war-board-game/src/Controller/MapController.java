@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Match;
 import Model.PlayerInfo;
+import Model.SaveMatch;
 import Model.Territories;
 import Model.observer.StringObserver;
 import Model.observer.UnitNumberObserver;
@@ -13,9 +14,16 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
     private MapView view;
     private Match match = Match.getInstance();
     private final String saveDataFileName = "saveData.dat";
+    private final boolean cameFromLoad;
 
     public MapController(PlayerInfo[] players) {
+        cameFromLoad = false;
         match.setPlayers(players);
+    }
+    
+    public MapController(SaveMatch load){
+        cameFromLoad = true;
+        match.loadFromSaveMatch(load);
     }
 
     @Override
@@ -56,7 +64,9 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
     }
 
     public void start() {
-        match.start();
+        if (!cameFromLoad){
+            match.start();
+        }
     }
 
     public void didSelectShowObjective() {

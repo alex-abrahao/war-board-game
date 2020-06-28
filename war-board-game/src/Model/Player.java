@@ -38,6 +38,14 @@ class Player {
 		return objective;
 	}
 
+	public void setAvailableUnits(int availableUnits) {
+		this.availableUnits = availableUnits;
+	}
+
+	public void setNumberOfCardExchanges (int numberOfCardExchanges){
+		this.numberOfCardExchanges = numberOfCardExchanges;
+	}
+
 	void addCard(Card card) {
 		cards.add(card);
 		String message = String.format("Jogador %s, cartas: ", name);

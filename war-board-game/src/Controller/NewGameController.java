@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.PlayerInfo;
-
+import Model.SaveMatch;
 import View.MapView;
 import View.NewGameView;
 import View.PlayerOptionsDelegate;
@@ -19,6 +19,17 @@ public class NewGameController implements Controller<NewGameView>, PlayerOptions
     public void didSelectNewGame() {
         PlayerOptionsView optionsView = new PlayerOptionsView(this);
         optionsView.setVisible(true);
+    }
+
+    public void didSelectLoadGame(){
+        SaveGameController saveController = new SaveGameController();
+        SaveMatch newMatch = saveController.loadGame("saveData.dat");
+        if(newMatch != null){
+            MapController mapController = new MapController(newMatch);
+            MapView mapView = new MapView(mapController);
+            mapView.setVisible(true);
+            view.dispose();
+        }
     }
 
     private void startNewGame(PlayerInfo[] players) {
