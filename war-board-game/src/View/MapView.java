@@ -25,6 +25,7 @@ public class MapView extends JFrame {
     private JButton nextPlayButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnProxJogada.png")));
     private JButton seeObjectiveButton = new JButton("Ver Objetivo");
     private JButton chooseDicesValue = new JButton("Escolher valor dos dados");
+    private JButton saveButton = new JButton("Salvar");
 
     public MapView(MapController controller) {
         this.controller = controller;
@@ -53,6 +54,8 @@ public class MapView extends JFrame {
 
         seeObjectiveButton.setBounds(DEFAULT_WIDTH - 120, 15, 100, 40);
         chooseDicesValue.setBounds(85, DEFAULT_HEIGHT - 100, 200, 40);
+        saveButton.setBounds(300, DEFAULT_HEIGHT - 100, 100, 40);
+
 
         throwDiceButton.addActionListener(new ActionListener() {
             @Override
@@ -82,10 +85,18 @@ public class MapView extends JFrame {
             }
         });
 
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println("salvar");
+            }
+        });
+
         panel.add(throwDiceButton);
         panel.add(nextPlayButton);
         panel.add(seeObjectiveButton);
         panel.add(chooseDicesValue);
+        panel.add(saveButton);
     }
 
     private void addInformationLabels() {
