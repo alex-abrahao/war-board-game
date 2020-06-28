@@ -508,4 +508,35 @@ public class Match {
         selectedOriginTerritory = null;
         notifyMessageObservers("Selecione um território de origem");
     }
+
+    private SavePlayer[] savePlayers(){
+        SavePlayer[] savingPlayers = new SavePlayer[players.length];
+        for(int i=0; i < players.length; i++){
+            String[] cards = new String[players[i].getCards().size()];
+            for(int numberOfCards = 0; numberOfCards<players[i].getCards().size(); numberOfCards++){
+                List<Card> playerCards =  players[i].getCards();
+                cards[numberOfCards] = playerCards.get(numberOfCards).getType().toString();
+
+            }
+            savingPlayers[i] = new SavePlayer(players[i].getName(), players[i].getColor().getName(), players[i].getObjective().getDescription(),cards,players[i].getAvailableUnits(), players[i].getNumberOfCardExchanges());
+        }
+        return savingPlayers;
+    }
+
+    private void saveTerritories(){
+        SaveTerritory[] savingTerritories = new SaveTerritory[50];
+
+
+    }
+
+    private SaveMatchInfo saveMatchInfo(){
+        String[] bonusStrings = new String[bonusContinentsToDistribute.size()];
+        for(int i=0; i < bonusContinentsToDistribute.size(); i++){
+            bonusStrings[i] = bonusContinentsToDistribute.get(i).name;
+        }
+        SaveMatchInfo savingMatch = new SaveMatchInfo(currentPlayerIndex, currentState.name, currentPlayerHasConqueredTerritories, bonusStrings);
+        return savingMatch;
+    }
+
+
 }

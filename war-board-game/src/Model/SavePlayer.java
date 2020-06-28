@@ -2,6 +2,7 @@ package Model;
 
 import java.io.Serializable;
 
+
 public class SavePlayer implements Serializable {
     /**
      *
@@ -21,5 +22,22 @@ public class SavePlayer implements Serializable {
         this.cards = cards;
         this.availableUnits = availableUnits;
         this.numberOfCardExchanges = numberOfCardExchanges;
-	}
+    }
+    
+
+    String getName(){
+        return name;
+    }
+    String getColor(){
+        return color;
+    }
+    String getObjective(){
+        return objective;
+    }
+    int getAvailableUnits(){
+        return availableUnits;
+    }
+    int getNumberOfCardExchanges(){
+        return numberOfCardExchanges;
+    }
 }

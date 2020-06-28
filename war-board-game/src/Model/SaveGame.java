@@ -57,7 +57,10 @@ public class SaveGame {
       } catch(ClassNotFoundException erro2) {
           System.out.printf("Erro: %s", erro2.getMessage());
       }
+
       System.out.println(load);
+        
+      
       //return(load);
     }
 
