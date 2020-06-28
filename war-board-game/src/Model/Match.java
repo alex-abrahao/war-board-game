@@ -82,9 +82,16 @@ public class Match {
     }
 
     private void advanceToNextPlayer() {
-        if (++currentPlayerIndex >= players.length) {
-            currentPlayerIndex = 0;
-        }
+        int playersCounter = 0;
+        do {
+            if (++currentPlayerIndex >= players.length) {
+                currentPlayerIndex = 0;
+            }
+            playersCounter++;
+            // Skip defeated players, infinite loop safe
+        } while (players[currentPlayerIndex].isDefeated() && playersCounter < players.length);
+        // Check if the current player has to change objective
+        players[currentPlayerIndex].changeObjectiveIfNeeded(players);
         for (StringObserver playerObserver : currentPlayerObservers) {
             playerObserver.notify(players[currentPlayerIndex].getName());
         }

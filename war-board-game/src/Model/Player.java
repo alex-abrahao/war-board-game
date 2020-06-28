@@ -27,7 +27,7 @@ class Player {
 		if (objective instanceof DefeatPlayerObjective) {
 			DefeatPlayerObjective playerObjective = (DefeatPlayerObjective) objective;
 			if (playerObjective.colorToEliminate == this.color) {
-				this.objective = new TerritoriesObjective(30);
+				this.objective = new TerritoriesObjective(24);
 				return;
 			}
 		}
@@ -213,5 +213,24 @@ class Player {
 		if (units > availableUnits) units = availableUnits;
 		territory.addArmy(units);
 		availableUnits -= units;
+	}
+
+	// To be called at the start of a round
+	void changeObjectiveIfNeeded(Player[] players) {
+		if (objective instanceof DefeatPlayerObjective) {
+			DefeatPlayerObjective playerObjective = (DefeatPlayerObjective) objective;
+			for (Player player : players) {
+				// If the player has been eliminated by someone else
+				if (playerObjective.colorToEliminate == player.color && player.isDefeated()) {
+					// Has to change objective
+					this.objective = new TerritoriesObjective(24);
+					return;
+				}
+			}
+		}
+	}
+
+	boolean isDefeated() {
+		return getConqueredTerritoriesNumber() == 0;
 	}
 }

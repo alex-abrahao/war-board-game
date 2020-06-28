@@ -19,7 +19,7 @@ class DefeatPlayerObjective extends Objective {
         // Searchs other players to find the target
         for (Player otherPlayer : allPlayers) {
             if (otherPlayer.getColor() == colorToEliminate) {
-                return otherPlayer.getConqueredTerritoriesNumber() == 0;
+                return otherPlayer.isDefeated();
             }
         }
         // If it gets here, the target player has been defeated by other and the objective should have been changed
