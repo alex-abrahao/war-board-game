@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.List;
-
 public class TerritoriesObjective extends Objective {
 
     private final int numberToConquer;
@@ -17,7 +15,7 @@ public class TerritoriesObjective extends Objective {
     }
 
     @Override
-    boolean isCompleted(Player player, List<Player> allPlayers) {
+    boolean isCompleted(Player player, Player[] allPlayers) {
         return player.getConqueredTerritoriesNumber() >= numberToConquer;
     }
 }

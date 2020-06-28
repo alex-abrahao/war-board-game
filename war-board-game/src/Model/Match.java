@@ -110,6 +110,12 @@ public class Match {
                 notifyMessageObservers("Selecione o território de origem");
                 return null;
             case attacking:
+                System.out.println(String.format("Player %s Num Territorios: %d", currentPlayer.getName(), currentPlayer.getConqueredTerritoriesNumber()));
+                if (currentPlayer.getObjective().isCompleted(currentPlayer, players)) {
+                    notifyMessageObservers("Parabéns! Você ganhou o jogo!");
+                    setState(GameState.victory);
+                    return null;
+                }
                 if (currentPlayerHasConqueredTerritories) {
                     newCardForConqueredTerritory();
                 }
@@ -128,8 +134,8 @@ public class Match {
                 selectedDestinationTerritory = null;
                 return null;
             default:
-                // Shoud never execute
-                return "Erro: Estados demais";
+                // Someone has won
+                return "Inicie um novo jogo";
         }
     }
 

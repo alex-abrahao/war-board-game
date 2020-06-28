@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.List;
-
 class DefeatPlayerObjective extends Objective {
 
     final PlayerColor colorToEliminate;
@@ -17,7 +15,7 @@ class DefeatPlayerObjective extends Objective {
     }
 
     @Override
-    public boolean isCompleted(Player player, List<Player> allPlayers) {
+    public boolean isCompleted(Player player, Player[] allPlayers) {
         // Searchs other players to find the target
         for (Player otherPlayer : allPlayers) {
             if (otherPlayer.getColor() == colorToEliminate) {

@@ -26,7 +26,7 @@ public class ContinentObjective extends Objective {
     }
 
     @Override
-    boolean isCompleted(Player player, List<Player> allPlayers) {
+    boolean isCompleted(Player player, Player[] allPlayers) {
         for (Continent continent : continentList) {
             if (continent.getConqueror() != player) {
                 return false;

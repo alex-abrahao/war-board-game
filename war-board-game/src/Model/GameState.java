@@ -4,7 +4,8 @@ enum GameState {
     firstRoundDistribute("Distribuição Primeira Rodada"),
     unitDistributing("Distribuindo Exércitos"),
     attacking("Atacando"),
-    movingUnits("Remanejando Exércitos");
+    movingUnits("Remanejando Exércitos"),
+    victory("Vitória");
 
     final String name;
 
