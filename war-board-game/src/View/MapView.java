@@ -24,6 +24,7 @@ public class MapView extends JFrame implements SaveGameView {
     private JButton throwDiceButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnJogarDados.png")));
     private JButton nextPlayButton = new JButton(new ImageIcon(getClass().getResource("/images/war_btnProxJogada.png")));
     private JButton seeObjectiveButton = new JButton("Ver Objetivo");
+    private JButton seeCardsButton = new JButton("Ver Cartas");
     private JButton chooseDicesValue = new JButton("Escolher valor dos dados");
     private JButton saveButton = new JButton("Salvar");
 
@@ -53,6 +54,7 @@ public class MapView extends JFrame implements SaveGameView {
         nextPlayButton.setBorder(BorderFactory.createEmptyBorder());
 
         seeObjectiveButton.setBounds(DEFAULT_WIDTH - 120, 15, 100, 40);
+        seeCardsButton.setBounds(DEFAULT_WIDTH - 120, 63, 100, 40);
         chooseDicesValue.setBounds(85, DEFAULT_HEIGHT - 100, 200, 40);
         saveButton.setBounds(300, DEFAULT_HEIGHT - 100, 100, 40);
 
@@ -77,6 +79,13 @@ public class MapView extends JFrame implements SaveGameView {
             }
         });
 
+        seeCardsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.didSelectShowCards();
+            }
+        });
+
         chooseDicesValue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -95,6 +104,7 @@ public class MapView extends JFrame implements SaveGameView {
         panel.add(throwDiceButton);
         panel.add(nextPlayButton);
         panel.add(seeObjectiveButton);
+        panel.add(seeCardsButton);
         panel.add(chooseDicesValue);
         panel.add(saveButton);
     }
@@ -200,11 +210,15 @@ public class MapView extends JFrame implements SaveGameView {
     }
 
     public void showPlayerOrder(String message) {
-        JOptionPane.showMessageDialog(null, message);
+        JOptionPane.showMessageDialog(this, message);
     }
 
     public void showPlayerObjective(String objective) {
         ObjectiveCardView.showObjectiveFrame(objective);
+    }
+
+    public void showOptionPaneMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 
     public void showChooseDicesView() {

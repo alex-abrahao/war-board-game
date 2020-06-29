@@ -199,6 +199,10 @@ public class Match {
         }
     }
 
+    public String getCurrentPlayersCardsMessage() {
+        return players[currentPlayerIndex].getAllCardsMessageFormatted();
+    }
+
     private int getRandomListIndex(List<?> list) {
 		Random generator = new Random();
 		return generator.nextInt(list.size());

@@ -241,4 +241,17 @@ class Player {
 	boolean isDefeated() {
 		return getConqueredTerritoriesNumber() == 0;
 	}
+
+	String getAllCardsMessageFormatted() {
+		if (cards.isEmpty()) return "Não possui cartas";
+		String message = "";
+        for (int i = 0; i < cards.size(); i++) {
+            Territory cardTerritory = cards.get(i).getTerritory();
+            message += String.format("%s %s", cardTerritory != null ? cardTerritory.name : "Coringa", cards.get(i).getType().toString());
+            if (i < cards.size() - 1) {
+                message += ", ";
+            }
+		}
+		return message;
+	}
 }

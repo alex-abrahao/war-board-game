@@ -73,6 +73,10 @@ public class MapController implements Controller<MapView>, UnitsLabelDelegate {
         view.showPlayerObjective(match.getCurrentPlayerObjective());
     }
 
+    public void didSelectShowCards() {
+        view.showOptionPaneMessage(match.getCurrentPlayersCardsMessage());
+    }
+
     public void didSelectChooseDicesValue(){
         view.showChooseDicesView();
     }
