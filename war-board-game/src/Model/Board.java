@@ -43,7 +43,7 @@ class Board {
     Card getCardWithName(String name) {
         System.out.println("Board procurando " + name);
         for (Card card : cards) {
-            if (card != null) {
+            if (card.getTerritory() != null) {
                 if (card.getTerritory().name.equals(name)) {
                     return card;
                 }
