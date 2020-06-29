@@ -21,6 +21,7 @@ public class NewGameView extends JFrame implements ActionListener {
     private final JButton loadGame24TerritoriesButton = new JButton("Carregar Conq de 24 Terr");
     private final JButton loadGameDefeatPlayerButton = new JButton("Carregar Destru Exército");
     private final JButton loadGameChangeCardsButton = new JButton("Carregar troca de cartas");
+    private final JButton loadGameButton = new JButton("Carregar jogo");
 
 
     private final NewGameController controller;
@@ -89,11 +90,22 @@ public class NewGameView extends JFrame implements ActionListener {
             }
         });
 
+        loadGameButton.setBounds(13, 395, 205, 60);
+        loadGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                System.out.println("Botao pressionado load game");
+                controller.didSelectLoadGame("saveData.dat");
+            }
+        });
+
+
         add(newGameButton);
         add(loadGameContinentsButton);
         add(loadGame24TerritoriesButton);
         add(loadGameDefeatPlayerButton);
         add(loadGameChangeCardsButton);
+        add(loadGameButton);
     
     }
 
