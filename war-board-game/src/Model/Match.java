@@ -14,6 +14,7 @@ public class Match {
     private Territory selectedDestinationTerritory;
     private List<Continent> bonusContinentsToDistribute = new ArrayList<>();
     private Continent currentContinentToDistribute;
+    private String messageForNewObservers = "";
 
     private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
     private List<StringObserver> currentStateObservers = new ArrayList<StringObserver>();
@@ -220,7 +221,7 @@ public class Match {
 		}
     }
 
-    private void distributeObjectives(){
+    private void distributeObjectives() {
         List<Objective> objectives = board.objectives;
 
         for (int distributedObjectives = 0; distributedObjectives < players.length; distributedObjectives++) {
@@ -373,6 +374,10 @@ public class Match {
 
     public void addMessageObserver(StringObserver observer) {
         messageObservers.add(observer);
+        if (!messageForNewObservers.isEmpty()) {
+            observer.notify(messageForNewObservers);
+            messageForNewObservers = "";
+        }
     }
 
     public void addResultObserver(StringObserver observer) {
@@ -620,6 +625,7 @@ public class Match {
         this.currentPlayerHasConqueredTerritories = matchInfo.currentPlayerHasConqueredTerritories;
         this.currentPlayerIndex = matchInfo.currentPlayerIndex;
         this.setState(traslateState(matchInfo.gameState));
+        messageForNewObservers = "Selecione um território de origem";
     }
 
     GameState traslateState(String state){
@@ -638,7 +644,6 @@ public class Match {
             Territory territory = board.getTerritory(territoriesInfo[i].name);
             territory.addArmy(territoriesInfo[i].units - 1);
             for (int playerIndex = 0; playerIndex<possibleOwnerPlayers.length; playerIndex++) {
-                System.out.println(territoriesInfo[i].owner);
                 if(territoriesInfo[i].owner.compareTo(possibleOwnerPlayers[playerIndex].getName()) == 0) {
                     possibleOwnerPlayers[playerIndex].addTerritory(territory);
                 }
@@ -650,6 +655,5 @@ public class Match {
         loadedPlayers(match.players);
         loadTerritories(match.territories, players);
         loadMatchInfo(match.matchInfo);
-        
     }
 }

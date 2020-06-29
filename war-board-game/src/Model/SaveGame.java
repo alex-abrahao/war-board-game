@@ -34,15 +34,18 @@ public class SaveGame {
 				ObjectInputStream objInput = new ObjectInputStream(new FileInputStream(arq));
 				load = (SaveMatch)objInput.readObject();
 				objInput.close();
+			} else {
+				return null;
 			}
 		} catch(IOException erro1) {
 			System.out.printf("Erro: %s", erro1.getMessage());
+			return null;
 		} catch(ClassNotFoundException erro2) {
 			System.out.printf("Erro: %s", erro2.getMessage());
+			return null;
 		}
 		
 		System.out.println(load);
-		
 		
 		return(load);
 	}					

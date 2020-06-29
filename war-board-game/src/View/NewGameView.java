@@ -58,7 +58,7 @@ public class NewGameView extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e){
                 System.out.println("Botao pressionado load game");
-                controller.didSelectLoadGame("saveData.dat");
+                controller.didSelectLoadGame("continentsWinData.dat");
             }
         });
 
