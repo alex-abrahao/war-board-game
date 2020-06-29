@@ -56,7 +56,7 @@ public enum Territories {
     Angola("Angola"),
     SouthAfrica("África do Sul"),
     Nigeria("Nigéria"),
-    Somalia("Somalia"),
+    Somalia("Somália"),
     Egypt("Egito");
     
     private final String name;
