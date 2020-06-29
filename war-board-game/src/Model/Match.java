@@ -15,6 +15,8 @@ public class Match {
     private List<Continent> bonusContinentsToDistribute = new ArrayList<>();
     private Continent currentContinentToDistribute;
     private String messageForNewObservers = "";
+    private Integer[] cheatAttackDices;
+    private Integer[] cheatDefendDices;
 
     private List<StringObserver> currentPlayerObservers = new ArrayList<StringObserver>();
     private List<StringObserver> currentStateObservers = new ArrayList<StringObserver>();
@@ -199,6 +201,11 @@ public class Match {
         }
     }
 
+    public void setCheatDice(Integer[] attackDice, Integer[] defendDice) {
+        cheatAttackDices = attackDice;
+        cheatDefendDices = defendDice;
+    }
+
     public String getCurrentPlayersCardsMessage() {
         return players[currentPlayerIndex].getAllCardsMessageFormatted();
     }
@@ -270,10 +277,8 @@ public class Match {
 
         int numberOfAttackWin = 0;
         int numberOfDefendDice = getNumberOfDefendDice(destinationTerritory);
-        Integer []attackDices = new Integer[numberOfAttackDice];
-        Integer []defendDices = new Integer[numberOfDefendDice];
-        attackDices = rollDices(numberOfAttackDice);
-        defendDices = rollDices(numberOfDefendDice);
+        Integer[] attackDices = cheatAttackDices == null ? rollDices(numberOfAttackDice) : cheatAttackDices;
+        Integer[] defendDices = cheatDefendDices == null ? rollDices(numberOfDefendDice) : cheatDefendDices;
         Arrays.sort(attackDices, Collections.reverseOrder());
         Arrays.sort(defendDices, Collections.reverseOrder());
         notifyDiceResults(attackDices, defendDices);
@@ -290,6 +295,9 @@ public class Match {
             destinationTerritory.removeArmy(numberOfAttackWin);
             originTerritory.removeArmy(numberOfDefendDice-numberOfAttackWin);
         }
+
+        cheatAttackDices = null;
+        cheatDefendDices = null;
     }
 
     private void notifyDiceResults(Integer[] attack, Integer[] defense) {

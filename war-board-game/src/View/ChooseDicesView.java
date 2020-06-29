@@ -5,24 +5,22 @@ import java.awt.event.ActionEvent;
 import java.awt.*;
 import javax.swing.*;
 
+import Model.Match;
+
 public class ChooseDicesView extends JFrame{
 
     private static final long serialVersionUID = 1L;
     private static final int DEFAULT_WIDTH = 200;
     private static final int DEFAULT_HEIGHT = 200;
 
-    private ChooseDicesDelegate delegate;
     private JButton doneButton;
     JTextField[] attackDicesTextField = new JTextField[3];
     JTextField[] defenceDicesTextField = new JTextField[3];
     Integer[] attackDices = new Integer[3]; 
-    Integer[] defenceDices = new Integer[3];
-    int numberOfAttackWin = 0;
-    int numberOfDefendDice = 0;
+    Integer[] defenseDices = new Integer[3];
 
 
-    public ChooseDicesView(ChooseDicesDelegate delegate){
-        this.delegate = delegate;
+    public ChooseDicesView(){
 
         Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension screenSize = tk.getScreenSize();
@@ -59,14 +57,6 @@ public class ChooseDicesView extends JFrame{
         doneButton.addActionListener( new ActionListener() {
             public void actionPerformed(ActionEvent e) { 
                 getDices();
-                for(int i = 0; i < numberOfDefendDice; i++){
-                    if(attackDices[i] > defenceDices[i]) {
-                        numberOfAttackWin++;
-                    }
-                }
-                if (delegate != null)
-                    delegate.didSetAttackWinner(numberOfAttackWin, numberOfDefendDice);
-                System.out.println(numberOfAttackWin);
                 dispose();
             } 
         });
@@ -82,26 +72,26 @@ public class ChooseDicesView extends JFrame{
         add(defenceLabel);
     }
     
-    private void getDices(){
-        for(int i = 0; i<3; i++){
+    private void getDices() {
+        for(int i = 0; i < 3; i++){
             if(!attackDicesTextField[i].getText().equals("")){
                 attackDices[i] = Integer.parseInt(attackDicesTextField[i].getText());
              
             }   
             if(!defenceDicesTextField[i].getText().equals("")){
-                defenceDices[i] = Integer.parseInt(defenceDicesTextField[i].getText());
-                numberOfDefendDice++;
+                defenseDices[i] = Integer.parseInt(defenceDicesTextField[i].getText());
             }
         }
+        Match.getInstance().setCheatDice(attackDices, defenseDices);
     }
 
     public static void showFrame(){
-        ChooseDicesView box = new ChooseDicesView(null);
+        ChooseDicesView box = new ChooseDicesView();
         box.setVisible(true);
     }
 
     public static void main(String[] args) {
-        ChooseDicesView box = new ChooseDicesView(null);
+        ChooseDicesView box = new ChooseDicesView();
         box.setVisible(true);
     }
 }
