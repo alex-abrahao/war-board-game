@@ -19,7 +19,7 @@ public class NewGameView extends JFrame implements ActionListener {
     private final JButton newGameButton = new JButton();
     private final JButton loadGameContinentsButton = new JButton("Carregar Conq Continentes");
     private final JButton loadGame24TerritoriesButton = new JButton("Carregar Conq de 24 Terr");
-    private final JButton loadGameDefeatPlayerButton = new JButton("Carregar Destru Exército");
+    private final JButton loadGameDefeatPlayerButton = new JButton("Carregar Destru Exercito");
     private final JButton loadGameChangeCardsButton = new JButton("Carregar troca de cartas");
     private final JButton loadGameButton = new JButton("Carregar jogo");
 

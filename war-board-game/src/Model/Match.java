@@ -106,7 +106,7 @@ public class Match {
         notifyResultObservers("");
         switch (currentState) {
             case firstRoundDistribute:
-                if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
+                if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exercitos";
                 advanceToNextPlayer();
                 if (currentPlayerIndex == 0) { // If after advancing the player is back to the first
                     setState(GameState.unitDistributing);
@@ -115,14 +115,14 @@ public class Match {
                 setRemainingUnitsMessage(players[currentPlayerIndex].getAvailableUnits());
                 return null;
             case unitDistributing:
-                if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exércitos";
+                if (currentPlayer.getAvailableUnits() > 0) return "Distribua todos os exercitos";
                 setState(GameState.attacking);
-                notifyMessageObservers("Selecione o território de origem");
+                notifyMessageObservers("Selecione o territorio de origem");
                 return null;
             case attacking:
                 System.out.println(String.format("Player %s Num Territorios: %d", currentPlayer.getName(), currentPlayer.getConqueredTerritoriesNumber()));
                 if (currentPlayer.getObjective().isCompleted(currentPlayer, players)) {
-                    notifyMessageObservers("Parabéns! Você ganhou o jogo!");
+                    notifyMessageObservers("Parabens! Voce ganhou o jogo!");
                     setState(GameState.victory);
                     return null;
                 }
@@ -133,7 +133,7 @@ public class Match {
                 selectedOriginTerritory = null;
                 selectedDestinationTerritory = null;
                 setState(GameState.movingUnits);
-                notifyMessageObservers("Selecione o território de origem");
+                notifyMessageObservers("Selecione o territorio de origem");
                 return null;
             case movingUnits:
                 advanceToNextPlayer();
@@ -180,7 +180,7 @@ public class Match {
     }
 
     private void notifyExchangeResult(Player player, List<Card> exchangeCards) {
-        String result = String.format("%dª troca: ", player.getNumberOfCardExchanges());
+        String result = String.format("%da troca: ", player.getNumberOfCardExchanges());
         for (int i = 0; i < exchangeCards.size(); i++) {
             Territory cardTerritory = exchangeCards.get(i).getTerritory();
             result += String.format("%s %s", cardTerritory != null ? cardTerritory.name : "Coringa", exchangeCards.get(i).getType().toString());
@@ -441,15 +441,15 @@ public class Match {
     private void handleSelectDistribute(Territory territory) {
         Player currentPlayer = players[currentPlayerIndex];
         if (currentPlayer != territory.getOwner()) {
-            notifyResultObservers("Selecione um território conquistado");
+            notifyResultObservers("Selecione um territorio conquistado");
             return;
         }
         if (currentPlayer.getAvailableUnits() == 0) {
-            notifyResultObservers("Sem unidades disponíveis. Selecione Próxima Jogada");
+            notifyResultObservers("Sem unidades disponiveis. Selecione Proxima Jogada");
             return;
         }
         if (currentContinentToDistribute != null && !currentContinentToDistribute.hasTerritory(territory)) {
-            notifyResultObservers("Selecione um território do continente " + currentContinentToDistribute.name);
+            notifyResultObservers("Selecione um territorio do continente " + currentContinentToDistribute.name);
             return;
         }
         notifyResultObservers("");
@@ -468,34 +468,34 @@ public class Match {
         Player currentPlayer = players[currentPlayerIndex];
         if (selectedOriginTerritory == null) {
             if (territory.getOwner() != currentPlayer) {
-                notifyResultObservers("Selecione um território de origem conquistado");
+                notifyResultObservers("Selecione um territorio de origem conquistado");
                 return;
             }
             if (!territory.canAttack()) {
-                notifyResultObservers("Selecione um território de origem conquistado com mais de um exército");
+                notifyResultObservers("Selecione um territorio de origem conquistado com mais de um exercito");
                 return;
             }
             selectedOriginTerritory = territory;
-            notifyMessageObservers("Selecione um território de destino");
+            notifyMessageObservers("Selecione um territorio de destino");
             notifyResultObservers("Origem do ataque: " + territory.name);
         } else {
             if (selectedOriginTerritory == territory) {
-                notifyMessageObservers("Selecione um território de origem");
+                notifyMessageObservers("Selecione um territorio de origem");
                 notifyResultObservers("");
                 selectedOriginTerritory = null;
                 return;
             }
             if (territory.getOwner() == currentPlayer) {
-                notifyResultObservers("Selecione um território de destino de um oponente");
+                notifyResultObservers("Selecione um territorio de destino de um oponente");
                 return;
             }
             if (selectedOriginTerritory.isNeighbor(territory) == false) {
-                notifyResultObservers("Ataque não é valido, selecione um território de destino vizinho");
+                notifyResultObservers("Ataque nao eh valido, selecione um territorio de destino vizinho");
                 return;
             }
             selectedDestinationTerritory = territory;
-            notifyMessageObservers("Ataque válido, jogue os dados");
-            notifyResultObservers(selectedOriginTerritory.name + " atacará " + selectedDestinationTerritory.name);
+            notifyMessageObservers("Ataque valido, jogue os dados");
+            notifyResultObservers(selectedOriginTerritory.name + " atacara " + selectedDestinationTerritory.name);
         }
     }
 
@@ -503,30 +503,30 @@ public class Match {
         Player currentPlayer = players[currentPlayerIndex];
         if (selectedOriginTerritory == null) {
             if (territory.getOwner() != currentPlayer) {
-                notifyResultObservers("Selecione um território de origem conquistado");
+                notifyResultObservers("Selecione um territorio de origem conquistado");
                 return;
             }
             if (!territory.canTransferUnits()) {
-                notifyResultObservers("Selecione um território de origem conquistado com mais de um exército");
+                notifyResultObservers("Selecione um territorio de origem conquistado com mais de um exercito");
                 return;
             }
             selectedOriginTerritory = territory;
-            notifyMessageObservers("Selecione um território de destino");
-            notifyResultObservers("Origem da transferência: " + territory.name);
+            notifyMessageObservers("Selecione um territorio de destino");
+            notifyResultObservers("Origem da transferencia: " + territory.name);
         } else {
             if (selectedOriginTerritory == territory) {
-                notifyMessageObservers("Selecione um território de origem");
+                notifyMessageObservers("Selecione um territorio de origem");
                 notifyResultObservers("");
                 selectedOriginTerritory = null;
                 return;
             }
             if (!selectedOriginTerritory.isTransferArmyValid(territory, 1)) {
-                notifyResultObservers("Selecione um território de destino vizinho conquistado");
+                notifyResultObservers("Selecione um territorio de destino vizinho conquistado");
                 return;
             }
             selectedOriginTerritory.transferArmy(territory, 1);
-            notifyMessageObservers("Selecione um território de origem");
-            notifyResultObservers("Exército movido de " + selectedOriginTerritory.name + " para " + territory.name);
+            notifyMessageObservers("Selecione um territorio de origem");
+            notifyResultObservers("Exercito movido de " + selectedOriginTerritory.name + " para " + territory.name);
             selectedOriginTerritory = null;
         }
     }
@@ -541,17 +541,17 @@ public class Match {
 
     public void playDice() {
         if (currentState != GameState.attacking) {
-            notifyResultObservers("Não está atacando");
+            notifyResultObservers("Nao esta atacando");
             return;
         }
         if (selectedOriginTerritory == null || selectedDestinationTerritory == null) {
-            notifyResultObservers("Selecione territórios de origem e destino");
+            notifyResultObservers("Selecione territorios de origem e destino");
             return;
         }
         attack(selectedOriginTerritory, selectedDestinationTerritory);
         selectedDestinationTerritory = null;
         selectedOriginTerritory = null;
-        notifyMessageObservers("Selecione um território de origem");
+        notifyMessageObservers("Selecione um territorio de origem");
     }
 
     // Returns null if the game state does not allow saving
@@ -637,16 +637,16 @@ public class Match {
         this.currentPlayerHasConqueredTerritories = matchInfo.currentPlayerHasConqueredTerritories;
         this.currentPlayerIndex = matchInfo.currentPlayerIndex;
         this.setState(traslateState(matchInfo.gameState));
-        messageForNewObservers = "Selecione um território de origem";
+        messageForNewObservers = "Selecione um territorio de origem";
     }
 
     GameState traslateState(String state){
         switch(state){
-            case "Distribuição Primeira Rodada": return GameState.firstRoundDistribute;
-            case "Distribuindo Exércitos": return GameState.unitDistributing;
+            case "Distribuicao Primeira Rodada": return GameState.firstRoundDistribute;
+            case "Distribuindo Exercitos": return GameState.unitDistributing;
             case "Atacando": return GameState.attacking;
-            case "Remanejando Exércitos": return GameState.movingUnits;
-            case "Vitória": return GameState.victory;
+            case "Remanejando Exercitos": return GameState.movingUnits;
+            case "Vitoria": return GameState.victory;
         }
         return null;
     }

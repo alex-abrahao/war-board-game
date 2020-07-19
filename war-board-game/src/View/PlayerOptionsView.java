@@ -82,10 +82,10 @@ public class PlayerOptionsView extends JFrame {
             playersName = true;
         }
         if (numberOfPlayers < 3 && playersName){
-            JOptionPane.showMessageDialog(doneButton, "Número de jogadores inválido");
+            JOptionPane.showMessageDialog(doneButton, "Numero de jogadores invalido");
         } else if (playersName){
             startGame(numberOfPlayers);
-            System.out.println("Tudo certo, pode começar");
+            System.out.println("Tudo certo, pode comecar");
         }
     }
 

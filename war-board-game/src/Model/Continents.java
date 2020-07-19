@@ -2,11 +2,11 @@ package Model;
 
 public enum Continents {
     Europe("Europa"),
-    NorthAmerica("América do Norte"),
-    SouthAmerica("América do Sul"),
-    Asia("Ásia"),
+    NorthAmerica("America do Norte"),
+    SouthAmerica("America do Sul"),
+    Asia("Asia"),
     Oceania("Oceania"),
-    Africa("África");
+    Africa("Africa");
 
     private final String name;
 

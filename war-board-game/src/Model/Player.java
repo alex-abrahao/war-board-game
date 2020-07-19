@@ -243,7 +243,7 @@ class Player {
 	}
 
 	String getAllCardsMessageFormatted() {
-		if (cards.isEmpty()) return "Não possui cartas";
+		if (cards.isEmpty()) return "Nao possui cartas";
 		String message = "";
         for (int i = 0; i < cards.size(); i++) {
             Territory cardTerritory = cards.get(i).getTerritory();

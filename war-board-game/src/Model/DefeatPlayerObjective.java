@@ -11,7 +11,7 @@ class DefeatPlayerObjective extends Objective {
 
     @Override
     public String getDescription() {
-        return "Eliminar todos os exércitos do jogador da cor " + colorToEliminate.getName();
+        return "Eliminar todos os exercitos do jogador da cor " + colorToEliminate.getName();
     }
 
     @Override

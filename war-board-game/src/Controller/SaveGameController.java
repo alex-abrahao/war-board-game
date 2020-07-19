@@ -13,7 +13,7 @@ public class SaveGameController {
     void saveGame(String fileName, SaveGameView view) {
         SaveMatch save = match.getMatchSaveData();
         if (save == null) {
-            view.showSaveGameError("É possível salvar apenas durante o ataque ou movimentação de unidades");
+            view.showSaveGameError("Eh possivel salvar apenas durante o ataque ou movimentacao de unidades");
             return;
         }
         if (SaveGame.saveBinary(save, fileName) == false) {

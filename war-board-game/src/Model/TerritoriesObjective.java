@@ -11,7 +11,7 @@ public class TerritoriesObjective extends Objective {
 
     @Override
     String getDescription() {
-        return String.format("Conquistar %d territórios", numberToConquer);
+        return String.format("Conquistar %d territorios", numberToConquer);
     }
 
     @Override

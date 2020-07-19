@@ -6,8 +6,8 @@ public enum CardType {
     @Override
     public String toString() {
         switch (this) {
-            case triangle: return "triângulo";
-            case circle: return "círculo";
+            case triangle: return "triangulo";
+            case circle: return "circulo";
             case square: return "quadrado";
             default: return "coringa";
         }
